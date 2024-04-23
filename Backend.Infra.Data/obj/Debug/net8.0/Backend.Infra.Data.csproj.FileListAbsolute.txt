@@ -1,0 +1,12 @@
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Infra.Data/bin/Debug/net8.0/Backend.Infra.Data.deps.json
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Infra.Data/bin/Debug/net8.0/Backend.Infra.Data.dll
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Infra.Data/bin/Debug/net8.0/Backend.Infra.Data.pdb
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Infra.Data/obj/Debug/net8.0/Backend.Infra.Data.GeneratedMSBuildEditorConfig.editorconfig
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Infra.Data/obj/Debug/net8.0/Backend.Infra.Data.AssemblyInfoInputs.cache
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Infra.Data/obj/Debug/net8.0/Backend.Infra.Data.AssemblyInfo.cs
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Infra.Data/obj/Debug/net8.0/Backend.Infra.Data.csproj.CoreCompileInputs.cache
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Infra.Data/obj/Debug/net8.0/Backend.Infra.Data.sourcelink.json
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Infra.Data/obj/Debug/net8.0/Backend.Infra.Data.dll
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Infra.Data/obj/Debug/net8.0/refint/Backend.Infra.Data.dll
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Infra.Data/obj/Debug/net8.0/Backend.Infra.Data.pdb
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Infra.Data/obj/Debug/net8.0/ref/Backend.Infra.Data.dll
