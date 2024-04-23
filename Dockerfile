@@ -1,6 +1,6 @@
 # Estágio de compilação
 FROM mcr.microsoft.com/dotnet/aspnet:latest AS build
-WORKDIR /Backend.API
+WORKDIR /app
 
 # Copia e restaura os arquivos do projeto
 COPY *.csproj .
@@ -12,5 +12,6 @@ RUN dotnet publish -c Release -o out
 
 # Estágio de produção
 FROM mcr.microsoft.com/dotnet/aspnet:latest AS runtime
+WORKDIR /app
 COPY --from=build /app/out .
 ENTRYPOINT ["dotnet", "Backend.API.dll"]
