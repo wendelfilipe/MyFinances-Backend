@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Infra.Ioc", "Backen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.WebUI", "Backend.WebUI\Backend.WebUI.csproj", "{092383D3-6511-426F-97DD-14D8959ACF9D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Domain.Tests", "Backend.Domain.Tests\Backend.Domain.Tests.csproj", "{4FE85E5D-E389-4A45-ACDB-027E869661BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,5 +50,9 @@ Global
 		{092383D3-6511-426F-97DD-14D8959ACF9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{092383D3-6511-426F-97DD-14D8959ACF9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{092383D3-6511-426F-97DD-14D8959ACF9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FE85E5D-E389-4A45-ACDB-027E869661BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FE85E5D-E389-4A45-ACDB-027E869661BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FE85E5D-E389-4A45-ACDB-027E869661BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FE85E5D-E389-4A45-ACDB-027E869661BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
