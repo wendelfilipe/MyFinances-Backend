@@ -56,4 +56,9 @@ public class UserUnitTest1
             .Throw<DomainExceptionValidation>()
             .WithMessage("Invalid name, too short, minumum 3 caracters");
     }
+    [Fact]
+    public void CreateUser_InvalidEmail_DomainExceptionValidation()
+    {
+        Action action = () => new User("admin", "admin@eu.com", "12345678");
+    }
 }
