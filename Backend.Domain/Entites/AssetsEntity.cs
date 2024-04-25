@@ -10,14 +10,15 @@ namespace Backend.Domain.Entites
 {
     public abstract class AssetsEntity
     {
-        public int Id { get; private set; }
-        public int WalletId {get; private set; }
-        public string CodName { get; private set; }
-        public decimal CurrentPrice { get; private set; }
-        public decimal BuyPrice { get; private  set; }
-        public decimal AveregePrice { get; private set; } = 0;
-        public SourceAssets Source { get; private set; }
-        public DateTime Deleted_at { get; private set; }
+        public int Id { get; protected set; }
+        public int WalletId {get; protected set; }
+        public string CodName { get; protected set; }
+        public decimal CurrentPrice { get; protected set; }
+        public decimal BuyPrice { get; protected  set; }
+        public SourceTypeAssets SourceTypeAssets {get; protected set; }
+        public decimal AveregePrice { get; protected set; } = 0;
+        public SourceCreate SourceCreate { get; protected set; }
+        public DateTime Deleted_at { get; protected set; }
         public DateTime Created_at { get; protected set; }
         public DateTime Updated_at { get; protected set; }
 
@@ -30,18 +31,16 @@ namespace Backend.Domain.Entites
 
             CodName = codName;
 
-            
         }
 
-        public void Update(int walletId, string codName, decimal currentPrice, decimal buyPrice)
+        public void Update( string codName, decimal currentPrice, decimal buyPrice)
         {
-            DomainExceptionValidation.When(walletId < 1,
-                "Invalid User Id value");
-            DomainExceptionValidation.When(currentPrice <= 0 || buyPrice <= 0,
-                "Invalid Current Price or Buy Price, invalid value");
-                ValidateDomain(codName);
-
-            WalletId = walletId;
+            DomainExceptionValidation.When(currentPrice <= 0.0m,
+                "Invalid CurrentPrice, invalid value");
+            DomainExceptionValidation.When(buyPrice <= 0.0m,
+                "Invalid BuyPrice, invalid value");
+            ValidateDomain(codName);
+            
             CodName = codName;
             CurrentPrice = currentPrice;
             BuyPrice = buyPrice;

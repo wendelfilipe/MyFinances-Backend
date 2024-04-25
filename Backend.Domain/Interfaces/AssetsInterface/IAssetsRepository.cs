@@ -6,7 +6,7 @@ using Backend.Domain.Entites.AssetsEntites;
 
 namespace Backend.Domain.Interfaces.AssetsInterface
 {
-    public interface IInternationalAssets : IEntityRepository<InternationalAssets>
+    public interface IAssetsRepository : IEntityRepository<Assets>
     {
         
     }
