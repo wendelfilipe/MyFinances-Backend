@@ -7,7 +7,7 @@ namespace Backend.Domain.Tests;
 
 public class UserUnitTest1
 {
-    [Fact]
+    [Fact(DisplayName = "Create User With Valid State")]
     public void CreateUser_WithValideUser_ResultObjectValidState()
     {
         Action action = () => new User("admin", "admin@admin" , "12345678");
@@ -30,7 +30,7 @@ public class UserUnitTest1
     [Fact]
     public void CreateUser_EmptyName_DomainExceptionValidate()
     {
-       Action action = () => new User( "", "admin@amdin", "12345678");
+       Action action = () => new User( "", "admin@admin", "12345678");
 
        action
             .Should()
@@ -45,7 +45,7 @@ public class UserUnitTest1
         action
             .Should()
             .Throw<DomainExceptionValidation>()
-            .WithMessage("Invalid name, Name is required");
+            .WithMessage("Invalid email, Email is required");
     }
     [Fact]
     public void CreateUser_ShortEmail_DomainExceptionValidation()
@@ -60,5 +60,29 @@ public class UserUnitTest1
     public void CreateUser_InvalidEmail_DomainExceptionValidation()
     {
         Action action = () => new User("admin", "admin@eu.com", "12345678");
+        action
+            .Should()
+            .Throw<DomainExceptionValidation>()
+            .WithMessage("Invalid Email, Valid Email is @gmail.com or @hotmal.com");
+    }
+    [Fact]
+    public void CreateUser_EmptyPassword_DomainExceptionValidate()
+    {
+        Action action =  () => new User("admin", "admin@admin", "");
+
+        action
+            .Should()
+            .Throw<DomainExceptionValidation>()
+            .WithMessage("Invalid password, Password is required");
+    }
+    [Fact]
+    public void CreateUser_ShortPassword_DomainExceptionValidate()
+    {
+        Action action = () => new User("admin", "admin@admin", "12345");
+
+        action
+            .Should()
+            .Throw<DomainExceptionValidation>()
+            .WithMessage("Invalid password, too short, minumum 8 caracters");
     }
 }

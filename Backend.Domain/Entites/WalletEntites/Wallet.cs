@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.Domain.Entites.Enums;
 using Backend.Domain.Validation;
 
 namespace Backend.Domain.Entites.WalletEntites
@@ -11,17 +12,15 @@ namespace Backend.Domain.Entites.WalletEntites
         public int UserId { get; private set; }
         public string Name { get; private set; }
 
-        public Wallet(string name)
+        public Wallet(string name, SourceAssets source)
         {
+            DomainExceptionValidation.When(source != SourceAssets.Web || source != SourceAssets.App, "Invalid Target Criate");
             ValidateDomain(name);
         }
 
         private void ValidateDomain(string name)
         {
-            DomainExceptionValidation.When(UserId < 0, "Invalid UserId value ");
-
-            DomainExceptionValidation.When(string.IsNullOrEmpty(name), "invalid name, Name is required");
-            DomainExceptionValidation.When(name.Length < 1, "invalid name, too short, minumum 1 caracters");
+            DomainExceptionValidation.When(string.IsNullOrEmpty(name), "Invalid name, Name is required");
         }
 
 

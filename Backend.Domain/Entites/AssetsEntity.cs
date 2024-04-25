@@ -16,7 +16,7 @@ namespace Backend.Domain.Entites
         public decimal CurrentPrice { get; private set; }
         public decimal BuyPrice { get; private  set; }
         public decimal AveregePrice { get; private set; } = 0;
-        public SourceAssets SourceAssets { get; private set; }
+        public SourceAssets Source { get; private set; }
         public DateTime Deleted_at { get; private set; }
         public DateTime Created_at { get; protected set; }
         public DateTime Updated_at { get; protected set; }
