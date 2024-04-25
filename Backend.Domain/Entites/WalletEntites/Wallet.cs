@@ -12,9 +12,8 @@ namespace Backend.Domain.Entites.WalletEntites
         public int UserId { get; private set; }
         public string Name { get; private set; }
 
-        public Wallet(string name, SourceAssets source)
+        public Wallet(string name)
         {
-            DomainExceptionValidation.When(source != SourceAssets.Web || source != SourceAssets.App, "Invalid Target Criate");
             ValidateDomain(name);
         }
 
