@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "NM7wq92sTTxSLWjCb8keULp4orfDqh0n+ox/Qf3TSYDAkwEZOrdGIDmLaCN/UhUDXBVF4Dhx5Q8uUyLaaa57cQ==",
+  "dgSpecHash": "AScnqt0QHtNvkLHmSUp86uCNHLsS9FE7RNCHNBZbMFClcjGax8s10/U0eF9MQXWlegvvaeZxVHyT+KlLZWdIBA==",
   "success": true,
   "projectFilePath": "/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.API/Backend.API.csproj",
   "expectedPackageFiles": [
@@ -31,6 +31,8 @@
     "/home/wendel/.nuget/packages/microsoft.extensions.primitives/8.0.0/microsoft.extensions.primitives.8.0.0.nupkg.sha512",
     "/home/wendel/.nuget/packages/microsoft.openapi/1.4.3/microsoft.openapi.1.4.3.nupkg.sha512",
     "/home/wendel/.nuget/packages/mono.texttemplating/2.2.1/mono.texttemplating.2.2.1.nupkg.sha512",
+    "/home/wendel/.nuget/packages/npgsql/8.0.2/npgsql.8.0.2.nupkg.sha512",
+    "/home/wendel/.nuget/packages/npgsql.entityframeworkcore.postgresql/8.0.2/npgsql.entityframeworkcore.postgresql.8.0.2.nupkg.sha512",
     "/home/wendel/.nuget/packages/swashbuckle.aspnetcore/6.4.0/swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
     "/home/wendel/.nuget/packages/swashbuckle.aspnetcore.swagger/6.4.0/swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
     "/home/wendel/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.4.0/swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",

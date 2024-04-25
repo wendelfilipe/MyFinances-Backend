@@ -1,0 +1,50 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Backend.Domain.Entites.UserEntites;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Backend.Infra.Data.EnititesConfiguration
+{
+    public class UserConfiguration : IEntityTypeConfiguration<User>
+    {
+        public void Configure(EntityTypeBuilder<User> builder)
+        {
+            builder.ToTable("user", "security");
+
+            builder.HasKey(k => k.Id);
+
+            builder.Property(p => p.Id)
+                .HasColumnName("id");
+
+            builder.Property(p => p.Name)
+                .HasColumnName("name")
+                .HasMaxLength(60)
+                .IsRequired();
+
+            builder.Property(p => p.Email)
+                .HasColumnName("email")
+                .HasMaxLength(100)
+                .IsRequired();
+
+            builder.Property(p => p.Password)
+                .HasColumnName("password")
+                .HasMaxLength(100)
+                .IsRequired();
+
+            builder.Property(p => p.SourceCreate)
+                .HasColumnName("source_create");
+
+            builder.Property(p => p.Created_at)
+                .HasColumnName("created_at");
+
+            builder.Property(p => p.Deleted_at)
+                .HasColumnName("deleted_at");
+
+            builder.Property(p => p.Updated_at)
+                .HasColumnName("updated_at");
+        }
+    }
+}

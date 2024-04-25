@@ -7,7 +7,7 @@ namespace Backend.Domain.Validation
 { 
     public class DomainExceptionValidation : Exception
     {
-        public DomainExceptionValidation(string error)
+        public DomainExceptionValidation(string error) : base(error)
         {
             
         }

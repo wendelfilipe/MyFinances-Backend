@@ -34,17 +34,21 @@ namespace Backend.Domain.Entites.UserEntites
             DomainExceptionValidation.When(name.Length < 3, "Invalid name, too short, minumum 3 caracters");
 
             DomainExceptionValidation.When(string.IsNullOrEmpty(email), "Invalid email, Email is required");
-            DomainExceptionValidation.When(email.Length < 3, "Invalid name, too short, minumum 3 caracters");
+            DomainExceptionValidation.When(email.Length < 5, "Invalid name, too short, minumum 3 caracters");
 
             DomainExceptionValidation.When(!(Regex.IsMatch(email, pattern) 
-                && Regex.IsMatch(email, gmailPattern)) 
-                || !(Regex.IsMatch(email, pattern) 
-                && Regex.IsMatch(email, hotmailPattern) 
-                && email != "admin@admin"),
-                "Invalid Email, Valid Email is @gmail or @hotmal");
+                && Regex.IsMatch(email, gmailPattern))
+                &&!(Regex.IsMatch(email, pattern) 
+                && Regex.IsMatch(email, hotmailPattern))
+                && email != "admin@admin",
+                "Invalid Email, Valid Email is @gmail.com or @hotmal.com");
 
-            DomainExceptionValidation.When(string.IsNullOrEmpty(password), "invalid password, Name is required");
-            DomainExceptionValidation.When(name.Length < 8, "Invalid name, too short, minumum 8 caracters");
+            DomainExceptionValidation.When(string.IsNullOrEmpty(password), "Invalid password, Password is required");
+            DomainExceptionValidation.When(password.Length < 8, "Invalid password, too short, minumum 8 caracters");
+
+            Name = name;
+            Email = email;
+            Password = password;
         }
 
     }
