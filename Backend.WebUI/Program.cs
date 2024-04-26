@@ -1,7 +1,11 @@
+using Backend.Infra.Ioc;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+DependencyInjection.AddInfrastruture(builder.Services, builder.Configuration);
 
 var app = builder.Build();
 

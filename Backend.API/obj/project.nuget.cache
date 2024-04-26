@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "AScnqt0QHtNvkLHmSUp86uCNHLsS9FE7RNCHNBZbMFClcjGax8s10/U0eF9MQXWlegvvaeZxVHyT+KlLZWdIBA==",
+  "dgSpecHash": "iZIHGTc6a+GiNZg98iqAhXgkRYtptwTHEsXvDLEwvRlHeoIkgy8nlPWcGVYpsdtc0P9bajNucIbXY4a6hR7lyA==",
   "success": true,
   "projectFilePath": "/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.API/Backend.API.csproj",
   "expectedPackageFiles": [

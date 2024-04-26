@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.Domain.Entites;
 using Backend.Domain.Entites.AssetsEntites;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -12,12 +13,15 @@ namespace Backend.Infra.Data.EnititesConfiguration
     {
         public void Configure(EntityTypeBuilder<Assets> builder)
         {
-            builder.ToTable("wallet", "product");
+            builder.ToTable("assets", "product");
 
             builder.HasKey(k => k.Id);
 
             builder.Property(p => p.Id)
                 .HasColumnName("id");
+
+            builder.Property(p => p.WalletId)
+                .HasColumnName("wallet_id");
 
             builder.Property(p => p.CodName)
                 .HasColumnName("cod_name")

@@ -3,6 +3,7 @@ using Backend.Domain.Interfaces.UserInterface;
 using Backend.Domain.Interfaces.WalletInterface;
 using Backend.Infra.Data.Context;
 using Backend.Infra.Data.EnititesConfiguration;
+using Backend.Infra.Ioc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,16 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IWalletRepository, WalletRepository>();
-builder.Services.AddScoped<IAssetsRepository, AssetsRepository>();
-
-builder.Services.AddDbContext<AppDbContext>(options => 
-    options.UseNpgsql(
-            builder.Configuration.GetConnectionString("postgresql"),
-            b => b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)
-        )
-    );
+DependencyInjection.AddInfrastruture(builder.Services, builder.Configuration);
 
 var app = builder.Build();
 

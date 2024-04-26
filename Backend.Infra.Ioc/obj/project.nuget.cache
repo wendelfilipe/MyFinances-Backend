@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "zIqso6ApBlNLyQARoGREkj85dq/uWU2OtdpQ6NzIuB0/7LY4UahPplXvo3BhknJ4TR9kM+4hkklAKc1mBpLVgg==",
+  "dgSpecHash": "v5TIugyc9vM/qEgBtNIKEeWcn5GH5hG+jx2oKeZXaJHPznPVjFysojQwmTqgyEiYBJ5pFweIkDk5FA4McDbWIQ==",
   "success": true,
   "projectFilePath": "/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Infra.Ioc/Backend.Infra.Ioc.csproj",
   "expectedPackageFiles": [
@@ -28,6 +28,8 @@
     "/home/wendel/.nuget/packages/microsoft.extensions.options/8.0.0/microsoft.extensions.options.8.0.0.nupkg.sha512",
     "/home/wendel/.nuget/packages/microsoft.extensions.primitives/8.0.0/microsoft.extensions.primitives.8.0.0.nupkg.sha512",
     "/home/wendel/.nuget/packages/mono.texttemplating/2.2.1/mono.texttemplating.2.2.1.nupkg.sha512",
+    "/home/wendel/.nuget/packages/npgsql/8.0.2/npgsql.8.0.2.nupkg.sha512",
+    "/home/wendel/.nuget/packages/npgsql.entityframeworkcore.postgresql/8.0.2/npgsql.entityframeworkcore.postgresql.8.0.2.nupkg.sha512",
     "/home/wendel/.nuget/packages/system.codedom/4.4.0/system.codedom.4.4.0.nupkg.sha512",
     "/home/wendel/.nuget/packages/system.collections.immutable/6.0.0/system.collections.immutable.6.0.0.nupkg.sha512",
     "/home/wendel/.nuget/packages/system.composition/6.0.0/system.composition.6.0.0.nupkg.sha512",
