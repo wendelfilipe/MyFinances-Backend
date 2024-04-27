@@ -16,7 +16,7 @@ namespace Backend.Application.Services.EntityServices
         private readonly IMapper mapper;
         public EntityService(IEntityRepository<T> entityRepository, IMapper mapper) 
         {
-            this.entityRepository = entityRepository;
+            this.entityRepository = entityRepository ?? throw new ArgumentNullException(nameof(entityRepository));;
             this.mapper = mapper;
         }
         public async Task CreateAsync(T entityDTO)

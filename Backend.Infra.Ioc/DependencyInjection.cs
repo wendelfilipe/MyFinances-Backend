@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Backend.Application.DTOs;
 using Backend.Application.Interfaces;
 using Backend.Application.Mapping;
@@ -34,12 +35,34 @@ namespace Backend.Infra.Ioc
                 b => b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName))
             );
 
-            services.AddScoped<IEntityRepository<User>, IEntityRepository<User>>();
-            services.AddScoped<IEntityRepository<Wallet>, IEntityRepository<Wallet>>();
-            services.AddScoped<IEntityRepository<Assets>, IEntityRepository<Assets>>();
-            services.AddScoped(typeof(IEntityService<UserDTO>), typeof(EntityService<UserDTO>));
-            services.AddScoped(typeof(IEntityService<WalletDTO>), typeof(EntityService<WalletDTO>));
-            services.AddScoped(typeof(IEntityService<AssetsDTO>), typeof(EntityService<AssetsDTO>));
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IWalletRepository, WalletRepository>();
+            services.AddScoped<IAssetsRepository, AssetsRepository>();
+
+            services.AddScoped<IUserService, UserService>(implementationFactory =>
+            {
+                var entityRepository = implementationFactory.GetService<IEntityRepository<UserDTO>>();
+                var mapper = implementationFactory.GetService<IMapper>();
+                var userRepository = implementationFactory.GetService<IUserRepository>();
+                
+                return new UserService(entityRepository, mapper, userRepository);
+            });
+            services.AddScoped<IAssetsService, AssetsService>(implementationFactory =>
+            {
+                var entityRepository = implementationFactory.GetService<IEntityRepository<AssetsDTO>>();
+                var mapper = implementationFactory.GetService<IMapper>();
+                var assetsRepository = implementationFactory.GetService<IAssetsRepository>();
+
+                return new AssetsService(entityRepository, mapper, assetsRepository);
+            });
+            services.AddScoped<IWalletService, WalletService>(implementationFactory =>
+            {
+                var entityRepository = implementationFactory.GetService<IEntityRepository<WalletDTO>>();
+                var mapper = implementationFactory.GetService<IMapper>();
+                var walletRepository = implementationFactory.GetService<IWalletRepository>();
+
+                return new WalletService(entityRepository, mapper, walletRepository);
+            });
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
 
             return services;

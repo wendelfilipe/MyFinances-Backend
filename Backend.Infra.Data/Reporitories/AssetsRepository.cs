@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Infra.Data.EnititesConfiguration
 {
-    public class AssetsRepository : EntityRepository<Assets>
+    public class AssetsRepository : EntityRepository<Assets>, IAssetsRepository
     {
         public AssetsRepository(AppDbContext context) : base(context)
         {

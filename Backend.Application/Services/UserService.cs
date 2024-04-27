@@ -14,12 +14,14 @@ namespace Backend.Application.Services
 {
     public class UserService : EntityService<UserDTO>, IUserService
     {
+        private readonly IEntityRepository<UserDTO> entityRepository;
         private readonly IUserRepository userRepository;
         private readonly IMapper mapper;
         public UserService(IEntityRepository<UserDTO> entityRepository, IMapper mapper, IUserRepository userRepository) : base(entityRepository, mapper)
         {
             this.userRepository = userRepository;
             this.mapper = mapper;
+            this.entityRepository = entityRepository;
         }
 
         public async Task<UserDTO> GetUserDTOByEmailAsync(string email)
