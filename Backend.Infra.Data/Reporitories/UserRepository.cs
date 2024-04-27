@@ -10,10 +10,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Infra.Data.EnititesConfiguration
 {
-    public class UserRepository : EntityRepository<User>
+    public class UserRepository : EntityRepository<User>, IUserRepository
     {
+        private readonly AppDbContext context;
         public UserRepository(AppDbContext context) : base(context)
         {
+            this.context = context;
+        }
+
+        public async Task<User> GetByEmailAsync(string email)
+        {
+            return await context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
     }
 }

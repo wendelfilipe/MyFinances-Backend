@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Backend.Application.Services.EntityService;
+using Backend.Application.DTOs;
+using Backend.Application.Interfaces;
+using Backend.Application.Services.EntityServices;
 using Backend.Domain.Entites.AssetsEntites;
 using Backend.Domain.Interfaces;
 
 namespace Backend.Application.Services
 {
-    public class AssetsService : EntityService<Assets>
+    public class AssetsService : EntityService<AssetsDTO>, IAssetsService
     {
-        public AssetsService(IEntityRepository<Assets> entityRepository, Mapper mapper) : base(entityRepository, mapper)
+        public AssetsService(IEntityRepository<AssetsDTO> entityRepository, IMapper mapper) : base(entityRepository, mapper)
         {
         }
     }

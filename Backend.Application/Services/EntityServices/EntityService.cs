@@ -7,17 +7,14 @@ using AutoMapper;
 using Backend.Application.Interfaces;
 using Backend.Domain.Interfaces;
 
-namespace Backend.Application.Services.EntityService
+namespace Backend.Application.Services.EntityServices
 {
     public class EntityService<T> : IEntityService<T> where T : class
     {
         private readonly IEntityRepository<T> entityRepository;
 
-        private readonly Mapper mapper;
-        public EntityService(
-            IEntityRepository<T> entityRepository,
-            Mapper mapper    
-        )
+        private readonly IMapper mapper;
+        public EntityService(IEntityRepository<T> entityRepository, IMapper mapper) 
         {
             this.entityRepository = entityRepository;
             this.mapper = mapper;

@@ -3,6 +3,8 @@
     <ProjectReference Include="..\Backend.Domain\Backend.Domain.csproj"/>
   </ItemGroup>
   <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1"/>
   </ItemGroup>
   <PropertyGroup>

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "wqGKYbgB9hyYUjufqiICQGTAnQmd+fuHKsC3rGxEnbz327lpCC18L+bj7BTVk4ZHwPGnasD0ArbTwoEgeUrr3Q==",
+  "dgSpecHash": "GA5r8HjGhcIWsNILRaegWgyR4VXP/ikmCPWpKKqbA45k75TCU7oAMnUWpAXSZI8Sp9kikxTjHAndmR8BkvwGGw==",
   "success": true,
   "projectFilePath": "/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Infra.Ioc/Backend.Infra.Ioc.csproj",
   "expectedPackageFiles": [

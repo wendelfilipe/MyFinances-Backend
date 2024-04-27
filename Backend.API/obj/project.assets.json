@@ -1044,6 +1044,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "AutoMapper": "13.0.1",
           "Backend.Application": "1.0.0",
           "Backend.Domain": "1.0.0",
           "Backend.Infra.Data": "1.0.0"
@@ -2850,6 +2851,7 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "AutoMapper >= 13.0.1",
       "Backend.Infra.Ioc >= 1.0.0",
       "Microsoft.AspNetCore.OpenApi >= 8.0.4",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 8.0.2",
@@ -2902,6 +2904,10 @@
       "net8.0": {
         "targetAlias": "net8.0",
         "dependencies": {
+          "AutoMapper": {
+            "target": "Package",
+            "version": "[13.0.1, )"
+          },
           "Microsoft.AspNetCore.OpenApi": {
             "target": "Package",
             "version": "[8.0.4, )"
