@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "v5TIugyc9vM/qEgBtNIKEeWcn5GH5hG+jx2oKeZXaJHPznPVjFysojQwmTqgyEiYBJ5pFweIkDk5FA4McDbWIQ==",
+  "dgSpecHash": "wqGKYbgB9hyYUjufqiICQGTAnQmd+fuHKsC3rGxEnbz327lpCC18L+bj7BTVk4ZHwPGnasD0ArbTwoEgeUrr3Q==",
   "success": true,
   "projectFilePath": "/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Infra.Ioc/Backend.Infra.Ioc.csproj",
   "expectedPackageFiles": [
+    "/home/wendel/.nuget/packages/automapper/13.0.1/automapper.13.0.1.nupkg.sha512",
     "/home/wendel/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/home/wendel/.nuget/packages/microsoft.bcl.asyncinterfaces/6.0.0/microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "/home/wendel/.nuget/packages/microsoft.codeanalysis.analyzers/3.3.3/microsoft.codeanalysis.analyzers.3.3.3.nupkg.sha512",

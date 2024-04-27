@@ -1,8 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "BL05+oZoWgKLZ3S/eb0xchncpFWgbIvHh7BalJleMTGkqPCpxtncelYJv+X65jk5vPWmij1BNhCf9gDb/v7U9A==",
+  "dgSpecHash": "WmxaRKdXj1xYy1zUPh9x+yGOTZEB5/IP7gZLIvze8pC8UfU/yZAqEP5aeMOFf12fK0YVYDBncCRqwtlfvCHKeg==",
   "success": true,
   "projectFilePath": "/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Application/Backend.Application.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/home/wendel/.nuget/packages/automapper/13.0.1/automapper.13.0.1.nupkg.sha512",
+    "/home/wendel/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/6.0.0/microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
+    "/home/wendel/.nuget/packages/microsoft.extensions.options/6.0.0/microsoft.extensions.options.6.0.0.nupkg.sha512",
+    "/home/wendel/.nuget/packages/microsoft.extensions.primitives/6.0.0/microsoft.extensions.primitives.6.0.0.nupkg.sha512",
+    "/home/wendel/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

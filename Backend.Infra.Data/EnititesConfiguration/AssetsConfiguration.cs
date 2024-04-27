@@ -56,6 +56,9 @@ namespace Backend.Infra.Data.EnititesConfiguration
 
             builder.Property(p => p.Updated_at)
                 .HasColumnName("updated_at");
+            builder.HasOne(o => o.Wallet)
+                .WithMany(o => o.Assets)
+                .HasForeignKey(o => o.WalletId);
         }
     }
 }

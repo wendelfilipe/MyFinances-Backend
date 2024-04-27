@@ -22,24 +22,6 @@ namespace Backend.Infra.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("AssetsJoinAssetWallet", b =>
-                {
-                    b.Property<int>("AssetsId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("JoinAssetWalletAssetId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("JoinAssetWalletWalletId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("AssetsId", "JoinAssetWalletAssetId", "JoinAssetWalletWalletId");
-
-                    b.HasIndex("JoinAssetWalletAssetId", "JoinAssetWalletWalletId");
-
-                    b.ToTable("AssetsJoinAssetWallet", "product");
-                });
-
             modelBuilder.Entity("Backend.Domain.Entites.AssetsEntites.Assets", b =>
                 {
                     b.Property<int>("Id")
@@ -99,23 +81,6 @@ namespace Backend.Infra.Data.Migrations
                     b.HasIndex("WalletId");
 
                     b.ToTable("assets", "product");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entites.JoinAssetWallet", b =>
-                {
-                    b.Property<int>("AssetId")
-                        .HasColumnType("integer")
-                        .HasColumnName("assets_id");
-
-                    b.Property<int>("WalletId")
-                        .HasColumnType("integer")
-                        .HasColumnName("wallet_id");
-
-                    b.HasKey("AssetId", "WalletId");
-
-                    b.HasIndex("WalletId");
-
-                    b.ToTable("JoinAssetsWallet", "product");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entites.UserEntites.User", b =>
@@ -207,36 +172,10 @@ namespace Backend.Infra.Data.Migrations
                     b.ToTable("wallet", "product");
                 });
 
-            modelBuilder.Entity("AssetsJoinAssetWallet", b =>
-                {
-                    b.HasOne("Backend.Domain.Entites.AssetsEntites.Assets", null)
-                        .WithMany()
-                        .HasForeignKey("AssetsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Backend.Domain.Entites.JoinAssetWallet", null)
-                        .WithMany()
-                        .HasForeignKey("JoinAssetWalletAssetId", "JoinAssetWalletWalletId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Backend.Domain.Entites.AssetsEntites.Assets", b =>
                 {
                     b.HasOne("Backend.Domain.Entites.WalletEntites.Wallet", "Wallet")
                         .WithMany("Assets")
-                        .HasForeignKey("WalletId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Wallet");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entites.JoinAssetWallet", b =>
-                {
-                    b.HasOne("Backend.Domain.Entites.WalletEntites.Wallet", "Wallet")
-                        .WithMany("JoinAssetWallets")
                         .HasForeignKey("WalletId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -263,8 +202,6 @@ namespace Backend.Infra.Data.Migrations
             modelBuilder.Entity("Backend.Domain.Entites.WalletEntites.Wallet", b =>
                 {
                     b.Navigation("Assets");
-
-                    b.Navigation("JoinAssetWallets");
                 });
 #pragma warning restore 612, 618
         }

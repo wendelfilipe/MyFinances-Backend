@@ -16,8 +16,6 @@ namespace Backend.Domain.Entites.WalletEntites
 
         public ICollection<Assets> Assets { get; private set; }
 
-        public ICollection<JoinAssetWallet> JoinAssetWallets { get; private set; }
-
         public User User { get; private set; }
 
         public Wallet(string name)

@@ -38,8 +38,7 @@ namespace Backend.Infra.Data.EnititesConfiguration
 
             builder.HasOne(o => o.User)
                 .WithMany(o => o.Wallet)
-                .HasForeignKey(o => o.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(o => o.UserId);
 
         }
     }

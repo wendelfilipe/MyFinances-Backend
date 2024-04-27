@@ -11,8 +11,6 @@ namespace Backend.Domain.Entites.AssetsEntites
     {
         public Wallet Wallet { get; private set; }
 
-        public ICollection<JoinAssetWallet> JoinAssetWallet { get; private set; }
-
         public Assets(string codName, decimal currentPrice, decimal buyPrice)
         {
             DomainExceptionValidation.When(currentPrice <= 0.0m,

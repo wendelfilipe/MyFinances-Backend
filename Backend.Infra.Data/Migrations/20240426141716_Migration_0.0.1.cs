@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Backend.Infra.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Inicial : Migration
+    public partial class Migration_001 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -94,70 +94,10 @@ namespace Backend.Infra.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "JoinAssetsWallet",
-                schema: "product",
-                columns: table => new
-                {
-                    wallet_id = table.Column<int>(type: "integer", nullable: false),
-                    assets_id = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_JoinAssetsWallet", x => new { x.assets_id, x.wallet_id });
-                    table.ForeignKey(
-                        name: "FK_JoinAssetsWallet_wallet_wallet_id",
-                        column: x => x.wallet_id,
-                        principalSchema: "product",
-                        principalTable: "wallet",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AssetsJoinAssetWallet",
-                schema: "product",
-                columns: table => new
-                {
-                    AssetsId = table.Column<int>(type: "integer", nullable: false),
-                    JoinAssetWalletAssetId = table.Column<int>(type: "integer", nullable: false),
-                    JoinAssetWalletWalletId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AssetsJoinAssetWallet", x => new { x.AssetsId, x.JoinAssetWalletAssetId, x.JoinAssetWalletWalletId });
-                    table.ForeignKey(
-                        name: "FK_AssetsJoinAssetWallet_JoinAssetsWallet_JoinAssetWalletAsset~",
-                        columns: x => new { x.JoinAssetWalletAssetId, x.JoinAssetWalletWalletId },
-                        principalSchema: "product",
-                        principalTable: "JoinAssetsWallet",
-                        principalColumns: new[] { "assets_id", "wallet_id" },
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AssetsJoinAssetWallet_assets_AssetsId",
-                        column: x => x.AssetsId,
-                        principalSchema: "product",
-                        principalTable: "assets",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_assets_wallet_id",
                 schema: "product",
                 table: "assets",
-                column: "wallet_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AssetsJoinAssetWallet_JoinAssetWalletAssetId_JoinAssetWalle~",
-                schema: "product",
-                table: "AssetsJoinAssetWallet",
-                columns: new[] { "JoinAssetWalletAssetId", "JoinAssetWalletWalletId" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_JoinAssetsWallet_wallet_id",
-                schema: "product",
-                table: "JoinAssetsWallet",
                 column: "wallet_id");
 
             migrationBuilder.CreateIndex(
@@ -170,14 +110,6 @@ namespace Backend.Infra.Data.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AssetsJoinAssetWallet",
-                schema: "product");
-
-            migrationBuilder.DropTable(
-                name: "JoinAssetsWallet",
-                schema: "product");
-
             migrationBuilder.DropTable(
                 name: "assets",
                 schema: "product");
