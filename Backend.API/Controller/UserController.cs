@@ -20,12 +20,10 @@ namespace Backend.API.Controller
     public class UserController : ControllerBase
     {
         private readonly IUserService userService; 
-        private readonly IMapper mapper;
         private readonly IHttpContextAccessor httpContextAccessor;
-        public UserController(IUserService userService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+        public UserController(IUserService userService, IHttpContextAccessor httpContextAccessor)
         {
             this.userService = userService;
-            this.mapper = mapper;
             this.httpContextAccessor = httpContextAccessor;
         }
 
@@ -52,7 +50,7 @@ namespace Backend.API.Controller
         }
 
         [HttpPost(Name = "PostClickedOnLogOut")]
-        public async Task PostClickedOnLogOutAsync()
+        public async Task PostClickedOnLogOutAsync(UserDTO userDTO)
         {
             var httpContext = httpContextAccessor.HttpContext;
             if(httpContext.Request.Cookies.ContainsKey("UserIdCookie"))
@@ -60,7 +58,7 @@ namespace Backend.API.Controller
                 await Task.Run(() => httpContext.Response.Cookies.Delete("UserIdCookie"));
             }
         }
-        [HttpPost(Name = "PostCreateUserByWebAsync")]
+        [HttpPost("PostCreateUserByWebAsync")]
         public async Task PostCreateUserByWebAsync(UserDTO userDTO)
         {
             userDTO.Created_at = DateTime.Now;
