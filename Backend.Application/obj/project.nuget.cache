@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "BL05+oZoWgKLZ3S/eb0xchncpFWgbIvHh7BalJleMTGkqPCpxtncelYJv+X65jk5vPWmij1BNhCf9gDb/v7U9A==",
+  "dgSpecHash": "wgyfO5t7ujIlAsTxsChpwDHjJFduxZeXXSMnbYEkXWlGlOpK/4W0MqSpzjR5y55wDspWBSv7FECIEFKS/zWpig==",
   "success": true,
   "projectFilePath": "/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Application/Backend.Application.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/home/wendel/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
+    "/home/wendel/.nuget/packages/microsoft.csharp/4.7.0/microsoft.csharp.4.7.0.nupkg.sha512"
+  ],
   "logs": []
 }
