@@ -50,7 +50,7 @@ namespace Backend.API.Controller
         }
 
         [HttpPost("PostClickedOnLogOutAsync")]
-        public async Task PostClickedOnLogOutAsync(UserDTO userDTO, int id)
+        public async Task PostClickedOnLogOutAsync(UserDTO userDTO)
         {
             var httpContext = httpContextAccessor.HttpContext;
             if(httpContext.Request.Cookies.ContainsKey("UserIdCookie"))
@@ -64,7 +64,7 @@ namespace Backend.API.Controller
             userDTO.Created_at = DateTime.UtcNow;
             userDTO.Updated_at = DateTime.UtcNow;
             userDTO.SourceCreate = SourceCreate.Web;
-            userDTO.Deleted_at = DateTime.UtcNow;
+            userDTO.Deleted_at = null;
 
             await userService.CreateAsync(userDTO);
         }

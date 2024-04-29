@@ -16,7 +16,7 @@ namespace Backend.Domain.Entites.UserEntites
         public string Email { get; private set; }
         public string Password { get; private set; }
 
-        public ICollection<Wallet> Wallet { get; private set; }
+        public ICollection<Wallet>? Wallet { get; private set; }
 
 
         public User(string name, string email, string password)

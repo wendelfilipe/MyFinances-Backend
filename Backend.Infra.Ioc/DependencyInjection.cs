@@ -41,7 +41,6 @@ namespace Backend.Infra.Ioc
 
             services.AddScoped<IUserService, UserService>(implementationFactory =>
             {
-                var entityRepository = implementationFactory.GetService<IEntityRepository<User>>();
                 var mapper = implementationFactory.GetService<IMapper>();
                 var userRepository = implementationFactory.GetService<IUserRepository>();
                 
@@ -49,19 +48,17 @@ namespace Backend.Infra.Ioc
             });
             services.AddScoped<IAssetsService, AssetsService>(implementationFactory =>
             {
-                var entityRepository = implementationFactory.GetService<IEntityRepository<Assets>>();
                 var mapper = implementationFactory.GetService<IMapper>();
                 var assetsRepository = implementationFactory.GetService<IAssetsRepository>();
 
-                return new AssetsService(entityRepository, mapper, assetsRepository);
+                return new AssetsService(assetsRepository, mapper, assetsRepository);
             });
             services.AddScoped<IWalletService, WalletService>(implementationFactory =>
             {
-                var entityRepository = implementationFactory.GetService<IEntityRepository<Wallet>>();
                 var mapper = implementationFactory.GetService<IMapper>();
                 var walletRepository = implementationFactory.GetService<IWalletRepository>();
 
-                return new WalletService(entityRepository, mapper, walletRepository);
+                return new WalletService(walletRepository, mapper, walletRepository);
             });
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
 
