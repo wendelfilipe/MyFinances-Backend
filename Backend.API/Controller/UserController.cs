@@ -28,14 +28,14 @@ namespace Backend.API.Controller
         }
 
         
-        [HttpGet("{email}", Name = "Get")]
-        public async Task<UserDTO> Get(string email)
+        [HttpGet("{email}", Name = "GetUserDTOByEmailAsync")]
+        public async Task<UserDTO> GetUserDTOByEmailAsync(string email)
         {
             var userDTO = await userService.GetUserDTOByEmailAsync(email);
 
             if(userDTO == null)
             {
-               throw new NullReferenceException("User is invalid");
+               throw new NullReferenceException("Email is invalid");
             }
             //criar cookie de login
             string userIdJson = JsonSerializer.Serialize(userDTO.Id);
@@ -50,7 +50,7 @@ namespace Backend.API.Controller
         }
 
         [HttpPost("PostClickedOnLogOutAsync")]
-        public async Task PostClickedOnLogOutAsync(UserDTO userDTO)
+        public async Task PostClickedOnLogOutAsync()
         {
             var httpContext = httpContextAccessor.HttpContext;
             if(httpContext.Request.Cookies.ContainsKey("UserIdCookie"))
@@ -58,9 +58,14 @@ namespace Backend.API.Controller
                 await Task.Run(() => httpContext.Response.Cookies.Delete("UserIdCookie"));
             }
         }
+
         [HttpPost("PostCreateUserByWebAsync")]
         public async Task PostCreateUserByWebAsync(UserDTO userDTO)
         {
+            var user = await userService.GetUserDTOByEmailAsync(userDTO.Email);
+            if(user != null)
+                throw new Exception("Email ja exite");
+                
             userDTO.Created_at = DateTime.UtcNow;
             userDTO.Updated_at = DateTime.UtcNow;
             userDTO.SourceCreate = SourceCreate.Web;

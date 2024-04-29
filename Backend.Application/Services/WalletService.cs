@@ -14,8 +14,18 @@ namespace Backend.Application.Services
 {
     public class WalletService : EntityService<Wallet, WalletDTO>, IWalletService
     {
+        private readonly IWalletRepository walletRepository;
+        private readonly IMapper mapper;
         public WalletService(IEntityRepository<Wallet> entityRepository, IMapper mapper, IWalletRepository walletRepository) : base(entityRepository, mapper)
         {
+            this.walletRepository = walletRepository;
+            this.mapper = mapper;
+        }
+
+        public async Task<IEnumerable<WalletDTO>> GetAllWalletDTOByUserId(int userId)
+        {
+            var walletsEntity = await walletRepository.GetAllWalletsByUserId(userId);
+            return mapper.Map<IEnumerable<WalletDTO>>(walletsEntity);
         }
     }
 }

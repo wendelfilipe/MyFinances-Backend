@@ -8,6 +8,6 @@ namespace Backend.Domain.Interfaces.AssetsInterface
 {
     public interface IAssetsRepository : IEntityRepository<Assets>
     {
-        
+        public Task<IEnumerable<Assets>> GetAllAssetsByWalletIdAsync(int userId);
     }
 }

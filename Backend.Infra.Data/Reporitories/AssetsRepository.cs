@@ -14,8 +14,15 @@ namespace Backend.Infra.Data.EnititesConfiguration
 {
     public class AssetsRepository : EntityRepository<Assets>, IAssetsRepository
     {
+        private readonly AppDbContext context;
         public AssetsRepository(AppDbContext context) : base(context)
         {
+            this.context = context;
+        }
+
+        public async Task<IEnumerable<Assets>> GetAllAssetsByWalletIdAsync(int walletId)
+        {
+            return await context.Assets.Where(a => a.WalletId == walletId ).ToListAsync();
         }
     }
 }
