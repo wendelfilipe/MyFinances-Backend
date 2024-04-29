@@ -41,15 +41,15 @@ namespace Backend.Infra.Ioc
 
             services.AddScoped<IUserService, UserService>(implementationFactory =>
             {
-                var entityRepository = implementationFactory.GetService<IEntityRepository<UserDTO>>();
+                var entityRepository = implementationFactory.GetService<IEntityRepository<User>>();
                 var mapper = implementationFactory.GetService<IMapper>();
                 var userRepository = implementationFactory.GetService<IUserRepository>();
                 
-                return new UserService(entityRepository, mapper, userRepository);
+                return new UserService(userRepository, mapper, userRepository);
             });
             services.AddScoped<IAssetsService, AssetsService>(implementationFactory =>
             {
-                var entityRepository = implementationFactory.GetService<IEntityRepository<AssetsDTO>>();
+                var entityRepository = implementationFactory.GetService<IEntityRepository<Assets>>();
                 var mapper = implementationFactory.GetService<IMapper>();
                 var assetsRepository = implementationFactory.GetService<IAssetsRepository>();
 
@@ -57,7 +57,7 @@ namespace Backend.Infra.Ioc
             });
             services.AddScoped<IWalletService, WalletService>(implementationFactory =>
             {
-                var entityRepository = implementationFactory.GetService<IEntityRepository<WalletDTO>>();
+                var entityRepository = implementationFactory.GetService<IEntityRepository<Wallet>>();
                 var mapper = implementationFactory.GetService<IMapper>();
                 var walletRepository = implementationFactory.GetService<IWalletRepository>();
 

@@ -9,25 +9,25 @@ using Backend.Domain.Interfaces;
 
 namespace Backend.Application.Services.EntityServices
 {
-    public class EntityService<T> : IEntityService<T> where T : class
+    public class EntityService<U, T> : IEntityService<T> where U : class where T : class
     {
-        private readonly IEntityRepository<T> entityRepository;
+        private readonly IEntityRepository<U> entityRepository;
 
         private readonly IMapper mapper;
-        public EntityService(IEntityRepository<T> entityRepository, IMapper mapper) 
+        public EntityService(IEntityRepository<U> entityRepository, IMapper mapper) 
         {
             this.entityRepository = entityRepository ?? throw new ArgumentNullException(nameof(entityRepository));;
             this.mapper = mapper;
         }
         public async Task CreateAsync(T entityDTO)
         {
-            var entity = mapper.Map<T>(entityDTO);
+            var entity = mapper.Map<U>(entityDTO);
             await entityRepository.CreateAsync(entity);
         }
 
         public async Task DeleteAsync(T entityDTO)
         {
-            var entity = mapper.Map<T>(entityDTO);
+            var entity = mapper.Map<U>(entityDTO);
             await entityRepository.DeleteAsync(entity);
         }
 
@@ -46,7 +46,7 @@ namespace Backend.Application.Services.EntityServices
 
         public async Task UpdateAsync(T entityDTO)
         {
-            var entity = mapper.Map<T>(entityDTO);
+            var entity = mapper.Map<U>(entityDTO);
             await entityRepository.UpdateAsync(entity);
         }
     }

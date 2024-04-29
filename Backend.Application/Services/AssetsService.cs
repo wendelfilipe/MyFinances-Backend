@@ -12,9 +12,9 @@ using Backend.Domain.Interfaces.AssetsInterface;
 
 namespace Backend.Application.Services
 {
-    public class AssetsService : EntityService<AssetsDTO>, IAssetsService
+    public class AssetsService : EntityService<Assets, AssetsDTO>, IAssetsService
     {
-        public AssetsService(IEntityRepository<AssetsDTO> entityRepository, IMapper mapper, IAssetsRepository assetsRepository) : base(entityRepository, mapper)
+        public AssetsService(IEntityRepository<Assets> entityRepository, IMapper mapper, IAssetsRepository assetsRepository) : base(entityRepository, mapper)
         {
         }
     }

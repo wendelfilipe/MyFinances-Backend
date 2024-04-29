@@ -12,12 +12,12 @@ using Backend.Domain.Interfaces.UserInterface;
 
 namespace Backend.Application.Services
 {
-    public class UserService : EntityService<UserDTO>, IUserService
+    public class UserService : EntityService<User, UserDTO>, IUserService
     {
-        private readonly IEntityRepository<UserDTO> entityRepository;
+        private readonly IEntityRepository<User> entityRepository;
         private readonly IUserRepository userRepository;
         private readonly IMapper mapper;
-        public UserService(IEntityRepository<UserDTO> entityRepository, IMapper mapper, IUserRepository userRepository) : base(entityRepository, mapper)
+        public UserService(IEntityRepository<User> entityRepository, IMapper mapper, IUserRepository userRepository) : base(entityRepository, mapper)
         {
             this.userRepository = userRepository;
             this.mapper = mapper;

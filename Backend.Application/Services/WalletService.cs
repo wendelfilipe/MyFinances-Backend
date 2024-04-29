@@ -12,9 +12,9 @@ using Backend.Domain.Interfaces.WalletInterface;
 
 namespace Backend.Application.Services
 {
-    public class WalletService : EntityService<WalletDTO>, IWalletService
+    public class WalletService : EntityService<Wallet, WalletDTO>, IWalletService
     {
-        public WalletService(IEntityRepository<WalletDTO> entityRepository, IMapper mapper, IWalletRepository walletRepository) : base(entityRepository, mapper)
+        public WalletService(IEntityRepository<Wallet> entityRepository, IMapper mapper, IWalletRepository walletRepository) : base(entityRepository, mapper)
         {
         }
     }
