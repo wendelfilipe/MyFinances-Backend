@@ -110,3 +110,7 @@
 /home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.API/bin/Debug/net8.0/Backend.Application.pdb
 /home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.API/bin/Debug/net8.0/Backend.Domain.pdb
 /home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.API/bin/Debug/net8.0/Backend.Infra.Data.pdb
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.API/bin/Debug/net8.0/Npgsql.dll
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.API/bin/Debug/net8.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.API/bin/Debug/net8.0/AutoMapper.dll
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.API/bin/Debug/net8.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll

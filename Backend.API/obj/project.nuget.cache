@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "dPC+DQ2PO5wzBJlXomdVD3VpwKq8ISmRnzBYSPt8UzgXA2esET3cZ5ZhrlXCzVeNFDeFAnG2M1eIGjJhNZDIdw==",
+  "dgSpecHash": "M62P//a0xy3LyV2EAcpqJSscmjg+EzIZLs0InMaqcu9M73tEpM1ApipcLBXMBwRWe6jg9a+1Qmvn06QQVLgFPw==",
   "success": true,
   "projectFilePath": "/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.API/Backend.API.csproj",
   "expectedPackageFiles": [
     "/home/wendel/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
+    "/home/wendel/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "/home/wendel/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/home/wendel/.nuget/packages/microsoft.aspnetcore.openapi/8.0.4/microsoft.aspnetcore.openapi.8.0.4.nupkg.sha512",
     "/home/wendel/.nuget/packages/microsoft.bcl.asyncinterfaces/6.0.0/microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
@@ -55,5 +56,12 @@
     "/home/wendel/.nuget/packages/system.text.json/8.0.0/system.text.json.8.0.0.nupkg.sha512",
     "/home/wendel/.nuget/packages/system.threading.channels/6.0.0/system.threading.channels.6.0.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file /home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.API/obj/project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

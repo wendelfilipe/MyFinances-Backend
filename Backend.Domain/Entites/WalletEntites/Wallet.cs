@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.Domain.Entites.AssetsEntites;
 using Backend.Domain.Entites.Enums;
+using Backend.Domain.Entites.UserEntites;
 using Backend.Domain.Validation;
 
 namespace Backend.Domain.Entites.WalletEntites
@@ -11,6 +13,10 @@ namespace Backend.Domain.Entites.WalletEntites
     {
         public int UserId { get; private set; }
         public string Name { get; private set; }
+
+        public ICollection<Assets> Assets { get; private set; }
+
+        public User User { get; private set; }
 
         public Wallet(string name)
         {

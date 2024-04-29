@@ -8,6 +8,6 @@ namespace Backend.Domain.Interfaces.UserInterface
 {
     public interface IUserRepository : IEntityRepository<User>
     {
-        
+        Task<User> GetByEmailAsync(string email);
     }
 }

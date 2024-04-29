@@ -11,7 +11,7 @@ namespace Backend.Domain.Interfaces
         Task<T> GetByIdAsync(int id);
         Task<T> CreateAsync(T entity);
         Task<T> UpdateAsync(T entity);
-        Task<T> DeleteByIdAsync(T entity);
+        Task<T> DeleteAsync(T entity);
 
     }
 }

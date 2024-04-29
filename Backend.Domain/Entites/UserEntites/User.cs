@@ -12,12 +12,12 @@ namespace Backend.Domain.Entites.UserEntites
     public sealed class User : Entity
     {
         // private set -> só pode ser alterado
-        public int? WalletId { get; private set; }
         public string Name { get; private set; }
         public string Email { get; private set; }
         public string Password { get; private set; }
 
-        public ICollection<Wallet> Wallet { get; private set; }
+        public ICollection<Wallet>? Wallet { get; private set; }
+
 
         public User(string name, string email, string password)
         {
