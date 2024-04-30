@@ -14,8 +14,19 @@ namespace Backend.Application.Services
 {
     public class AssetsService : EntityService<Assets, AssetsDTO>, IAssetsService
     {
+        private readonly IAssetsRepository assetsRepository;
+        private readonly IMapper mapper;
         public AssetsService(IEntityRepository<Assets> entityRepository, IMapper mapper, IAssetsRepository assetsRepository) : base(entityRepository, mapper)
         {
+            this.assetsRepository = assetsRepository;
+            this.mapper = mapper;
         }
+
+        public async Task<IEnumerable<AssetsDTO>> GetAllAssetsDTOByWalletIdAsync(int walletId)
+        {
+            var assetsEntity = await assetsRepository.GetAllAssetsByWalletIdAsync(walletId);
+            return mapper.Map<IEnumerable<AssetsDTO>>(assetsEntity);
+        }
+
     }
 }
