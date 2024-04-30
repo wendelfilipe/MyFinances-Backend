@@ -23,20 +23,20 @@ namespace Backend.API.Controller
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<WalletDTO>> GetAllWalletDTOByUserIDAsync()
+        [HttpGet("GetAllWalletDTOByUserIDAsync/{userId}")]
+        public async Task<IEnumerable<WalletDTO>> GetAllWalletDTOByUserIDAsync(int userId)
         {
-            var httpContext = httpContextAccessor.HttpContext;
+            var httpContext = httpContextAccessor.HttpContext;           
             if(httpContext.Request.Cookies.ContainsKey("UserIdCookie"))
             {
                 var userIdJson = httpContext.Request.Cookies["UserIdCookie"];
-                var userId = JsonSerializer.Deserialize<int>(userIdJson);
+                userId = JsonSerializer.Deserialize<int>(userIdJson);
 
                 return await walletService.GetAllWalletDTOByUserId(userId);
             }
             else
             {
-                throw new Exception("User is invalid");
+                return await walletService.GetAllWalletDTOByUserId(userId);
             }
             
         }

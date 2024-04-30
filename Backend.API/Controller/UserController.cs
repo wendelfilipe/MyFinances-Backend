@@ -28,7 +28,7 @@ namespace Backend.API.Controller
         }
 
         
-        [HttpGet("{email}", Name = "GetUserDTOByEmailAsync")]
+        [HttpGet("GetUserDTOByEmailAsync/{email}")]
         public async Task<UserDTO> GetUserDTOByEmailAsync(string email)
         {
             var userDTO = await userService.GetUserDTOByEmailAsync(email);
@@ -38,8 +38,9 @@ namespace Backend.API.Controller
                throw new NullReferenceException("Email is invalid");
             }
             //criar cookie de login
+            var httpContext = httpContextAccessor.HttpContext;
             string userIdJson = JsonSerializer.Serialize(userDTO.Id);
-            Response.Cookies.Append("UserIdCookie",userIdJson,
+            httpContext.Response.Cookies.Append("UserIdCookie",userIdJson,
                 new CookieOptions
                 {
                     Expires = DateTimeOffset.Now.AddDays(7)

@@ -21,9 +21,24 @@ DependencyInjection.AddInfrastruture(builder.Services, builder.Configuration);
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 
+builder.Services.AddCors(options => 
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder => {
+            builder.WithOrigins("http://localhost:3000")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+                
+        });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
+
+app.UseCors("AllowSpecificOrigin");
   
 app.UseRouting();
 
@@ -33,12 +48,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors(options => 
-{
-    options.AllowAnyOrigin()
-        .AllowAnyHeader()
-        .AllowAnyMethod();
-});
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
@@ -48,5 +57,6 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
 });
+
 
 app.Run();
