@@ -50,6 +50,20 @@ namespace Backend.API.Controller
             
         }
 
+        [HttpGet("GetUserDTOByIdAsync/{userId}")]
+        public async Task<UserDTO> GetUserDTOByIdAsync(int userId)
+        {
+            var userDTO = await userService.GetByIdAsync(userId);
+            
+            if(userDTO == null)
+            {
+                throw new Exception("Invalid User");
+            }
+            
+            return userDTO;
+            
+        }
+
         [HttpPost("PostClickedOnLogOutAsync")]
         public async Task PostClickedOnLogOutAsync()
         {
