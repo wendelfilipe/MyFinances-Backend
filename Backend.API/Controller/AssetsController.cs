@@ -22,23 +22,16 @@ namespace Backend.API.Controller
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<AssetsDTO>> GetAllAssetsDTOAsync()
+        [HttpGet("GetAllAssetsDTOAsync/{walletId}")]
+        public async Task<IEnumerable<AssetsDTO>> GetAllAssetsDTOAsync(int walletId)
         {
-            var httpContext = httpContextAccessor.HttpContext;
-            if(httpContext.Request.Cookies.ContainsKey("walletIdCookie"))
-            {
-                var walletIdJson = httpContext.Request.Cookies["walletIdCookie"];
-                var walletId = JsonSerializer.Deserialize<int>(walletIdJson);
+           
+            var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
+            if(assets == null )
+                throw new Exception("Do not exist assets");
 
 
-
-                return await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
-            }
-            else
-            {
-                throw new Exception("Walled is invalid");
-            }
+            return assets;
             
         }
 
