@@ -18,7 +18,7 @@ namespace Backend.Domain.Entites
         public SourceTypeAssets SourceTypeAssets {get; protected set; }
         public decimal AveregePrice { get; protected set; } = 0;
         public SourceCreate SourceCreate { get; protected set; }
-        public DateTime Deleted_at { get; protected set; }
+        public DateTime? Deleted_at { get; protected set; }
         public DateTime Created_at { get; protected set; }
         public DateTime Updated_at { get; protected set; }
 

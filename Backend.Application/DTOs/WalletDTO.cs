@@ -20,11 +20,8 @@ namespace Backend.Application.DTOs
         [MinLength(3)]
         public string Name { get; set; }
 
-        [DisplayName("user")]
-        public User User { get; set; }
-
         public SourceCreate SourceCreate { get; set; }
-        public DateTime Deleted_at { get; set; }
+        public DateTime? Deleted_at { get; set; }
         public DateTime Created_at { get; set; }
         public DateTime Updated_at { get; set; }
     }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Backend.Application.DTOs;
 using Backend.Application.Interfaces;
+using Backend.Domain.Entites.Enums;
 using Backend.Domain.Entites.UserEntites;
 using Backend.Domain.Entites.WalletEntites;
 using Microsoft.AspNetCore.Mvc;
@@ -49,9 +50,11 @@ namespace Backend.API.Controller
         [HttpPost("PostWalletDTOAsync")]
         public async Task PostWalletDTOAsync(WalletDTO walletDTO)
         {
-            var userDTO = await userService.GetByIdAsync(walletDTO.UserId);
-            var user = mapper.Map<User>(userDTO); 
-            walletDTO.User = user;
+            walletDTO.Created_at = DateTime.UtcNow;
+            walletDTO.Updated_at = DateTime.UtcNow;
+            walletDTO.SourceCreate = SourceCreate.Web;
+            walletDTO.Deleted_at = null;
+
             if(walletDTO != null)
             {
                

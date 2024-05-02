@@ -36,10 +36,6 @@ namespace Backend.Infra.Data.EnititesConfiguration
             builder.Property(p => p.Updated_at)
                 .HasColumnName("updated_at");
 
-            builder.HasOne(o => o.User)
-                .WithMany(o => o.Wallet)
-                .HasForeignKey(o => o.UserId);
-
         }
     }
 }
