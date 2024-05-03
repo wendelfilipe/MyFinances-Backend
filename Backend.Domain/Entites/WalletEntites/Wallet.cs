@@ -16,8 +16,6 @@ namespace Backend.Domain.Entites.WalletEntites
 
         public ICollection<Assets> Assets { get; private set; }
 
-        public User User { get; private set; }
-
         public Wallet(string name)
         {
             ValidateDomain(name);
@@ -26,6 +24,8 @@ namespace Backend.Domain.Entites.WalletEntites
         private void ValidateDomain(string name)
         {
             DomainExceptionValidation.When(string.IsNullOrEmpty(name), "Invalid name, Name is required");
+
+            Name = name;
         }
 
 

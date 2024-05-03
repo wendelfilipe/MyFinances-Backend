@@ -23,22 +23,25 @@ namespace Backend.Infra.Data.EnititesConfiguration
                 .HasColumnName("name")
                 .HasMaxLength(60)
                 .IsRequired();
+
+            builder.Property(p => p.UserId)
+                .HasColumnName("user_id")
+                .IsRequired();
                 
             builder.Property(p => p.SourceCreate)
-                .HasColumnName("source_create");
+                .HasColumnName("source_create")
+                .IsRequired();
 
             builder.Property(p => p.Created_at)
-                .HasColumnName("created_at");
+                .HasColumnName("created_at")
+                .IsRequired();
 
             builder.Property(p => p.Deleted_at)
                 .HasColumnName("deleted_at");
 
             builder.Property(p => p.Updated_at)
-                .HasColumnName("updated_at");
-
-            builder.HasOne(o => o.User)
-                .WithMany(o => o.Wallet)
-                .HasForeignKey(o => o.UserId);
+                .HasColumnName("updated_at")
+                .IsRequired();
 
         }
     }

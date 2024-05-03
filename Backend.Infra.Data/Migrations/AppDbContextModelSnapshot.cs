@@ -31,6 +31,10 @@ namespace Backend.Infra.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<long>("Amount")
+                        .HasColumnType("bigint")
+                        .HasColumnName("amount");
+
                     b.Property<decimal>("AveregePrice")
                         .HasPrecision(10, 2)
                         .HasColumnType("numeric(10,2)")
@@ -56,7 +60,7 @@ namespace Backend.Infra.Data.Migrations
                         .HasColumnType("numeric(10,2)")
                         .HasColumnName("current-price");
 
-                    b.Property<DateTime>("Deleted_at")
+                    b.Property<DateTime?>("Deleted_at")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
 
@@ -163,7 +167,8 @@ namespace Backend.Infra.Data.Migrations
                         .HasColumnName("updated_at");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
 
                     b.HasKey("Id");
 
@@ -185,13 +190,11 @@ namespace Backend.Infra.Data.Migrations
 
             modelBuilder.Entity("Backend.Domain.Entites.WalletEntites.Wallet", b =>
                 {
-                    b.HasOne("Backend.Domain.Entites.UserEntites.User", "User")
+                    b.HasOne("Backend.Domain.Entites.UserEntites.User", null)
                         .WithMany("Wallet")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entites.UserEntites.User", b =>

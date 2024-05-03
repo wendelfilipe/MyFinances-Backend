@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Backend.Application.DTOs;
 using Backend.Application.Interfaces;
+using Backend.Domain.Entites.Enums;
+using Backend.Domain.Entites.UserEntites;
 using Backend.Domain.Entites.WalletEntites;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,10 +19,14 @@ namespace Backend.API.Controller
     {
         private readonly IWalletService walletService;
         private readonly IHttpContextAccessor httpContextAccessor;
-        public WalletController(IWalletService walletService, IHttpContextAccessor httpContextAccessor)
+        private readonly IMapper mapper;
+        private readonly IUserService userService;
+        public WalletController(IWalletService walletService, IHttpContextAccessor httpContextAccessor, IUserService userService, IMapper mapper)
         {
             this.walletService = walletService;
             this.httpContextAccessor = httpContextAccessor;
+            this.userService = userService;
+            this.mapper = mapper;
         }
 
         [HttpGet("GetAllWalletDTOByUserIDAsync/{userId}")]
@@ -41,16 +47,14 @@ namespace Backend.API.Controller
             
         }
 
-        [HttpPost]
+        [HttpPost("PostWalletDTOAsync")]
         public async Task PostWalletDTOAsync(WalletDTO walletDTO)
         {
-            var httpContext = httpContextAccessor.HttpContext;
-            if(httpContext.Request.Cookies.ContainsKey("UserIdCookie"))
+            walletDTO.Created_at = DateTime.UtcNow;
+            walletDTO.Updated_at = DateTime.UtcNow;
+            if(walletDTO != null)
             {
-                var userIdJson = httpContext.Request.Cookies["UserIdCookie"];
-                var userId = JsonSerializer.Deserialize<int>(userIdJson);
-
-                walletDTO.UserId = userId;
+               
                 await walletService.CreateAsync(walletDTO);
             }
             else

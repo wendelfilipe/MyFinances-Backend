@@ -2,9 +2,9 @@ namespace Backend.Domain.Entites.Enums
 {
     public enum SourceTypeAssets
     {
-        Stocks = 0,
-        Fixed = 1,
-        InteralcionalAssets = 2,
-        Fiis = 3
+        Stocks = 1,
+        Fixed = 2,
+        InteralcionalAssets = 3,
+        Fiis = 4
     }
 }

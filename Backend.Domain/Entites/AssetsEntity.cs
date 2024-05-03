@@ -15,12 +15,13 @@ namespace Backend.Domain.Entites
         public string CodName { get; protected set; }
         public decimal CurrentPrice { get; protected set; }
         public decimal BuyPrice { get; protected  set; }
+        public long Amount { get; protected set; } = 0;
         public SourceTypeAssets SourceTypeAssets {get; protected set; }
-        public decimal AveregePrice { get; protected set; } = 0;
+        public decimal AveregePrice { get; protected set; } = 0.00m;
         public SourceCreate SourceCreate { get; protected set; }
-        public DateTime Deleted_at { get; protected set; }
-        public DateTime Created_at { get; protected set; }
-        public DateTime Updated_at { get; protected set; }
+        public DateTime? Deleted_at { get; protected set; } = null;
+        public DateTime Created_at { get; protected set; } = DateTime.UtcNow;
+        public DateTime Updated_at { get; protected set; } = DateTime.UtcNow;
 
          public void ValidateDomain(string codName)
         {

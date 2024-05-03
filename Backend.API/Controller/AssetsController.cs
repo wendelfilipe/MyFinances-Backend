@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Backend.Application.DTOs;
 using Backend.Application.Interfaces;
+using Backend.Domain.Entites.Enums;
 using Backend.Domain.Interfaces.AssetsInterface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,26 +23,24 @@ namespace Backend.API.Controller
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<AssetsDTO>> GetAllAssetsDTOAsync()
+        [HttpGet("GetAllAssetsDTOAsync/{walletId}")]
+        public async Task<IEnumerable<AssetsDTO>> GetAllAssetsDTOAsync(int walletId)
         {
-            var httpContext = httpContextAccessor.HttpContext;
-            if(httpContext.Request.Cookies.ContainsKey("walletIdCookie"))
-            {
-                var walletIdJson = httpContext.Request.Cookies["walletIdCookie"];
-                var walletId = JsonSerializer.Deserialize<int>(walletIdJson);
+           
+            var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
+            if(assets == null )
+                throw new Exception("Do not exist assets");
 
 
-
-                return await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
-            }
-            else
-            {
-                throw new Exception("Walled is invalid");
-            }
+            return assets;
             
         }
 
+        [HttpPost("PostCreateAssetAsync")]
+        public async Task PostCreateAssetsAsync(AssetsDTO assetsDTO)
+        {
+            await assetsService.CreateAsync(assetsDTO);
+        }
 
     }
 }

@@ -7,6 +7,7 @@ using Backend.Application.DTOs;
 using Backend.Application.Interfaces;
 using Backend.Application.Services.EntityServices;
 using Backend.Domain.Entites.AssetsEntites;
+using Backend.Domain.Entites.Enums;
 using Backend.Domain.Interfaces;
 using Backend.Domain.Interfaces.AssetsInterface;
 
@@ -27,6 +28,12 @@ namespace Backend.Application.Services
             var assetsEntity = await assetsRepository.GetAllAssetsByWalletIdAsync(walletId);
             return mapper.Map<IEnumerable<AssetsDTO>>(assetsEntity);
         }
+         public async Task<IEnumerable<AssetsDTO>> GetStocksByWalletIdAndTypeAssets(int walletId)
+        {
+            var stocks = await assetsRepository.GetStocksByWalletIdAndTypeAssets(walletId);
+            return mapper.Map<IEnumerable<AssetsDTO>>(stocks);
+        }
+
 
     }
 }
