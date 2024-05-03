@@ -52,9 +52,6 @@ namespace Backend.API.Controller
         {
             walletDTO.Created_at = DateTime.UtcNow;
             walletDTO.Updated_at = DateTime.UtcNow;
-            walletDTO.SourceCreate = SourceCreate.Web;
-            walletDTO.Deleted_at = null;
-
             if(walletDTO != null)
             {
                

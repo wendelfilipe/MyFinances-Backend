@@ -31,6 +31,10 @@ namespace Backend.Infra.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<long>("Amount")
+                        .HasColumnType("bigint")
+                        .HasColumnName("amount");
+
                     b.Property<decimal>("AveregePrice")
                         .HasPrecision(10, 2)
                         .HasColumnType("numeric(10,2)")
@@ -163,7 +167,8 @@ namespace Backend.Infra.Data.Migrations
                         .HasColumnName("updated_at");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
 
                     b.HasKey("Id");
 

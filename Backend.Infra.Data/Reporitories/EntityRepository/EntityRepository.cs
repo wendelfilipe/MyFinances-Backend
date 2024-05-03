@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.Domain.Entites.Enums;
 using Backend.Domain.Interfaces;
 using Backend.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;

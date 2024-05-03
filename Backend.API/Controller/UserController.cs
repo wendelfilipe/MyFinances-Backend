@@ -83,7 +83,6 @@ namespace Backend.API.Controller
                 
             userDTO.Created_at = DateTime.UtcNow;
             userDTO.Updated_at = DateTime.UtcNow;
-            userDTO.SourceCreate = SourceCreate.Web;
             userDTO.Deleted_at = null;
 
             await userService.CreateAsync(userDTO);

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Backend.Application.Interfaces;
+using Backend.Domain.Entites.Enums;
 using Backend.Domain.Interfaces;
 
 namespace Backend.Application.Services.EntityServices

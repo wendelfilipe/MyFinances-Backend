@@ -21,8 +21,8 @@ namespace Backend.Application.DTOs
         public string Name { get; set; }
 
         public SourceCreate SourceCreate { get; set; }
-        public DateTime? Deleted_at { get; set; }
-        public DateTime Created_at { get; set; }
-        public DateTime Updated_at { get; set; }
+        public DateTime? Deleted_at { get; set; } = null;
+        public DateTime Created_at { get; set; } = DateTime.UtcNow;
+        public DateTime Updated_at { get; set; } = DateTime.UtcNow;
     }
 }

@@ -42,8 +42,13 @@ namespace Backend.Infra.Data.EnititesConfiguration
                 .HasColumnName("average_price")
                 .HasPrecision(10,2);
 
+            builder.Property(p => p.Amount)
+                .HasColumnName("amount")
+                .IsRequired();
+
             builder.Property(p => p.SourceTypeAssets)
-                .HasColumnName("source_type_assets");
+                .HasColumnName("source_type_assets")
+                .IsRequired();
                 
             builder.Property(p => p.SourceCreate)
                 .HasColumnName("source_create");
@@ -56,6 +61,7 @@ namespace Backend.Infra.Data.EnititesConfiguration
 
             builder.Property(p => p.Updated_at)
                 .HasColumnName("updated_at");
+
             builder.HasOne(o => o.Wallet)
                 .WithMany(o => o.Assets)
                 .HasForeignKey(o => o.WalletId);

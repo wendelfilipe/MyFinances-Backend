@@ -10,8 +10,8 @@ namespace Backend.Domain.Entites
     {
         public int Id { get; protected set; }
         public SourceCreate SourceCreate { get; protected set; }
-        public DateTime? Deleted_at { get; protected set; }
-        public DateTime Created_at { get; protected set; }
-        public DateTime Updated_at { get; protected set; }
+        public DateTime? Deleted_at { get; protected set; } = null;
+        public DateTime Created_at { get; protected set; } = DateTime.UtcNow;
+        public DateTime Updated_at { get; protected set; } = DateTime.UtcNow;
     }
 }

@@ -1,5 +1,7 @@
 
 
+using Backend.Domain.Entites.Enums;
+
 namespace Backend.Application.Interfaces
 {
     public interface IEntityService<T> where T : class

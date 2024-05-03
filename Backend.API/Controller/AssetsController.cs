@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Backend.Application.DTOs;
 using Backend.Application.Interfaces;
+using Backend.Domain.Entites.Enums;
 using Backend.Domain.Interfaces.AssetsInterface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,6 +36,11 @@ namespace Backend.API.Controller
             
         }
 
+        [HttpPost("PostCreateAssetAsync")]
+        public async Task PostCreateAssetsAsync(AssetsDTO assetsDTO)
+        {
+            await assetsService.CreateAsync(assetsDTO);
+        }
 
     }
 }
