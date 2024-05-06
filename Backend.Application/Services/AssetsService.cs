@@ -28,10 +28,25 @@ namespace Backend.Application.Services
             var assetsEntity = await assetsRepository.GetAllAssetsByWalletIdAsync(walletId);
             return mapper.Map<IEnumerable<AssetsDTO>>(assetsEntity);
         }
-         public async Task<IEnumerable<AssetsDTO>> GetStocksByWalletIdAndTypeAssets(int walletId)
+         public async Task<IEnumerable<AssetsDTO>> GetStocksByWalletId(int walletId)
         {
-            var stocks = await assetsRepository.GetStocksByWalletIdAndTypeAssets(walletId);
+            var stocks = await assetsRepository.GetStocksByWalletId(walletId);
             return mapper.Map<IEnumerable<AssetsDTO>>(stocks);
+        }
+        public async Task<IEnumerable<AssetsDTO>> GetFiisByWalletId(int walletId)
+        {
+            var fiis = await assetsRepository.GetFiisByWalletId(walletId);
+            return mapper.Map<IEnumerable<AssetsDTO>>(fiis);
+        }
+        public async Task<IEnumerable<AssetsDTO>> GetFixedByWalletId(int walletId)
+        {
+            var assetsFixed = await assetsRepository.GetFixedByWalletId(walletId);
+            return mapper.Map<IEnumerable<AssetsDTO>>(assetsFixed);
+        }
+        public async Task<IEnumerable<AssetsDTO>> GetInternacionalAssetsByWalletId(int walletId)
+        {
+            var internacionalAssets = await assetsRepository.GetInternacionalAssetsByWalletId(walletId);
+            return mapper.Map<IEnumerable<AssetsDTO>>(internacionalAssets);
         }
 
 

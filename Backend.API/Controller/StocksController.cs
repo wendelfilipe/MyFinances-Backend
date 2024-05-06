@@ -14,17 +14,36 @@ namespace Backend.API.Controller
     [Route("api/[controller]")]
     public class StocksController : ControllerBase
     {  
+        decimal totalStocks = 0;
+        decimal totalAssets = 0;
+
         public IAssetsService assetsService;
         public StocksController(IAssetsService assetsService)
         {
             this.assetsService = assetsService;
         }
 
-        [HttpGet]
-        public Task<IEnumerable<AssetsDTO>> GetAllStocksByWalletId(int walletId)
+        [HttpGet("GetPerCentStocksByWalletId/{walletId}")]
+        public async Task<ActionResult> GetPerCentStocksByWalletId(int walletId)
         {
-            var stocks = assetsService.GetStocksByWalletIdAndTypeAssets(walletId);
-            return stocks;
+            var stocks = await assetsService.GetStocksByWalletId(walletId);
+            var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
+
+            foreach(var stock in stocks)
+            {
+                var totalEachStock = stock.Amount * stock.BuyPrice;
+                totalStocks += totalEachStock;
+            }
+            foreach(var asset in assets)
+            {
+                var totalEachAsset = asset.Amount * asset.BuyPrice;
+                totalAssets += totalEachAsset;
+            }
+        
+
+            var perCentStock = (totalStocks * 100)/ totalAssets;
+
+            return Ok(perCentStock);
         }
     }
 }
