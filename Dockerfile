@@ -21,5 +21,5 @@ RUN dotnet publish -c release --no-restore
 # final stage/image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /Backend
-COPY --from=build /Backend ./
-ENTRYPOINT ["dotnet", "Backend/Backend.API/Backend.API.dll"]
+COPY ./Backend.API/bin/Debug/net8.0/ ./
+ENTRYPOINT ["dotnet", "Backend.API.dll"]
