@@ -1,0 +1,3 @@
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Domain/bin/Release/net8.0/publish/Backend.Domain.dll
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Domain/bin/Release/net8.0/publish/Backend.Domain.deps.json
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Domain/bin/Release/net8.0/publish/Backend.Domain.pdb

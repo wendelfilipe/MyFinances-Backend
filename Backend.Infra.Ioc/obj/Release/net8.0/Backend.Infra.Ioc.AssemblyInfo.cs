@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Backend.Infra.Ioc")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+50066a99dbd4391b415e59df99867b1917b35b5c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0d1366e91ca6eea227b2f1061cd4bf1452c4281f")]
 [assembly: System.Reflection.AssemblyProductAttribute("Backend.Infra.Ioc")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Backend.Infra.Ioc")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
