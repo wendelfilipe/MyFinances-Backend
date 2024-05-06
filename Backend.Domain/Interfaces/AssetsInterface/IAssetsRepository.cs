@@ -11,6 +11,12 @@ namespace Backend.Domain.Interfaces.AssetsInterface
     {
         public Task<IEnumerable<Assets>> GetAllAssetsByWalletIdAsync(int userId);
 
-        public Task<IEnumerable<Assets>> GetStocksByWalletIdAndTypeAssets(int walletId); 
+        public Task<IEnumerable<Assets>> GetStocksByWalletId(int walletId); 
+
+        public Task<IEnumerable<Assets>> GetFiisByWalletId(int walletId);
+
+        public Task<IEnumerable<Assets>> GetFixedByWalletId(int walletId);
+
+        public Task<IEnumerable<Assets>> GetInternacionalAssetsByWalletId(int walletId);
     }
 }
