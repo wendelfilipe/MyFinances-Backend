@@ -22,4 +22,4 @@ RUN dotnet publish -c release --no-restore
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /Backend
 COPY --from=build /Backend ./
-ENTRYPOINT ["dotnet", "Backend.API.dll"]
+ENTRYPOINT ["dotnet", "Backend/Backend.API/Backend.API.dll"]
