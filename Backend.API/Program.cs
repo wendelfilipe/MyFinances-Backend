@@ -63,9 +63,12 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 
-app.UseEndpoints(endpoints =>
+app.Map("/Backend/Backend.API", app =>
 {
-    endpoints.MapControllers();
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapControllers();
+    });
 });
 
 
