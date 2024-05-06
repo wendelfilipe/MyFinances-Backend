@@ -6,6 +6,9 @@ namespace Backend.Application.Interfaces
     public interface IAssetsService : IEntityService<AssetsDTO>
     {
         Task<IEnumerable<AssetsDTO>> GetAllAssetsDTOByWalletIdAsync(int walletId);
-        Task<IEnumerable<AssetsDTO>> GetStocksByWalletIdAndTypeAssets(int walletId);
+        Task<IEnumerable<AssetsDTO>> GetStocksByWalletId(int walletId);
+        Task<IEnumerable<AssetsDTO>> GetFiisByWalletId(int walletId);
+        Task<IEnumerable<AssetsDTO>> GetFixedByWalletId(int walletId);
+        Task<IEnumerable<AssetsDTO>> GetInternacionalAssetsByWalletId(int walletId);
     }
 }

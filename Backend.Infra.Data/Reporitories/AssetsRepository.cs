@@ -26,10 +26,25 @@ namespace Backend.Infra.Data.EnititesConfiguration
             return await context.Assets.Where(a => a.WalletId == walletId ).ToListAsync();
         }
 
-        public async Task<IEnumerable<Assets>> GetStocksByWalletIdAndTypeAssets(int walletId)
+        public async Task<IEnumerable<Assets>> GetFiisByWalletId(int walletId)
+        {
+            return await context.Assets.Where(a => a.WalletId == walletId && a.SourceTypeAssets == SourceTypeAssets.Fiis).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Assets>> GetStocksByWalletId(int walletId)
         {
             return await context.Assets.Where(a => a.WalletId == walletId && a.SourceTypeAssets == SourceTypeAssets.Stocks).ToListAsync();
-        } 
+        }
+
+         public async Task<IEnumerable<Assets>> GetFixedByWalletId(int walletId)
+        {
+            return await context.Assets.Where(a => a.WalletId == walletId && a.SourceTypeAssets == SourceTypeAssets.Fixed).ToListAsync();
+        }
+
+         public async Task<IEnumerable<Assets>> GetInternacionalAssetsByWalletId(int walletId)
+        {
+            return await context.Assets.Where(a => a.WalletId == walletId && a.SourceTypeAssets == SourceTypeAssets.InteralcionalAssets).ToListAsync();
+        }
 
 
     }
