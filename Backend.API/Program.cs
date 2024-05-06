@@ -1,3 +1,4 @@
+using System.Net;
 using Backend.Domain.Interfaces.AssetsInterface;
 using Backend.Domain.Interfaces.UserInterface;
 using Backend.Domain.Interfaces.WalletInterface;
@@ -21,11 +22,20 @@ DependencyInjection.AddInfrastruture(builder.Services, builder.Configuration);
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 
+builder.WebHost.UseUrls("https://0.0.0.0:8080")
+    .UseKestrel(options =>
+    {
+        options.Listen(IPAddress.Any, 8080, listenOptions =>
+        {
+            listenOptions.UseHttps("/usr/local/share/ca-certificates/aspnet/https.crt", "qwerfdsazxcv");
+        });
+    });
+
 builder.Services.AddCors(options => 
 {
     options.AddPolicy("AllowSpecificOrigin",
         builder => {
-            builder.WithOrigins("http://localhost:3000")
+            builder.WithOrigins("http://localhost:3000", "https://my-finances-app.vercel.app")
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
