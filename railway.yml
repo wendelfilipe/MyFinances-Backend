@@ -1,0 +1,7 @@
+deployments:
+  production:
+    steps:
+      - name: Install .NET SDK
+        command: apt-get install dotnet-sdk-8.0 -y
+      - name: Publish project
+        command: dotnet publish --no-restore -c Release
