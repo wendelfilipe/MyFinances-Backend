@@ -1,0 +1,6 @@
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Application/bin/Release/net8.0/publish/Backend.Application.dll
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Application/bin/Release/net8.0/publish/Backend.Application.deps.json
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Application/bin/Release/net8.0/publish/Backend.Application.pdb
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Application/bin/Release/net8.0/publish/AutoMapper.dll
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Application/bin/Release/net8.0/publish/Backend.Domain.dll
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Application/bin/Release/net8.0/publish/Backend.Domain.pdb

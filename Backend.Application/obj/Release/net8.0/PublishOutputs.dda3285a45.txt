@@ -1,0 +1,6 @@
+/home/wendel/Documentos/Projetos/MyFinances/Backend/out/Backend.Application.dll
+/home/wendel/Documentos/Projetos/MyFinances/Backend/out/Backend.Application.deps.json
+/home/wendel/Documentos/Projetos/MyFinances/Backend/out/Backend.Application.pdb
+/home/wendel/Documentos/Projetos/MyFinances/Backend/out/AutoMapper.dll
+/home/wendel/Documentos/Projetos/MyFinances/Backend/out/Backend.Domain.dll
+/home/wendel/Documentos/Projetos/MyFinances/Backend/out/Backend.Domain.pdb

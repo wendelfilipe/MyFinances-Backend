@@ -1,0 +1,3 @@
+/home/wendel/Documentos/Projetos/MyFinances/Backend/out/Backend.Domain.dll
+/home/wendel/Documentos/Projetos/MyFinances/Backend/out/Backend.Domain.deps.json
+/home/wendel/Documentos/Projetos/MyFinances/Backend/out/Backend.Domain.pdb

@@ -1,3 +1,4 @@
+using System.Net;
 using Backend.Domain.Interfaces.AssetsInterface;
 using Backend.Domain.Interfaces.UserInterface;
 using Backend.Domain.Interfaces.WalletInterface;
@@ -25,7 +26,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
         builder => {
-            builder.WithOrigins("http://localhost:3000")
+            builder.WithOrigins("http://localhost:3000", "https://my-finances-app.vercel.app")
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();

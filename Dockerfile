@@ -1,17 +1,26 @@
-# Estágio de compilação
-FROM mcr.microsoft.com/dotnet/aspnet:latest AS build
-WORKDIR /app
+# https://hub.docker.com/_/microsoft-dotnet
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /Backend
 
-# Copia e restaura os arquivos do projeto
-COPY *.csproj .
+# copy csproj and restore as distinct layers
+COPY *.sln .
+COPY Backend.API/*.csproj ./Backend.API/
+COPY Backend.Application/*.csproj ./Backend.Application/
+COPY Backend.Domain/*.csproj ./Backend.Domain/
+COPY Backend.Infra.Data/*.csproj ./Backend.Infra.Data/
+COPY Backend.Infra.Ioc/*.csproj ./Backend.Infra.Ioc/
+COPY Backend.WebUI/*.csproj ./Backend.WebUI/
+COPY Backend.Domain.Tests/*.csproj ./Backend.Domain.Tests/
 RUN dotnet restore
 
-# Copia todo o código-fonte e compila a aplicação
-COPY . .
-RUN dotnet publish -c Release -o out
+# copy everything else and build app
+COPY ./. ././
+WORKDIR /Backend
+RUN dotnet publish -c release --no-restore
 
-# Estágio de produção
-FROM mcr.microsoft.com/dotnet/aspnet:latest AS runtime
-WORKDIR /app
-COPY --from=build /app/out .
+# final stage/image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /Backend
+COPY ./Backend.API/bin/Debug/net8.0/ ./
+ENV ASPNETCORE_URLS=http://0.0.0.0:8080
 ENTRYPOINT ["dotnet", "Backend.API.dll"]
