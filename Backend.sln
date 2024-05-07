@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Infra.Data", "Backe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Infra.Ioc", "Backend.Infra.Ioc\Backend.Infra.Ioc.csproj", "{ED395976-B3C7-4275-A3D2-FDDDC64C31FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.WebUI", "Backend.WebUI\Backend.WebUI.csproj", "{092383D3-6511-426F-97DD-14D8959ACF9D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Domain.Tests", "Backend.Domain.Tests\Backend.Domain.Tests.csproj", "{4FE85E5D-E389-4A45-ACDB-027E869661BE}"
 EndProject
 Global
