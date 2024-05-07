@@ -27,5 +27,5 @@ RUN dotnet publish -c release --no-restore
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /Backend
 COPY ./Backend.API/bin/Debug/net8.0/ ./
-ENV ASPNETCORE_URLS=http://0.0.0.0:3000
+ENV ASPNETCORE_URLS=http://0.0.0.0:5001
 ENTRYPOINT ["dotnet", "Backend.API.dll"]

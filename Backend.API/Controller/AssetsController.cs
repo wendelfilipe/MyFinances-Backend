@@ -39,8 +39,20 @@ namespace Backend.API.Controller
         [HttpPost("PostCreateAssetAsync")]
         public async Task PostCreateAssetsAsync(AssetsDTO assetsDTO)
         {
-            await assetsService.CreateAsync(assetsDTO);
+            var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(assetsDTO.WalletId);
+            var assetExist = assets.FirstOrDefault(a => a.CodName == assetsDTO.CodName);
+            if(assetExist != null)
+            {
+                
+                var averegePrice = assetExist.AveregePrice;
+                averegePrice =  (averegePrice + (assetsDTO.Amount * assetsDTO.BuyPrice))/2;
+                await assetsService.UpdateAsync(assetsDTO);
+            }
+            else
+            {
+                await assetsService.CreateAsync(assetsDTO);
+            }
+            
         }
-
     }
 }

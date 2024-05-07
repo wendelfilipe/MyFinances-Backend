@@ -23,20 +23,34 @@ namespace Backend.API.Controller
         {
             var interAssets = await assetsService.GetFiisByWalletId(walletId);
             var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
-            foreach(var interAsset in interAssets)
+            if(interAssets.Any())
             {
-                var totalEachInterAsset = interAsset.Amount * interAsset.BuyPrice;
-                totalInterAsset += totalEachInterAsset;
+                foreach(var interAsset in interAssets)
+                {
+                    var totalEachInterAsset = interAsset.Amount * interAsset.BuyPrice;
+                    totalInterAsset += totalEachInterAsset;
+                }
+                foreach(var asset in assets)
+                {
+                    var totalEachAsset = asset.Amount * asset.BuyPrice;
+                    totalAssets += totalEachAsset;
+                }
+
+                var perCent = (totalInterAsset * 100)/totalAssets;
+
+                return Ok(perCent);         
             }
-            foreach(var asset in assets)
+            else
             {
-                var totalEachAsset = asset.Amount * asset.BuyPrice;
-                totalAssets += totalEachAsset;
+                return Ok("Não possui nenhum ativos internacional");
             }
-
-            var perCent = (totalInterAsset * 100)/totalAssets;
-
-            return Ok(perCent);         
+            
+        }
+        [HttpGet("GetAllInterAssetsByWalletIdAsync/{walletId}")]
+        public async Task<ActionResult> GetAllInterAssetsByWalletIdAsync(int walletId)
+        {
+            var interAsset = await assetsService.GetInternacionalAssetsByWalletId(walletId);
+            return Ok(interAsset);
         }
     }
 }

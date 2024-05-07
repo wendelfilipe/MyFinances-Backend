@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.Application.DTOs;
 using Backend.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,20 +24,34 @@ namespace Backend.API.Controller
         {
             var fiis = await assetsService.GetFiisByWalletId(walletId);
             var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
-            foreach(var fii in fiis)
+            if(fiis.Any())
             {
-                var totalEachFii = fii.Amount * fii.BuyPrice;
-                totalFiis += totalEachFii;
+                foreach(var fii in fiis)
+                {
+                    var totalEachFii = fii.Amount * fii.BuyPrice;
+                    totalFiis += totalEachFii;
+                }
+                foreach(var asset in assets)
+                {
+                    var totalEachAsset = asset.Amount * asset.BuyPrice;
+                    totalAssets += totalEachAsset;
+                }
+
+                var perCent = (totalFiis * 100)/totalAssets;
+
+                return Ok(perCent);         
             }
-            foreach(var asset in assets)
+            else
             {
-                var totalEachAsset = asset.Amount * asset.BuyPrice;
-                totalAssets += totalEachAsset;
+                return Ok("Não possui nenhum fundo imobiliario");
             }
-
-            var perCent = (totalFiis * 100)/totalAssets;
-
-            return Ok(perCent);         
+            
+        }
+        [HttpGet("GetAllFiisByWalletIdAsync/{walletId}")]
+        public async Task<ActionResult> GetAllFiisByWalletIdAsync(int walletId)
+        {
+            var fiis = await assetsService.GetFiisByWalletId(walletId);
+            return Ok(fiis);
         }
     }
 }
