@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Backend.WebUI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+75ade40b8882bde32666ad9ff0023f7d5cde9d41")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e18b663f451d5d149b8911266dd71e52e0da121e")]
 [assembly: System.Reflection.AssemblyProductAttribute("Backend.WebUI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Backend.WebUI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

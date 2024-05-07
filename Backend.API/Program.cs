@@ -22,15 +22,6 @@ DependencyInjection.AddInfrastruture(builder.Services, builder.Configuration);
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 
-builder.WebHost.UseUrls("https://0.0.0.0:8080")
-    .UseKestrel(options =>
-    {
-        options.Listen(IPAddress.Any, 8080, listenOptions =>
-        {
-            listenOptions.UseHttps("/usr/local/share/ca-certificates/aspnet/https.crt", "qwerfdsazxcv");
-        });
-    });
-
 builder.Services.AddCors(options => 
 {
     options.AddPolicy("AllowSpecificOrigin",
@@ -63,12 +54,9 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 
-app.Map("/Backend/Backend.API", app =>
+app.UseEndpoints(endpoints =>
 {
-    app.UseEndpoints(endpoints =>
-    {
-        endpoints.MapControllers();
-    });
+    endpoints.MapControllers();
 });
 
 
