@@ -1,8 +1,8 @@
 ﻿{
   "iisSettings": {
     "iisExpress": {
-      "applicationUrl": "http://localhost:44388",
-      "sslPort": 44388
+      "applicationUrl": "http://0.0.0.0:3000",
+      "sslPort": 3000
     }
   },
   "profiles": {
@@ -12,7 +12,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:3000;" 
+      "applicationUrl": "http://0.0.0.0:3000;" 
     }
   }
 }
