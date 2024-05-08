@@ -3,6 +3,7 @@ using System;
 using Backend.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Backend.Infra.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240508145122_Migration_0.0.9")]
+    partial class Migration_009
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,10 +66,6 @@ namespace Backend.Infra.Data.Migrations
                     b.Property<DateTime?>("Deleted_at")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
-
-                    b.Property<decimal>("PerCent")
-                        .HasColumnType("numeric")
-                        .HasColumnName("per_cent");
 
                     b.Property<int>("SourceCreate")
                         .HasColumnType("integer")
@@ -183,13 +182,11 @@ namespace Backend.Infra.Data.Migrations
 
             modelBuilder.Entity("Backend.Domain.Entites.AssetsEntites.Assets", b =>
                 {
-                    b.HasOne("Backend.Domain.Entites.WalletEntites.Wallet", "Wallet")
+                    b.HasOne("Backend.Domain.Entites.WalletEntites.Wallet", null)
                         .WithMany("Assets")
                         .HasForeignKey("WalletId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Wallet");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entites.WalletEntites.Wallet", b =>

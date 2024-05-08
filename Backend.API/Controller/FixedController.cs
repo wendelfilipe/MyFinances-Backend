@@ -27,16 +27,16 @@ namespace Backend.API.Controller
             {
                 foreach(var assetFixed in assetsFixed)
                 {
-                    var totalEachFixed = assetFixed.Amount * assetFixed.BuyPrice;
+                    var totalEachFixed = assetFixed.Amount * assetFixed.CurrentPrice;
                     totalFixed += totalEachFixed;
                 }
                 foreach(var asset in assets)
                 {
-                    var totalEachAsset = asset.Amount * asset.BuyPrice;
+                    var totalEachAsset = asset.Amount * asset.CurrentPrice;
                     totalAssets += totalEachAsset;
                 }
 
-                var perCent = (totalFixed * 100)/totalAssets;
+                var perCent = Math.Round((totalFixed * 100)/totalAssets, 2);
 
                 return Ok(perCent); 
             }

@@ -32,20 +32,20 @@ namespace Backend.API.Controller
             if(stocks.Any())
             {
                 foreach(var stock in stocks)
-            {
-                var totalEachStock = stock.Amount * stock.BuyPrice;
-                totalStocks += totalEachStock;
-            }
-            foreach(var asset in assets)
-            {
-                var totalEachAsset = asset.Amount * asset.BuyPrice;
-                totalAssets += totalEachAsset;
-            }
-        
+                {
+                    var totalEachStock = stock.Amount * stock.CurrentPrice;
+                    totalStocks += totalEachStock;
+                }
+                foreach(var asset in assets)
+                {
+                    var totalEachAsset = asset.Amount * asset.CurrentPrice;
+                    totalAssets += totalEachAsset;
+                }
+            
 
-            var perCentStock = (totalStocks * 100)/ totalAssets;
+                var perCentStock = Math.Round((totalStocks * 100)/ totalAssets, 2);
 
-            return Ok(perCentStock);
+                return Ok(perCentStock);
             }
             else
             {

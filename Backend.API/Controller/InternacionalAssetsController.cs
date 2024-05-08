@@ -21,22 +21,22 @@ namespace Backend.API.Controller
         [HttpGet("GetPerCentInternacionalAssetsByWalletId/{walletId}")]
         public async Task<ActionResult> GetPerCentInternacionalAssetsByWalletId(int walletId)
         {
-            var interAssets = await assetsService.GetFiisByWalletId(walletId);
+            var interAssets = await assetsService.GetInternacionalAssetsByWalletId(walletId);
             var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
             if(interAssets.Any())
             {
                 foreach(var interAsset in interAssets)
                 {
-                    var totalEachInterAsset = interAsset.Amount * interAsset.BuyPrice;
+                    var totalEachInterAsset = interAsset.Amount * interAsset.CurrentPrice;
                     totalInterAsset += totalEachInterAsset;
                 }
                 foreach(var asset in assets)
                 {
-                    var totalEachAsset = asset.Amount * asset.BuyPrice;
+                    var totalEachAsset = asset.Amount * asset.CurrentPrice;
                     totalAssets += totalEachAsset;
                 }
 
-                var perCent = (totalInterAsset * 100)/totalAssets;
+                var perCent = Math.Round((totalInterAsset * 100)/totalAssets, 2);
 
                 return Ok(perCent);         
             }
