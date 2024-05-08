@@ -21,22 +21,36 @@ namespace Backend.API.Controller
         [HttpGet("GetPerCentInternacionalAssetsByWalletId/{walletId}")]
         public async Task<ActionResult> GetPerCentInternacionalAssetsByWalletId(int walletId)
         {
-            var interAssets = await assetsService.GetFiisByWalletId(walletId);
+            var interAssets = await assetsService.GetInternacionalAssetsByWalletId(walletId);
             var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
-            foreach(var interAsset in interAssets)
+            if(interAssets.Any())
             {
-                var totalEachInterAsset = interAsset.Amount * interAsset.BuyPrice;
-                totalInterAsset += totalEachInterAsset;
+                foreach(var interAsset in interAssets)
+                {
+                    var totalEachInterAsset = interAsset.Amount * interAsset.CurrentPrice;
+                    totalInterAsset += totalEachInterAsset;
+                }
+                foreach(var asset in assets)
+                {
+                    var totalEachAsset = asset.Amount * asset.CurrentPrice;
+                    totalAssets += totalEachAsset;
+                }
+
+                var perCent = Math.Round((totalInterAsset * 100)/totalAssets, 2);
+
+                return Ok(perCent);         
             }
-            foreach(var asset in assets)
+            else
             {
-                var totalEachAsset = asset.Amount * asset.BuyPrice;
-                totalAssets += totalEachAsset;
+                return Ok("Não possui nenhum ativos internacional");
             }
-
-            var perCent = (totalInterAsset * 100)/totalAssets;
-
-            return Ok(perCent);         
+            
+        }
+        [HttpGet("GetAllInterAssetsByWalletIdAsync/{walletId}")]
+        public async Task<ActionResult> GetAllInterAssetsByWalletIdAsync(int walletId)
+        {
+            var interAsset = await assetsService.GetInternacionalAssetsByWalletId(walletId);
+            return Ok(interAsset);
         }
     }
 }

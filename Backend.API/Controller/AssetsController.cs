@@ -39,8 +39,56 @@ namespace Backend.API.Controller
         [HttpPost("PostCreateAssetAsync")]
         public async Task PostCreateAssetsAsync(AssetsDTO assetsDTO)
         {
-            await assetsService.CreateAsync(assetsDTO);
-        }
+            var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(assetsDTO.WalletId);
+            var assetExist = assets.FirstOrDefault(a => a.CodName == assetsDTO.CodName);
 
+            decimal totalAssets = 0;
+                foreach(var asset in assets)
+                {
+                    var totalEachAsset = asset.Amount * asset.CurrentPrice;
+                    totalAssets = totalAssets + totalEachAsset;
+                }
+
+            if(assetExist != null)
+            {
+                var sumAmount = assetExist.Amount + assetsDTO.Amount;
+                var sumAverege = ((assetExist.AveregePrice * assetExist.Amount) + (assetsDTO.BuyPrice * assetsDTO.Amount)); 
+                assetExist.AveregePrice =  sumAverege/sumAmount;
+                assetExist.Amount = sumAmount;
+                assetExist.BuyPrice = assetsDTO.BuyPrice;
+                assetExist.CurrentPrice = assetsDTO.CurrentPrice;
+                assetExist.Updated_at = DateTime.UtcNow;
+
+                if(totalAssets > 0)
+                {
+                    assetExist.PerCent = Math.Round(((assetExist.CurrentPrice * assetExist.Amount)*100)/totalAssets, 2);
+                }
+                else
+                {
+                    assetExist.PerCent = 100;
+                }
+
+                await assetsService.UpdateAsync(assetExist);
+            }
+            else
+            {
+                assetsDTO.Created_at = DateTime.UtcNow;
+                assetsDTO.Updated_at = DateTime.UtcNow;
+                assetsDTO.Deleted_at = null;
+                assetsDTO.AveregePrice = assetsDTO.BuyPrice;
+
+                if(totalAssets > 0)
+                {
+                     assetsDTO.PerCent = Math.Round(((assetsDTO.Amount * assetsDTO.CurrentPrice)*100)/totalAssets, 2);
+                }
+                else
+                {
+                    assetsDTO.PerCent = 100;
+                }
+                
+                await assetsService.CreateAsync(assetsDTO);
+            }
+            
+        }
     }
 }

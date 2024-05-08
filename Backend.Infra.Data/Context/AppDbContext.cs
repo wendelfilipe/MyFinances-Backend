@@ -15,6 +15,11 @@ namespace Backend.Infra.Data.Context
         {
             
         }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.EnableSensitiveDataLogging();
+            // Outras configurações, como a cadeia de conexão, podem estar presentes aqui
+        }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Wallet> Wallets  { get; set; }

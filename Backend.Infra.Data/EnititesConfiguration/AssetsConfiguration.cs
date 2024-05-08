@@ -38,6 +38,10 @@ namespace Backend.Infra.Data.EnititesConfiguration
                 .HasPrecision(10, 2)
                 .IsRequired();
 
+            builder.Property(p => p.PerCent)
+                .HasColumnName("per_cent")
+                .IsRequired();
+
             builder.Property(p => p.AveregePrice)
                 .HasColumnName("average_price")
                 .HasPrecision(10,2);

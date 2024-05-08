@@ -29,21 +29,35 @@ namespace Backend.API.Controller
             var stocks = await assetsService.GetStocksByWalletId(walletId);
             var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
 
-            foreach(var stock in stocks)
+            if(stocks.Any())
             {
-                var totalEachStock = stock.Amount * stock.BuyPrice;
-                totalStocks += totalEachStock;
+                foreach(var stock in stocks)
+                {
+                    var totalEachStock = stock.Amount * stock.CurrentPrice;
+                    totalStocks += totalEachStock;
+                }
+                foreach(var asset in assets)
+                {
+                    var totalEachAsset = asset.Amount * asset.CurrentPrice;
+                    totalAssets += totalEachAsset;
+                }
+            
+
+                var perCentStock = Math.Round((totalStocks * 100)/ totalAssets, 2);
+
+                return Ok(perCentStock);
             }
-            foreach(var asset in assets)
+            else
             {
-                var totalEachAsset = asset.Amount * asset.BuyPrice;
-                totalAssets += totalEachAsset;
+                return Ok("Não possui nehuma Ação");
             }
-        
-
-            var perCentStock = (totalStocks * 100)/ totalAssets;
-
-            return Ok(perCentStock);
+            
+        }
+        [HttpGet("GetAllStocksByWalletIdAsync/{walletId}")]
+        public async Task<ActionResult> GetAllStocksByWalletIdAsync(int walletId)
+        {
+            var stocks = await assetsService.GetStocksByWalletId(walletId);
+            return Ok(stocks);
         }
     }
 }

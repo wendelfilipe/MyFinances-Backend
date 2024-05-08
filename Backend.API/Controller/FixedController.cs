@@ -23,20 +23,34 @@ namespace Backend.API.Controller
         {
             var assetsFixed = await assetsService.GetFixedByWalletId(walletId);
             var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
-            foreach(var assetFixed in assetsFixed)
+            if(assetsFixed.Any())
             {
-                var totalEachFixed = assetFixed.Amount * assetFixed.BuyPrice;
-                totalFixed += totalEachFixed;
+                foreach(var assetFixed in assetsFixed)
+                {
+                    var totalEachFixed = assetFixed.Amount * assetFixed.CurrentPrice;
+                    totalFixed += totalEachFixed;
+                }
+                foreach(var asset in assets)
+                {
+                    var totalEachAsset = asset.Amount * asset.CurrentPrice;
+                    totalAssets += totalEachAsset;
+                }
+
+                var perCent = Math.Round((totalFixed * 100)/totalAssets, 2);
+
+                return Ok(perCent); 
             }
-            foreach(var asset in assets)
+            else
             {
-                var totalEachAsset = asset.Amount * asset.BuyPrice;
-                totalAssets += totalEachAsset;
+                return Ok("Não possui renda fixa");
             }
-
-            var perCent = (totalFixed * 100)/totalAssets;
-
-            return Ok(perCent);         
+                   
+        }
+        [HttpGet("GetAllFixedByWalletIdAsync/{walletId}")]
+        public async Task<ActionResult> GetAllFixedByWalletIdAsync(int walletId)
+        {
+            var assetFixed = await assetsService.GetFixedByWalletId(walletId);
+            return Ok(assetFixed);
         }
     }
 }
