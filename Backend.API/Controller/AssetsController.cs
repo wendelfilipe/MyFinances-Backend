@@ -36,6 +36,24 @@ namespace Backend.API.Controller
             
         }
 
+        [HttpGet("GetPatrimonyAsync/{walletId}")]
+        public async Task<ActionResult> GetPatrimonyAsync(int walletId)
+        {
+            decimal patrimony = 0.00m;
+            var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
+            if(assets == null )
+                throw new Exception("Do not exist assets");
+
+            foreach(var asset in assets)
+            {
+                var totalEachAsset = Math.Round(asset.Amount * asset.CurrentPrice,2);
+                patrimony += totalEachAsset;
+            }
+
+            return Ok(patrimony);
+            
+        }
+
         [HttpPost("PostCreateAssetAsync")]
         public async Task PostCreateAssetsAsync(AssetsDTO assetsDTO)
         {
