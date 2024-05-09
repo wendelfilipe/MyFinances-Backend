@@ -37,14 +37,6 @@ namespace Backend.API.Controller
             {
                throw new NullReferenceException("Email is invalid");
             }
-            //criar cookie de login
-            var httpContext = httpContextAccessor.HttpContext;
-            string userIdJson = JsonSerializer.Serialize(userDTO.Id);
-            httpContext.Response.Cookies.Append("UserIdCookie",userIdJson,
-                new CookieOptions
-                {
-                    Expires = DateTimeOffset.Now.AddDays(7)
-                });
             
             return userDTO;
             
@@ -62,16 +54,6 @@ namespace Backend.API.Controller
             
             return userDTO;
             
-        }
-
-        [HttpPost("PostClickedOnLogOutAsync")]
-        public async Task PostClickedOnLogOutAsync()
-        {
-            var httpContext = httpContextAccessor.HttpContext;
-            if(httpContext.Request.Cookies.ContainsKey("UserIdCookie"))
-            {
-                await Task.Run(() => httpContext.Response.Cookies.Delete("UserIdCookie"));
-            }
         }
 
         [HttpPost("PostCreateUserByWebAsync")]
