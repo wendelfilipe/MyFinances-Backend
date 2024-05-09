@@ -27,9 +27,9 @@ builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 builder.Services.AddCors(options => 
 {
-    options.AddPolicy("AllowSpecificOrigin",
+    options.AddPolicy("AllowAll",
         builder => {
-            builder.WithOrigins("https://myfinancesapp.vercel.app", "http://localhost:3000" )
+            builder.AllowAnyOrigin()
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
@@ -42,7 +42,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 
 
-app.UseCors("AllowSpecificOrigin");
+app.UseCors("AllowAll");
   
 app.UseRouting();
 
