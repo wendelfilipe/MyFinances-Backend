@@ -26,6 +26,7 @@ builder.Services.AddCors(options =>
             builder.WithOrigins("https://myfinancesapp.vercel.app", "http://localhost:3000" )
                 .AllowAnyHeader()
                 .AllowAnyMethod();
+
         });
 });
 builder.Services.AddControllers();
@@ -43,26 +44,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-app.UseCors();
+app.UseCors("AllowSpecificOrigin");
 
 app.UseAuthorization();
 
 app.MapControllers();
-  
-app.UseRouting();
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-
-
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
 
 
 app.Run();
