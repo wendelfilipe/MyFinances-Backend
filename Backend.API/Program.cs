@@ -22,14 +22,11 @@ DependencyInjection.AddInfrastruture(builder.Services, builder.Configuration);
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 
-var port = builder.Configuration["PORT"]?? "5001";
-builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
-
 builder.Services.AddCors(options => 
 {
     options.AddPolicy("AllowSpecificOrigin",
         builder => {
-            builder.WithOrigins("https://myfinancesapp.vercel.app/")
+            builder.WithOrigins("https://myfinancesapp.vercel.app")
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
