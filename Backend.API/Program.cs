@@ -39,7 +39,15 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 
 
-app.UseCors("AllowSpecificOrigin");
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+
+app.UseCors();
+
+app.UseAuthorization();
+
+app.MapControllers();
   
 app.UseRouting();
 
@@ -49,10 +57,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseAuthorization();
 
 
 app.UseEndpoints(endpoints =>
