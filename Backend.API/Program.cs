@@ -29,19 +29,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
         builder => {
-            builder.WithOrigins("http://localhost:3000")
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials();
-                
-        });
-});
-
-builder.Services.AddCors(options => 
-{
-    options.AddPolicy("AllowSpecificOrigin",
-        builder => {
-            builder.WithOrigins("https://myfinancesapp.vercel.app")
+            builder.WithOrigins("https://myfinancesapp.vercel.app", "http://localhost:3000" )
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
