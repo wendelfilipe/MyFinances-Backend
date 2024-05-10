@@ -29,10 +29,13 @@ namespace Backend.Application.DTOs
         [Required(ErrorMessage = "The Amount is required")]
         public long Amount { get; set; }
         public decimal PerCent { get; set; }
+         public decimal? PerCentCDI { get; set; }
         [Required(ErrorMessage = "The Source Type Assets is required")]
         public SourceTypeAssets SourceTypeAssets {get; set; }
         public decimal AveregePrice { get;  set; }
         public SourceCreate SourceCreate { get;  set; }
+        public DateOnly StartDate { get; set; }
+        public DateOnly? EndDate { get; set; }
         public DateTime? Deleted_at { get;  set; }
         public DateTime Created_at { get;  set; }
         public DateTime Updated_at { get;  set; }
