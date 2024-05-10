@@ -35,6 +35,19 @@ namespace Backend.API.Controller
             return assets;
             
         }
+        [HttpGet("GetTotalAssetByWalletIdAsync/{walletId}")]
+        public async Task<ActionResult> GetTotalAssetByWalletIdAsync(int walletId)
+        {
+            decimal totalAssets = 0;
+            var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
+            foreach(var asset in assets)
+            {
+                var totalEachAsset = asset.Amount * asset.CurrentPrice;
+                totalAssets += totalEachAsset;
+            }
+
+            return Ok(totalAssets);
+        }
 
         [HttpGet("GetPatrimonyAsync/{walletId}")]
         public async Task<ActionResult> GetPatrimonyAsync(int walletId)
