@@ -3,6 +3,7 @@ using System;
 using Backend.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Backend.Infra.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240510130409_Migration_0_1_1")]
+    partial class Migration_0_1_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,9 +73,6 @@ namespace Backend.Infra.Data.Migrations
                     b.Property<decimal>("PerCent")
                         .HasColumnType("numeric")
                         .HasColumnName("per_cent");
-
-                    b.Property<decimal?>("PerCentCDI")
-                        .HasColumnType("numeric");
 
                     b.Property<int>("SourceCreate")
                         .HasColumnType("integer")

@@ -67,6 +67,8 @@ namespace Backend.API.Controller
                     totalAssets = totalAssets + totalEachAsset;
                 }
 
+                totalAssets = totalAssets + (assetsDTO.Amount * assetsDTO.CurrentPrice);
+
             if(assetExist != null)
             {
                 var sumAmount = assetExist.Amount + assetsDTO.Amount;
@@ -75,16 +77,9 @@ namespace Backend.API.Controller
                 assetExist.Amount = sumAmount;
                 assetExist.BuyPrice = assetsDTO.BuyPrice;
                 assetExist.CurrentPrice = assetsDTO.CurrentPrice;
-                assetExist.Updated_at = DateTime.UtcNow;
-
-                if(totalAssets > 0)
-                {
-                    assetExist.PerCent = Math.Round(((assetExist.CurrentPrice * assetExist.Amount)*100)/totalAssets, 2);
-                }
-                else
-                {
-                    assetExist.PerCent = 100;
-                }
+                assetExist.Updated_at = DateTime.UtcNow;               
+                assetExist.PerCent = Math.Round(((assetExist.CurrentPrice * assetExist.Amount)*100)/totalAssets, 2);
+                
 
                 await assetsService.UpdateAsync(assetExist);
             }
@@ -94,16 +89,9 @@ namespace Backend.API.Controller
                 assetsDTO.Updated_at = DateTime.UtcNow;
                 assetsDTO.Deleted_at = null;
                 assetsDTO.AveregePrice = assetsDTO.BuyPrice;
-
-                if(totalAssets > 0)
-                {
-                     assetsDTO.PerCent = Math.Round(((assetsDTO.Amount * assetsDTO.CurrentPrice)*100)/totalAssets, 2);
-                }
-                else
-                {
-                    assetsDTO.PerCent = 100;
-                }
+                assetsDTO.PerCent = Math.Round(((assetsDTO.Amount * assetsDTO.CurrentPrice)*100)/totalAssets, 2);
                 
+              
                 await assetsService.CreateAsync(assetsDTO);
             }
             
