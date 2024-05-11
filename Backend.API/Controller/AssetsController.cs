@@ -17,11 +17,28 @@ namespace Backend.API.Controller
     {
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly IAssetsService assetsService;
+
+        private readonly Timer timer;
         public AssetsController(IAssetsService assetsService, IHttpContextAccessor httpContextAccessor)
         {
             this.assetsService = assetsService;
             this.httpContextAccessor = httpContextAccessor;
+            this.timer = new Timer(RunDailyTask, null, TimeSpan.Zero, TimeSpan.FromHours(24));;
         }
+
+        private void RunDailyTask(object state)
+        {
+            // Your method to run daily at 3 am
+            
+        }
+
+        public void UpdateAssetsDaily()
+        {
+            
+        }
+
+        
+
 
         [HttpGet("GetAllAssetsDTOAsync/{walletId}")]
         public async Task<IEnumerable<AssetsDTO>> GetAllAssetsDTOAsync(int walletId)
