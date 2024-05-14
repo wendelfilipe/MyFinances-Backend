@@ -28,26 +28,9 @@ namespace Backend.Infra.Data.EnititesConfiguration
                 .HasMaxLength(10)
                 .IsRequired();
 
-            builder.Property(p => p.BuyPrice)
-                .HasColumnName("buy_price")
-                .HasPrecision(10,2)
-                .IsRequired();
-            
             builder.Property(p => p.CurrentPrice)
                 .HasColumnName("current-price")
                 .HasPrecision(10, 2)
-                .IsRequired();
-
-            builder.Property(p => p.PerCent)
-                .HasColumnName("per_cent")
-                .IsRequired();
-
-            builder.Property(p => p.AveregePrice)
-                .HasColumnName("average_price")
-                .HasPrecision(10,2);
-
-            builder.Property(p => p.Amount)
-                .HasColumnName("amount")
                 .IsRequired();
 
             builder.Property(p => p.SourceTypeAssets)
@@ -65,10 +48,6 @@ namespace Backend.Infra.Data.EnititesConfiguration
 
             builder.Property(p => p.Updated_at)
                 .HasColumnName("updated_at");
-
-            builder.HasOne(o => o.Wallet)
-                .WithMany(o => o.Assets)
-                .HasForeignKey(o => o.WalletId);
         }
     }
 }

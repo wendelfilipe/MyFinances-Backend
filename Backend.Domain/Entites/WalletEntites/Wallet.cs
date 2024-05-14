@@ -12,9 +12,10 @@ namespace Backend.Domain.Entites.WalletEntites
     public sealed class Wallet : Entity
     {
         public int UserId { get; private set; }
+        public int AssetsId { get; private set; }
         public string Name { get; private set; }
 
-        public ICollection<Assets>? Assets { get; private set; }
+        public Assets Assets { get; set; }
 
         public Wallet(string name)
         {

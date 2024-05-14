@@ -17,12 +17,13 @@ namespace Backend.API.Controller
     {
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly IAssetsService assetsService;
-
+        private readonly IUserAssetsService userAssetsService;
         private readonly Timer timer;
-        public AssetsController(IAssetsService assetsService, IHttpContextAccessor httpContextAccessor)
+        public AssetsController(IAssetsService assetsService, IHttpContextAccessor httpContextAccessor, IUserAssetsService userAssetsService)
         {
             this.assetsService = assetsService;
             this.httpContextAccessor = httpContextAccessor;
+            this. userAssetsService = userAssetsService;
             this.timer = new Timer(RunDailyTask, null, TimeSpan.Zero, TimeSpan.FromHours(24));;
         }
 
@@ -85,44 +86,47 @@ namespace Backend.API.Controller
         }
 
         [HttpPost("PostCreateAssetAsync")]
-        public async Task PostCreateAssetsAsync(AssetsDTO assetsDTO)
+        public async Task PostCreateAssetsAsync(AssetsDTO assetsDTO, UserAssetsDTO userAssetsDTO)
         {
+            UserAssetsDTO? userAssetExist = null;
             var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(assetsDTO.WalletId);
+            var userAssets = await assetsService.GetUserAssetsByWalletId(userAssetsDTO.WalletId);
             var assetExist = assets.FirstOrDefault(a => a.CodName == assetsDTO.CodName);
-
-            decimal totalAssets = 0;
-                foreach(var asset in assets)
-                {
-                    var totalEachAsset = asset.Amount * asset.CurrentPrice;
-                    totalAssets = totalAssets + totalEachAsset;
-                }
-
-                totalAssets = totalAssets + (assetsDTO.Amount * assetsDTO.CurrentPrice);
-
             if(assetExist != null)
             {
-                var sumAmount = assetExist.Amount + assetsDTO.Amount;
-                var sumAverege = ((assetExist.AveregePrice * assetExist.Amount) + (assetsDTO.BuyPrice * assetsDTO.Amount)); 
-                assetExist.AveregePrice =  sumAverege/sumAmount;
-                assetExist.Amount = sumAmount;
-                assetExist.BuyPrice = assetsDTO.BuyPrice;
-                assetExist.CurrentPrice = assetsDTO.CurrentPrice;
-                assetExist.Updated_at = DateTime.UtcNow;               
-                assetExist.PerCent = Math.Round(((assetExist.CurrentPrice * assetExist.Amount)*100)/totalAssets, 2);
-                
+                userAssetExist = userAssets.FirstOrDefault(ua => ua.Id == assetExist.Id);
+            }
 
+                
+            if(assetExist != null && userAssetExist != null)
+            {
+                assetExist.CurrentPrice = assetsDTO.CurrentPrice;
+                assetExist.Updated_at = DateTime.UtcNow;
+               
                 await assetsService.UpdateAsync(assetExist);
+
+                var sumAmount = userAssetExist.Amount + userAssetsDTO.Amount;
+                var sumAverege = ((userAssetExist.AveregePrice * userAssetExist.Amount) + (userAssetsDTO.BuyPrice * userAssetsDTO.Amount));
+                userAssetExist.AveregePrice =  sumAverege/sumAmount;
+
+                userAssetExist.Amount = sumAmount;
+                userAssetExist.BuyPrice = userAssetsDTO.BuyPrice;
+                
+                await userAssetsService.UpdateAsync(userAssetExist);
             }
             else
             {
                 assetsDTO.Created_at = DateTime.UtcNow;
                 assetsDTO.Updated_at = DateTime.UtcNow;
                 assetsDTO.Deleted_at = null;
+
+                await assetsService.CreateAsync(assetsDTO);
+
                 assetsDTO.AveregePrice = assetsDTO.BuyPrice;
                 assetsDTO.PerCent = Math.Round(((assetsDTO.Amount * assetsDTO.CurrentPrice)*100)/totalAssets, 2);
-                
-              
-                await assetsService.CreateAsync(assetsDTO);
+
+                await userAssetsService.CreateAsync(userAssetsDTO);
+            
             }
             
         }

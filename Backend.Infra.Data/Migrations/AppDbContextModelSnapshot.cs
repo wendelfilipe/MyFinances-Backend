@@ -31,20 +31,6 @@ namespace Backend.Infra.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<long>("Amount")
-                        .HasColumnType("bigint")
-                        .HasColumnName("amount");
-
-                    b.Property<decimal>("AveregePrice")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)")
-                        .HasColumnName("average_price");
-
-                    b.Property<decimal>("BuyPrice")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)")
-                        .HasColumnName("buy_price");
-
                     b.Property<string>("CodName")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -67,13 +53,6 @@ namespace Backend.Infra.Data.Migrations
                     b.Property<DateOnly?>("EndDate")
                         .HasColumnType("date");
 
-                    b.Property<decimal>("PerCent")
-                        .HasColumnType("numeric")
-                        .HasColumnName("per_cent");
-
-                    b.Property<decimal?>("PerCentCDI")
-                        .HasColumnType("numeric");
-
                     b.Property<int>("SourceCreate")
                         .HasColumnType("integer")
                         .HasColumnName("source_create");
@@ -95,9 +74,62 @@ namespace Backend.Infra.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("WalletId");
-
                     b.ToTable("assets", "product");
+                });
+
+            modelBuilder.Entity("Backend.Domain.Entites.UserAssetsEntity.UserAssets", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<long>("Amount")
+                        .HasColumnType("bigint")
+                        .HasColumnName("amount");
+
+                    b.Property<int>("AssetsId")
+                        .HasColumnType("integer")
+                        .HasColumnName("assets_id");
+
+                    b.Property<decimal>("AveregePrice")
+                        .HasColumnType("numeric")
+                        .HasColumnName("average_price");
+
+                    b.Property<decimal>("BuyPrice")
+                        .HasColumnType("numeric")
+                        .HasColumnName("buy_price");
+
+                    b.Property<DateTime>("Created_at")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime?>("Deleted_at")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<decimal?>("PerCentCDI")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("SourceCreate")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SourceTypeAssets")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("Updated_at")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<int>("WalletId")
+                        .HasColumnType("integer")
+                        .HasColumnName("wallet_id");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("user_assets", "product");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entites.UserEntites.User", b =>
@@ -157,6 +189,9 @@ namespace Backend.Infra.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AssetsId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("Created_at")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
@@ -185,39 +220,38 @@ namespace Backend.Infra.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AssetsId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("wallet", "product");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entites.AssetsEntites.Assets", b =>
+            modelBuilder.Entity("Backend.Domain.Entites.WalletEntites.Wallet", b =>
                 {
-                    b.HasOne("Backend.Domain.Entites.WalletEntites.Wallet", "Wallet")
-                        .WithMany("Assets")
-                        .HasForeignKey("WalletId")
+                    b.HasOne("Backend.Domain.Entites.AssetsEntites.Assets", "Assets")
+                        .WithMany("Wallets")
+                        .HasForeignKey("AssetsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Wallet");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entites.WalletEntites.Wallet", b =>
-                {
                     b.HasOne("Backend.Domain.Entites.UserEntites.User", null)
                         .WithMany("Wallet")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Assets");
+                });
+
+            modelBuilder.Entity("Backend.Domain.Entites.AssetsEntites.Assets", b =>
+                {
+                    b.Navigation("Wallets");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entites.UserEntites.User", b =>
                 {
                     b.Navigation("Wallet");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entites.WalletEntites.Wallet", b =>
-                {
-                    b.Navigation("Assets");
                 });
 #pragma warning restore 612, 618
         }

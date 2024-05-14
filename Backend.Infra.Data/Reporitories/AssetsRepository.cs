@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Domain.Entites.AssetsEntites;
 using Backend.Domain.Entites.Enums;
+using Backend.Domain.Entites.UserAssetsEntity;
 using Backend.Domain.Interfaces;
 using Backend.Domain.Interfaces.AssetsInterface;
 using Backend.Infra.Data.Context;
@@ -46,6 +47,9 @@ namespace Backend.Infra.Data.EnititesConfiguration
             return await context.Assets.Where(a => a.WalletId == walletId && a.SourceTypeAssets == SourceTypeAssets.InteralcionalAssets).ToListAsync();
         }
 
-
+        public async Task<IEnumerable<UserAssets>> GetUserAssetsByWalletId(int walletId)
+        {
+            return await context.UserAssets.Where(ua => ua.WalletId == walletId).ToListAsync();
+        }
     }
 }

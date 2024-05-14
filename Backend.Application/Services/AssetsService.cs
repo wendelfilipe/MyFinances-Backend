@@ -48,7 +48,10 @@ namespace Backend.Application.Services
             var internacionalAssets = await assetsRepository.GetInternacionalAssetsByWalletId(walletId);
             return mapper.Map<IEnumerable<AssetsDTO>>(internacionalAssets);
         }
-
-
+        public async Task<IEnumerable<UserAssetsDTO>> GetUserAssetsByWalletId(int walletId)
+        {
+            var userAssets = await assetsRepository.GetUserAssetsByWalletId(walletId);
+            return mapper.Map<IEnumerable<UserAssetsDTO>>(walletId);
+        }
     }
 }

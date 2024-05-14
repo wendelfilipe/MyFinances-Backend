@@ -10,5 +10,6 @@ namespace Backend.Application.Interfaces
         Task<IEnumerable<AssetsDTO>> GetFiisByWalletId(int walletId);
         Task<IEnumerable<AssetsDTO>> GetFixedByWalletId(int walletId);
         Task<IEnumerable<AssetsDTO>> GetInternacionalAssetsByWalletId(int walletId);
+        Task<IEnumerable<UserAssetsDTO>> GetUserAssetsByWalletId(int walletId);
     }
 }

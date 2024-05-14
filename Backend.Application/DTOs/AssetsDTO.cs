@@ -21,18 +21,7 @@ namespace Backend.Application.DTOs
         [Column(TypeName = "decimal(18,2)")]
         [Required(ErrorMessage = "The current price is required")]
         public decimal CurrentPrice { get;  set; }
-
-        [Column(TypeName = "decimal(18,2)")]
-        [Required(ErrorMessage = "The buy price is required")]
-        public decimal BuyPrice { get; set; }
-
-        [Required(ErrorMessage = "The Amount is required")]
-        public long Amount { get; set; }
-        public decimal PerCent { get; set; }
-         public decimal? PerCentCDI { get; set; }
-        [Required(ErrorMessage = "The Source Type Assets is required")]
         public SourceTypeAssets SourceTypeAssets {get; set; }
-        public decimal AveregePrice { get;  set; }
         public SourceCreate SourceCreate { get;  set; }
         public DateOnly StartDate { get; set; }
         public DateOnly? EndDate { get; set; }

@@ -43,6 +43,10 @@ namespace Backend.Infra.Data.EnititesConfiguration
                 .HasColumnName("updated_at")
                 .IsRequired();
 
+            builder.HasOne(p => p.Assets)
+                .WithMany(p => p.Wallets)
+                .HasForeignKey(p => p.AssetsId);
+
         }
     }
 }
