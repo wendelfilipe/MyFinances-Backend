@@ -16,7 +16,9 @@ namespace Backend.Application.DTOs
         public decimal BuyPrice { get;   set; }
         public decimal AveregePrice { get;  set; }
         public SourceCreate SourceCreate { get; set; }
-        public SourceTypeAssets SourceTypeAssets {get; set; }
+        public SourceTypeAssets SourceTypeAssets { get; set; }
+        public DateOnly StartDate { get; set; }
+        public DateOnly? EndDate { get; set; }
         public DateTime? Deleted_at { get; set; } = null;
         public DateTime Created_at { get; set; }
         public DateTime Updated_at { get; set; } 

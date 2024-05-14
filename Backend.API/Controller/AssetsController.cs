@@ -143,7 +143,11 @@ namespace Backend.API.Controller
 
                 await assetsService.CreateAsync(assetsDTO);
 
+                var createdAssets = await assetsService.GetAllAssetsDTOByWalletIdAsync(assetsDTO.WalletId);
+                var createdAssetExist = createdAssets.FirstOrDefault(a => a.CodName == assetsDTO.CodName);
+
                 userAssetsDTO.AveregePrice = userAssetsDTO.BuyPrice;
+                userAssetsDTO.AssetsId = createdAssetExist.Id;
 
                 await userAssetsService.CreateAsync(userAssetsDTO);
             

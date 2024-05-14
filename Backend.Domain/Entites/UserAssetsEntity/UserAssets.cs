@@ -14,7 +14,8 @@ namespace Backend.Domain.Entites.UserAssetsEntity
         public long Amount { get; private set; }
         public decimal BuyPrice { get; private  set; }
         public decimal AveregePrice { get; private set; }
-        public SourceTypeAssets SourceTypeAssets {get; protected set; }
-
+        public SourceTypeAssets SourceTypeAssets {get; private set; }
+        public DateOnly StartDate { get; private set; }
+        public DateOnly? EndDate { get; private set; }
     }
 }
