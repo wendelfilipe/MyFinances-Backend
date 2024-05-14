@@ -49,7 +49,7 @@ namespace Backend.Infra.Data.EnititesConfiguration
 
         public async Task<IEnumerable<UserAssets>> GetUserAssetsByWalletId(int walletId)
         {
-            return await context.UserAssets.Where(ua => ua.WalletId == walletId).ToListAsync();
+            return await context.UserAssets.AsNoTracking().Where(ua => ua.WalletId == walletId).ToListAsync();
         }
     }
 }

@@ -14,32 +14,56 @@ namespace Backend.API.Controller
     {
         decimal totalFixed;
         decimal totalAssets;
-        public IAssetsService assetsService;
-        public FixedController(IAssetsService assetsService)
+        private readonly IAssetsService assetsService;
+        private readonly IUserAssetsService userAssetsService;
+        public FixedController(IAssetsService assetsService, IUserAssetsService userAssetsService)
         {
             this.assetsService = assetsService;
+            this.userAssetsService = userAssetsService;
         }
         [HttpGet("GetPerCentFixedsByWalletId/{walletId}")]
         public async Task<ActionResult> GetPerCentFixedsByWalletId(int walletId)
         {
             var assetsFixed = await assetsService.GetFixedByWalletId(walletId);
             var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
+            var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
+
+            decimal totalFixed = 0;
+            decimal totalAssetsFixed = 0;
+
+            long amountFixed = 0;
+            long amountAsset = 0;
+
             if(assetsFixed.Any())
             {
                 foreach(var assetFixed in assetsFixed)
                 {
-                    var totalEachFixed = assetFixed.Amount * assetFixed.CurrentPrice;
-                    totalFixed += totalEachFixed;
+                    foreach(var userAsset in userAssets)
+                    {
+                        if(userAsset.Id == assetFixed.Id)
+                        {
+                            amountFixed = userAsset.Amount;
+                        }
+                    }
+                    var totalEachFixed = amountFixed * assetFixed.CurrentPrice;
+                    totalAssetsFixed += totalEachFixed;
                 }
                 foreach(var asset in assets)
                 {
-                    var totalEachAsset = asset.Amount * asset.CurrentPrice;
+                    foreach(var userAsset in userAssets)
+                    {
+                        if(userAsset.Id == asset.Id)
+                        {
+                            amountAsset = userAsset.Amount;
+                        }
+                    }
+                    var totalEachAsset = amountAsset * asset.CurrentPrice;
                     totalAssets += totalEachAsset;
                 }
 
-                var perCent = Math.Round((totalFixed * 100)/totalAssets, 2);
+                var perCent = Math.Round((totalAssetsFixed * 100)/totalAssets, 2);
 
-                return Ok(perCent); 
+                return Ok(perCent);         
             }
             else
             {
@@ -54,35 +78,27 @@ namespace Backend.API.Controller
             return Ok(assetFixed);
         }
         [HttpPost("PostCreateFixedAsync")]
-        public async Task PostCreateFixedAsync(AssetsDTO assetsDTO)
+        public async Task PostCreateFixedAsync(AssetsDTO assetsDTO, UserAssetsDTO userAssetsDTO)
         {
+            UserAssetsDTO? userAssetExist = null;
             var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(assetsDTO.WalletId);
             var assetExist = assets.FirstOrDefault(a => a.CodName == assetsDTO.CodName);
-
-            decimal totalAssets = 0;
-
-            foreach(var asset in assets)
-            {
-                var totalEachAsset = asset.Amount * asset.CurrentPrice;
-                totalAssets = totalAssets + totalEachAsset;
-            }
-
-            totalAssets = totalAssets + (assetsDTO.Amount * assetsDTO.CurrentPrice);
-                
+            var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(userAssetsDTO.WalletId);
             if(assetExist != null)
             {
-                 
-                assetExist.BuyPrice = assetExist.BuyPrice + assetsDTO.BuyPrice;
-                assetExist.CurrentPrice = assetExist.CurrentPrice + assetsDTO.BuyPrice;
+                userAssetExist = userAssets.FirstOrDefault(ua => ua.Id == assetExist.Id && ua.PerCentCDI == userAssetsDTO.PerCentCDI);
+            }
+                
+            if(assetExist != null && userAssetExist != null)
+            {
                 assetExist.Updated_at = DateTime.UtcNow;
-
-                totalAssets = totalAssets + assetExist.CurrentPrice;
-
-                assetExist.PerCent = Math.Round((assetExist.CurrentPrice*100)/totalAssets, 2);
+                assetExist.CurrentPrice += userAssetsDTO.BuyPrice;
                
-               
-
                 await assetsService.UpdateAsync(assetExist);
+
+                userAssetExist.BuyPrice += userAssetsDTO.BuyPrice;
+
+                await userAssetsService.UpdateAsync(userAssetExist);
             }
             else
             {
@@ -90,10 +106,15 @@ namespace Backend.API.Controller
                 assetsDTO.Created_at = DateTime.UtcNow;
                 assetsDTO.Updated_at = DateTime.UtcNow;
                 assetsDTO.Deleted_at = null;
-                assetsDTO.PerCent = Math.Round((assetsDTO.CurrentPrice*100)/totalAssets, 2);
-                
-              
+                assetsDTO.CurrentPrice = userAssetsDTO.BuyPrice;
+    
                 await assetsService.CreateAsync(assetsDTO);
+
+                userAssetsDTO.Created_at = DateTime.UtcNow;
+                userAssetsDTO.Updated_at = DateTime.UtcNow;
+                userAssetsDTO.Deleted_at = null;
+
+                await userAssetsService.CreateAsync(userAssetsDTO);
             }
         }
     }

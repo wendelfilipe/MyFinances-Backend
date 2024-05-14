@@ -9,5 +9,7 @@ namespace Backend.Application.Interfaces
     public interface IUserAssetsService : IEntityService<UserAssetsDTO>
     {
         
+        Task<IEnumerable<UserAssetsDTO>> GetAllUserAssetsByWalletId(int walletId);
+
     }
 }

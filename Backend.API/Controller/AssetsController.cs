@@ -57,10 +57,19 @@ namespace Backend.API.Controller
         public async Task<ActionResult> GetTotalAssetByWalletIdAsync(int walletId)
         {
             decimal totalAssets = 0;
+            long amount = 0;
             var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
+            var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
             foreach(var asset in assets)
             {
-                var totalEachAsset = asset.Amount * asset.CurrentPrice;
+                foreach(var userAsset in userAssets)
+                {
+                    if(userAsset.Id == asset.Id)
+                    {
+                        amount = userAsset.Amount;
+                    }
+                }
+                var totalEachAsset = amount * asset.CurrentPrice;
                 totalAssets += totalEachAsset;
             }
 
@@ -71,13 +80,25 @@ namespace Backend.API.Controller
         public async Task<ActionResult> GetPatrimonyAsync(int walletId)
         {
             decimal patrimony = 0.00m;
+            long amount = 0;
+
             var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
+            var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
+
             if(assets == null )
                 throw new Exception("Do not exist assets");
 
             foreach(var asset in assets)
             {
-                var totalEachAsset = Math.Round(asset.Amount * asset.CurrentPrice,2);
+                foreach(var userAsset in userAssets)
+                {
+                    if(userAsset.Id == asset.Id)
+                    {
+                        amount = userAsset.Amount;
+                        break;
+                    }
+                }
+                var totalEachAsset = Math.Round(amount * asset.CurrentPrice,2);
                 patrimony += totalEachAsset;
             }
 
@@ -90,7 +111,7 @@ namespace Backend.API.Controller
         {
             UserAssetsDTO? userAssetExist = null;
             var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(assetsDTO.WalletId);
-            var userAssets = await assetsService.GetUserAssetsByWalletId(userAssetsDTO.WalletId);
+            var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(userAssetsDTO.WalletId);
             var assetExist = assets.FirstOrDefault(a => a.CodName == assetsDTO.CodName);
             if(assetExist != null)
             {
@@ -100,8 +121,8 @@ namespace Backend.API.Controller
                 
             if(assetExist != null && userAssetExist != null)
             {
-                assetExist.CurrentPrice = assetsDTO.CurrentPrice;
-                assetExist.Updated_at = DateTime.UtcNow;
+                assetsDTO.CurrentPrice = assetsDTO.CurrentPrice;
+                assetsDTO.Updated_at = DateTime.UtcNow;
                
                 await assetsService.UpdateAsync(assetExist);
 
@@ -122,8 +143,7 @@ namespace Backend.API.Controller
 
                 await assetsService.CreateAsync(assetsDTO);
 
-                assetsDTO.AveregePrice = assetsDTO.BuyPrice;
-                assetsDTO.PerCent = Math.Round(((assetsDTO.Amount * assetsDTO.CurrentPrice)*100)/totalAssets, 2);
+                userAssetsDTO.AveregePrice = userAssetsDTO.BuyPrice;
 
                 await userAssetsService.CreateAsync(userAssetsDTO);
             

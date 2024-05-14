@@ -12,28 +12,51 @@ namespace Backend.API.Controller
     [Route("api/[controller]")]
     public class FiisController : ControllerBase
     {   
-        decimal totalFiis;
-        decimal totalAssets;
-        public IAssetsService assetsService;
-        public FiisController(IAssetsService assetsService)
+        private readonly IAssetsService assetsService;
+        private readonly IUserAssetsService userAssetsService;
+        public FiisController(IAssetsService assetsService, IUserAssetsService userAssetsService)
         {
             this.assetsService = assetsService;
+            this.userAssetsService = userAssetsService;
         }
         [HttpGet("GetPerCentFiisByWalletId/{walletId}")]
         public async Task<ActionResult> GetPerCentFiisByWalletId(int walletId)
         {
             var fiis = await assetsService.GetFiisByWalletId(walletId);
             var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
+            var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
+
+            decimal totalFiis = 0;
+            decimal totalAssets = 0;
+
+            long amountFii = 0;
+            long amountAsset = 0;
+
             if(fiis.Any())
             {
                 foreach(var fii in fiis)
                 {
-                    var totalEachFii = fii.Amount * fii.CurrentPrice;
+                    foreach(var userAsset in userAssets)
+                    {
+                        if(userAsset.Id == fii.Id)
+                        {
+                            amountFii = userAsset.Amount;
+                            break;
+                        }
+                    }
+                    var totalEachFii = amountFii * fii.CurrentPrice;
                     totalFiis += totalEachFii;
                 }
                 foreach(var asset in assets)
                 {
-                    var totalEachAsset = asset.Amount * asset.CurrentPrice;
+                    foreach(var userAsset in userAssets)
+                    {
+                        if(userAsset.Id == asset.Id)
+                        {
+                            amountAsset = userAsset.Amount;
+                        }
+                    }
+                    var totalEachAsset = amountAsset * asset.CurrentPrice;
                     totalAssets += totalEachAsset;
                 }
 
