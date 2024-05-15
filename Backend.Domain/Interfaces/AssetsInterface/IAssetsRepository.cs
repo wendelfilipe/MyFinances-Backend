@@ -10,16 +10,18 @@ namespace Backend.Domain.Interfaces.AssetsInterface
 {
     public interface IAssetsRepository : IEntityRepository<Assets>
     {
-        public Task<IEnumerable<Assets>> GetAllAssetsByWalletIdAsync(int userId);
+        public Task<IEnumerable<Assets>> GetAllAssetsByAssetIdAsync(int userId);
 
-        public Task<IEnumerable<Assets>> GetStocksByWalletId(int walletId); 
+        public Task<IEnumerable<Assets>> GetStocksByAssetId(int assetId); 
 
-        public Task<IEnumerable<Assets>> GetFiisByWalletId(int walletId);
+        public Task<IEnumerable<Assets>> GetFiisByAssetId(int assetId);
 
-        public Task<IEnumerable<Assets>> GetFixedByWalletId(int walletId);
+        public Task<IEnumerable<Assets>> GetFixedByAssetId(int assetId);
 
-        public Task<IEnumerable<Assets>> GetInternacionalAssetsByWalletId(int walletId);
+        public Task<IEnumerable<Assets>> GetInternacionalAssetsByAssetId(int assetId);
         
-        public Task<IEnumerable<UserAssets>> GetUserAssetsByWalletId(int walletId);
+        public Task<IEnumerable<UserAssets>> GetUserAssetsByAssetId(int assetId);
+
+        public Task<IEnumerable<Assets>> GetAllByIdsAsync(IEnumerable<int> entitysDTO);
     }
 }

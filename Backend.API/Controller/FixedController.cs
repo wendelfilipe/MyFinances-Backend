@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Application.DTOs;
 using Backend.Application.Interfaces;
+using Backend.Domain.Entites.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.API.Controller
@@ -24,8 +25,8 @@ namespace Backend.API.Controller
         [HttpGet("GetPerCentFixedsByWalletId/{walletId}")]
         public async Task<ActionResult> GetPerCentFixedsByWalletId(int walletId)
         {
-            var assetsFixed = await assetsService.GetFixedByWalletId(walletId);
-            var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
+            var assets = await assetsService.GetAllAsync();
+            var assetsFixed = assets.Where(a => a.SourceTypeAssets == SourceTypeAssets.Fixed);
             var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
 
             decimal totalFixed = 0;
@@ -68,25 +69,49 @@ namespace Backend.API.Controller
             else
             {
                 return Ok("Não possui renda fixa");
-            }
-                   
+            }              
         }
+
         [HttpGet("GetAllFixedByWalletIdAsync/{walletId}")]
         public async Task<ActionResult> GetAllFixedByWalletIdAsync(int walletId)
         {
-            var assetFixed = await assetsService.GetFixedByWalletId(walletId);
+            var assets = await assetsService.GetAllAsync();
+            var assetFixed = assets.Where(a => a.SourceTypeAssets == SourceTypeAssets.Fixed);
             return Ok(assetFixed);
         }
+
         [HttpPost("PostCreateFixedAsync")]
-        public async Task PostCreateFixedAsync(AssetsDTO assetsDTO, UserAssetsDTO userAssetsDTO)
+        public async Task PostCreateFixedAsync(CreateAssetRequestDTO createAssetRequestDTO)
         {
             UserAssetsDTO? userAssetExist = null;
-            var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(assetsDTO.WalletId);
+
+            AssetsDTO assetsDTO = new()
+            {
+                CodName = createAssetRequestDTO.CodName,
+                CurrentPrice = createAssetRequestDTO.CurrentPrice,
+                SourceCreate = createAssetRequestDTO.SourceCreate,
+                SourceTypeAssets = createAssetRequestDTO.SourceTypeAssets
+            };
+
+            UserAssetsDTO userAssetsDTO = new()
+            {
+                WalletId = createAssetRequestDTO.WalletId,
+                BuyPrice = createAssetRequestDTO.BuyPrice,
+                Amount = createAssetRequestDTO.Amount,
+                PerCentCDI = createAssetRequestDTO.PerCentCDI,
+                AveregePrice = createAssetRequestDTO.AveregePrice,
+                SourceCreate = createAssetRequestDTO.SourceCreate,
+                SourceTypeAssets = createAssetRequestDTO.SourceTypeAssets,
+                StartDate = createAssetRequestDTO.StartDate,
+                EndDate = createAssetRequestDTO.EndDate
+            };
+            
+            var assets = await assetsService.GetAllAsync();
             var assetExist = assets.FirstOrDefault(a => a.CodName == assetsDTO.CodName);
             var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(userAssetsDTO.WalletId);
             if(assetExist != null)
             {
-                userAssetExist = userAssets.FirstOrDefault(ua => ua.Id == assetExist.Id && ua.PerCentCDI == userAssetsDTO.PerCentCDI);
+                userAssetExist = userAssets.FirstOrDefault(ua => ua.AssetsId == assetExist.Id && ua.PerCentCDI == userAssetsDTO.PerCentCDI);
             }
                 
             if(assetExist != null && userAssetExist != null)

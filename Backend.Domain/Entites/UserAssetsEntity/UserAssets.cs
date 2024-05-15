@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Backend.Domain.Entites.Enums;
+using Backend.Domain.Entites.WalletEntites;
 
 namespace Backend.Domain.Entites.UserAssetsEntity
 {
@@ -15,7 +16,7 @@ namespace Backend.Domain.Entites.UserAssetsEntity
         public decimal BuyPrice { get; private  set; }
         public decimal AveregePrice { get; private set; }
         public SourceTypeAssets SourceTypeAssets {get; private set; }
-        public DateOnly StartDate { get; private set; }
-        public DateOnly? EndDate { get; private set; }
+        public string StartDate { get; private set; }
+        public string? EndDate { get; private set; }
     }
 }

@@ -7,6 +7,7 @@ using Backend.Application.DTOs;
 using Backend.Application.Interfaces;
 using Backend.Application.Services.EntityServices;
 using Backend.Domain.Entites.UserAssetsEntity;
+using Backend.Domain.Interfaces;
 using Backend.Domain.Interfaces.UserInterface;
 
 namespace Backend.Application.Services
@@ -15,7 +16,7 @@ namespace Backend.Application.Services
     {
         private readonly IUserAssetsRepository userAssetsRepository;
         private readonly IMapper mapper;
-        public UserAssetsService(IUserAssetsRepository userAssetsRepository, IMapper mapper) : base(userAssetsRepository, mapper)
+        public UserAssetsService(IEntityRepository<UserAssets> entityRepository, IMapper mapper, IUserAssetsRepository userAssetsRepository) : base(entityRepository, mapper)
         {
             this.userAssetsRepository = userAssetsRepository;
             this.mapper = mapper;

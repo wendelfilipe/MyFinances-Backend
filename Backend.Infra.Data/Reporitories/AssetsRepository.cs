@@ -22,34 +22,39 @@ namespace Backend.Infra.Data.EnititesConfiguration
             this.context = context;
         }
 
-        public async Task<IEnumerable<Assets>> GetAllAssetsByWalletIdAsync(int walletId)
+        public async Task<IEnumerable<Assets>> GetAllAssetsByAssetIdAsync(int assetId)
         {
-            return await context.Assets.AsNoTracking().Where(a => a.WalletId == walletId ).ToListAsync();
+            return await context.Assets.AsNoTracking().Where(a => a.Id == assetId ).ToListAsync();
         }
 
-        public async Task<IEnumerable<Assets>> GetFiisByWalletId(int walletId)
+        public async Task<IEnumerable<Assets>> GetFiisByAssetId(int assetId)
         {
-            return await context.Assets.Where(a => a.WalletId == walletId && a.SourceTypeAssets == SourceTypeAssets.Fiis).ToListAsync();
+            return await context.Assets.Where(a => a.Id == assetId && a.SourceTypeAssets == SourceTypeAssets.Fiis).ToListAsync();
         }
 
-        public async Task<IEnumerable<Assets>> GetStocksByWalletId(int walletId)
+        public async Task<IEnumerable<Assets>> GetStocksByAssetId(int assetId)
         {
-            return await context.Assets.Where(a => a.WalletId == walletId && a.SourceTypeAssets == SourceTypeAssets.Stocks).ToListAsync();
+            return await context.Assets.Where(a => a.Id == assetId && a.SourceTypeAssets == SourceTypeAssets.Stocks).ToListAsync();
         }
 
-         public async Task<IEnumerable<Assets>> GetFixedByWalletId(int walletId)
+         public async Task<IEnumerable<Assets>> GetFixedByAssetId(int assetId)
         {
-            return await context.Assets.Where(a => a.WalletId == walletId && a.SourceTypeAssets == SourceTypeAssets.Fixed).ToListAsync();
+            return await context.Assets.Where(a => a.Id == assetId && a.SourceTypeAssets == SourceTypeAssets.Fixed).ToListAsync();
         }
 
-         public async Task<IEnumerable<Assets>> GetInternacionalAssetsByWalletId(int walletId)
+         public async Task<IEnumerable<Assets>> GetInternacionalAssetsByAssetId(int assetId)
         {
-            return await context.Assets.Where(a => a.WalletId == walletId && a.SourceTypeAssets == SourceTypeAssets.InteralcionalAssets).ToListAsync();
+            return await context.Assets.Where(a => a.Id == assetId && a.SourceTypeAssets == SourceTypeAssets.InteralcionalAssets).ToListAsync();
         }
 
-        public async Task<IEnumerable<UserAssets>> GetUserAssetsByWalletId(int walletId)
+        public async Task<IEnumerable<UserAssets>> GetUserAssetsByAssetId(int assetId)
         {
-            return await context.UserAssets.AsNoTracking().Where(ua => ua.WalletId == walletId).ToListAsync();
+            return await context.UserAssets.AsNoTracking().Where(ua => ua.Id == assetId).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Assets>> GetAllByIdsAsync(IEnumerable<int> entitysDTO)
+        {
+            return await context.Assets.AsNoTracking().Where(a => entitysDTO.Contains(a.Id)).ToListAsync();
         }
     }
 }

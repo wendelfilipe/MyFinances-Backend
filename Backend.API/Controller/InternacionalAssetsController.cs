@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Backend.Application.Interfaces;
+using Backend.Domain.Entites.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.API.Controller
@@ -21,40 +22,48 @@ namespace Backend.API.Controller
         [HttpGet("GetPerCentInternacionalAssetsByWalletId/{walletId}")]
         public async Task<ActionResult> GetPerCentInternacionalAssetsByWalletId(int walletId)
         {
-            var interAssets = await assetsService.GetInternacionalAssetsByWalletId(walletId);
-            var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
+            var assets = await assetsService.GetAllAsync();
+            var interAssets = assets.Where(a => a.SourceTypeAssets == SourceTypeAssets.InteralcionalAssets);
             var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
+            var assetIds = userAssets.Select(ua => ua.AssetsId);
+            var userInterAssets = userAssets.Where(ua => ua.SourceTypeAssets == SourceTypeAssets.InteralcionalAssets);
+            var interAssetIds = userInterAssets.Select(ui => ui.AssetsId);
+            var userInterAssetByAssets = interAssets.Where(interAsset => interAssetIds.Contains(interAsset.Id));
+            var allAssetsByAssetsIds = assets.Where(asset => assetIds.Contains(asset.Id));
 
             decimal totalInterAssets = 0;
             decimal totalAssets = 0;
 
             long amountInterAsset = 0;
             long amountAsset = 0;
+            decimal currentPrice = 0.00m;
 
-            if(interAssets.Any())
+            if(userInterAssetByAssets.Any())
             {
-                foreach(var interAsset in interAssets)
+                foreach(var userInterAsset in userInterAssets)
                 {
-                    foreach(var userAsset in userAssets)
+                    foreach(var userInterAssetByAsset in userInterAssetByAssets )
                     {
-                        if(userAsset.Id == interAsset.Id)
+                        if(userInterAsset.Id == userInterAssetByAsset.Id)
                         {
-                            amountInterAsset = userAsset.Amount;
+                            amountInterAsset = userInterAsset.Amount;
+                            var totalEachInterAsset = userInterAssetByAsset.CurrentPrice * amountInterAsset;
+                            totalInterAssets += totalEachInterAsset;
+                            break;
                         }
                     }
-                    var totalEachInterAsset = amountInterAsset * interAsset.CurrentPrice;
-                    totalInterAssets += totalEachInterAsset;
                 }
-                foreach(var asset in assets)
+                foreach(var userAsset in userAssets)
                 {
-                    foreach(var userAsset in userAssets)
+                    foreach(var allAssetByUserAssets in allAssetsByAssetsIds)
                     {
-                        if(userAsset.Id == asset.Id)
+                        if(userAsset.Id == allAssetByUserAssets.Id)
                         {
-                            amountAsset = userAsset.Amount;
+                            currentPrice = allAssetByUserAssets.CurrentPrice;
+                            break;
                         }
                     }
-                    var totalEachAsset = amountAsset * asset.CurrentPrice;
+                    var totalEachAsset = userAsset.Amount * currentPrice;
                     totalAssets += totalEachAsset;
                 }
 
@@ -71,8 +80,10 @@ namespace Backend.API.Controller
         [HttpGet("GetAllInterAssetsByWalletIdAsync/{walletId}")]
         public async Task<ActionResult> GetAllInterAssetsByWalletIdAsync(int walletId)
         {
-            var interAssets = await assetsService.GetInternacionalAssetsByWalletId(walletId);
-            var userInterAssets = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
+            var userAsset = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
+            var userInterAssets = userAsset.Where(ua => ua.SourceTypeAssets == SourceTypeAssets.InteralcionalAssets);
+            var interAssetIds = userInterAssets.Select(s => s.AssetsId);
+            var interAssets = assetsService.GetAllByIdsAsync(interAssetIds);
             return Ok(new {interAssets, userInterAssets});
         }
     }

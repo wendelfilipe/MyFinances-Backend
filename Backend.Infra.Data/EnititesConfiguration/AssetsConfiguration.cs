@@ -20,9 +20,6 @@ namespace Backend.Infra.Data.EnititesConfiguration
             builder.Property(p => p.Id)
                 .HasColumnName("id");
 
-            builder.Property(p => p.WalletId)
-                .HasColumnName("wallet_id");
-
             builder.Property(p => p.CodName)
                 .HasColumnName("cod_name")
                 .HasMaxLength(10)

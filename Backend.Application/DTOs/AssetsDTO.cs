@@ -10,8 +10,7 @@ namespace Backend.Application.DTOs
 {
     public class AssetsDTO
     {
-         public int Id { get;  set; }
-        public int WalletId {get;  set; }
+        public int Id { get;  set; }
         
         [Required(ErrorMessage = "The Code Name is required")]
         [MaxLength(10)]

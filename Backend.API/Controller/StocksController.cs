@@ -26,41 +26,48 @@ namespace Backend.API.Controller
         [HttpGet("GetPerCentStocksByWalletId/{walletId}")]
         public async Task<ActionResult> GetPerCentStocksByWalletId(int walletId)
         {
-            var stocks = await assetsService.GetStocksByWalletId(walletId);
-            var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
+            var assets = await assetsService.GetAllAsync();
+            var stocks = assets.Where(a => a.SourceTypeAssets == SourceTypeAssets.Stocks);
             var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
+            var assetIds = userAssets.Select(ua => ua.AssetsId);
+            var userStocks = userAssets.Where(ua => ua.SourceTypeAssets == SourceTypeAssets.Stocks);
+            var userStocksIds = userStocks.Select(us => us.Id);
+            var userStocksByAssets = stocks.Where(stock => userStocksIds.Contains(stock.Id));
+            var allAssetsByAssetsIds = assets.Where(asset => assetIds.Contains(asset.Id));
 
             decimal totalStocks = 0;
             decimal totalAssets = 0;
 
             long amountStock = 0;
             long amountAsset = 0;
+            decimal currentPrice = 0.00m;
 
-            if(stocks.Any())
+            if(userStocksByAssets.Any())
             {
-                foreach(var stock in stocks)
+                foreach(var userStock in userStocks)
                 {
-                    foreach(var userAsset in userAssets)
+                    foreach(var userStocksByAsset in userStocksByAssets )
                     {
-                        if(userAsset.Id == stock.Id)
+                        if(userStock.Id == userStocksByAsset.Id)
                         {
-                            amountStock = userAsset.Amount;
-                        }
-                    }
-                    var totalEachStock = amountStock * stock.CurrentPrice;
-                    totalStocks += totalEachStock;
-                }
-                foreach(var asset in assets)
-                {
-                    foreach(var userAsset in userAssets)
-                    {
-                        if(userAsset.Id == asset.Id)
-                        {
-                            amountAsset = userAsset.Amount;
+                            amountStock = userStock.Amount;
+                            var totalEachStock = amountStock * userStocksByAsset.CurrentPrice;
+                            totalStocks += totalEachStock;
                             break;
                         }
                     }
-                    var totalEachAsset = amountAsset * asset.CurrentPrice;
+                }
+                foreach(var userAsset in userAssets)
+                {
+                    foreach(var allAssetByUserAssets in allAssetsByAssetsIds)
+                    {
+                        if(userAsset.Id == allAssetByUserAssets.Id)
+                        {
+                            currentPrice = allAssetByUserAssets.CurrentPrice;
+                            break;
+                        }
+                    }
+                    var totalEachAsset = userAsset.Amount * currentPrice;
                     totalAssets += totalEachAsset;
                 }
 
@@ -77,9 +84,11 @@ namespace Backend.API.Controller
         [HttpGet("GetAllStocksByWalletIdAsync/{walletId}")]
         public async Task<ActionResult> GetAllStocksByWalletIdAsync(int walletId)
         {
-            var stocks = await assetsService.GetStocksByWalletId(walletId);
-            var userAssetStock = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
-            return Ok(new { stocks, userAssetStock });
+            var userAsset = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
+            var userAssetsStock = userAsset.Where(ua => ua.SourceTypeAssets == SourceTypeAssets.Stocks);
+            var stockIds = userAssetsStock.Select(s => s.Id);
+            var stockAssets = assetsService.GetAllByIdsAsync(stockIds);
+            return Ok(new { stockAssets , userAssetsStock });
         }
     }
 }

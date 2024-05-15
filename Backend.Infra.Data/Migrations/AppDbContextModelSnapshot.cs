@@ -62,10 +62,6 @@ namespace Backend.Infra.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.Property<int>("WalletId")
-                        .HasColumnType("integer")
-                        .HasColumnName("wallet_id");
-
                     b.HasKey("Id");
 
                     b.ToTable("assets", "product");
@@ -104,8 +100,8 @@ namespace Backend.Infra.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
 
-                    b.Property<DateOnly?>("EndDate")
-                        .HasColumnType("date");
+                    b.Property<string>("EndDate")
+                        .HasColumnType("text");
 
                     b.Property<decimal?>("PerCentCDI")
                         .HasColumnType("numeric");
@@ -116,8 +112,9 @@ namespace Backend.Infra.Data.Migrations
                     b.Property<int>("SourceTypeAssets")
                         .HasColumnType("integer");
 
-                    b.Property<DateOnly>("StartDate")
-                        .HasColumnType("date");
+                    b.Property<string>("StartDate")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Updated_at")
                         .HasColumnType("timestamp with time zone")
@@ -189,9 +186,6 @@ namespace Backend.Infra.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AssetsId")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("Created_at")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
@@ -220,8 +214,6 @@ namespace Backend.Infra.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AssetsId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("wallet", "product");
@@ -229,24 +221,11 @@ namespace Backend.Infra.Data.Migrations
 
             modelBuilder.Entity("Backend.Domain.Entites.WalletEntites.Wallet", b =>
                 {
-                    b.HasOne("Backend.Domain.Entites.AssetsEntites.Assets", "Assets")
-                        .WithMany("Wallets")
-                        .HasForeignKey("AssetsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Backend.Domain.Entites.UserEntites.User", null)
                         .WithMany("Wallet")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Assets");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entites.AssetsEntites.Assets", b =>
-                {
-                    b.Navigation("Wallets");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entites.UserEntites.User", b =>

@@ -10,7 +10,6 @@ namespace Backend.Domain.Entites.AssetsEntites
 {
     public class Assets : AssetsEntity
     {
-        public ICollection<Wallet> Wallets { get; private set; }
 
         public Assets(string codName, decimal currentPrice)
         {

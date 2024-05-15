@@ -11,7 +11,6 @@ namespace Backend.Domain.Entites
     public abstract class AssetsEntity
     {
         public int Id { get; protected set; }
-        public int WalletId {get; protected set; }
         public string CodName { get; protected set; }
         public decimal CurrentPrice { get; protected set; }
         public SourceTypeAssets SourceTypeAssets {get; protected set; }
