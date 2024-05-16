@@ -1,20 +1,20 @@
-**/Backend.API/bin/
-**/Backend.API/obj/
+/Backend.API/bin/
+/Backend.API/obj/
 
-**/Backend.Application/bin/
-**/Backend.Application/obj/
+/Backend.Application/bin/
+/Backend.Application/obj/
 
-**/Backend.Domain/bin/
-**/Backend.Domain/obj/
+/Backend.Domain/bin/
+/Backend.Domain/obj/
 
-**/Backend.Domain.Test/bin/
-**/Backend.Domain.Test/obj/
+/Backend.Domain.Test/bin/
+/Backend.Domain.Test/obj/
 
-**/Backend.Infra.Data/bin/
-**/Backend.Infra.Data/obj/
+/Backend.Infra.Data/bin/
+/Backend.Infra.Data/obj/
 
-**/Backend.Infra.Ioc/bin/
-**/Backend.Infra.Ioc/obj/
+/Backend.Infra.Ioc/bin/
+/Backend.Infra.Ioc/obj/
 
-**/Backend.WebUI/bin/
-**/Backend.WebUI/obj/
+/Backend.WebUI/bin/
+/Backend.WebUI/obj/
