@@ -76,9 +76,14 @@ namespace Backend.API.Controller
                             break;
                         }
                     }
+                    if (userAsset.SourceTypeAssets == SourceTypeAssets.Fixed)
+                    {
+                        currentPrice = userAsset.AveregePrice;
+                    }
                     var totalEachAsset = userAsset.Amount * currentPrice;
                     totalAssets += totalEachAsset;
                 }
+                
 
                 var perCent = Math.Round((totalStocks * 100)/totalAssets, 2);
 
