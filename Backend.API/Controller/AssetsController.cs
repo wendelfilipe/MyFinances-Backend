@@ -172,7 +172,7 @@ namespace Backend.API.Controller
                 assetsDTO.Updated_at = DateTime.UtcNow;
                 assetsDTO.Deleted_at = null;
 
-                if (assetExist != null)
+                if (assetExist == null)
                 {
                     await assetsService.CreateAsync(assetsDTO);
                 }
