@@ -54,7 +54,7 @@ namespace Backend.Application.Services
             return mapper.Map<IEnumerable<UserAssetsDTO>>(assetId);
         }
 
-        public async Task<IEnumerable<AssetsDTO>> GetAllByIdsAsync(IEnumerable<int> entitysDTO)
+        public async Task<IEnumerable<AssetsDTO>> GetAllByIdsAsync(IEnumerable<int>? entitysDTO)
         {
             var entitys = await assetsRepository.GetAllByIdsAsync(entitysDTO);
             return mapper.Map<IEnumerable<AssetsDTO>>(entitys);

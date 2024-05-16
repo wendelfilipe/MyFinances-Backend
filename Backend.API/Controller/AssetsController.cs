@@ -64,7 +64,7 @@ namespace Backend.API.Controller
             {
                 foreach(var asset in assets)
                 {
-                    if(userAsset.Id == asset.Id)
+                    if(userAsset.AssetsId == asset.Id)
                     {
                         currentPrice = asset.CurrentPrice;
                         break;
@@ -93,7 +93,7 @@ namespace Backend.API.Controller
             {
                 foreach(var asset in assets)
                 {
-                    if(userAsset.Id == asset.Id)
+                    if(userAsset.AssetsId == asset.Id)
                     {
                         currentPrice = asset.CurrentPrice;
                         break;

@@ -23,14 +23,23 @@ namespace Backend.API.Controller
         [HttpGet("GetPerCentFiisByWalletId/{walletId}")]
         public async Task<ActionResult> GetPerCentFiisByWalletId(int walletId)
         {
+             //filter all assets by type Fiis
             var assets = await assetsService.GetAllAsync();
-            var fiis = assets.Where(a => a.SourceTypeAssets == SourceTypeAssets.InteralcionalAssets);
+            var assetsFiis = assets.Where(a => a.SourceTypeAssets == SourceTypeAssets.Fiis);
+
+            //filter all userAssets by type Fiis of user
             var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
-            var assetIds = userAssets.Select(ua => ua.AssetsId);
-            var userFiis = userAssets.Where(ua => ua.SourceTypeAssets == SourceTypeAssets.InteralcionalAssets);
-            var fiisIds = userFiis.Select(ui => ui.AssetsId);
-            var userFiiByAssets = fiis.Where(interAsset => fiisIds.Contains(interAsset.Id));
-            var allAssetsByAssetsIds = assets.Where(asset => assetIds.Contains(asset.Id));
+            var userAssetsFiis = userAssets.Where(ua => ua.SourceTypeAssets == SourceTypeAssets.Fiis);
+
+            //filter ids 
+            var userFiisAssetIds = userAssetsFiis.Select(ua => ua.AssetsId);
+            var userAssetsIds = userAssets.Select(us => us.AssetsId);
+
+            //filter all assets of user and 
+            var filterAssetsFiis = assetsFiis.Where(fii => userFiisAssetIds.Contains(fii.Id));
+            
+            //all Assets of user
+            var allAssetsOfUser = assets.Where(asset => userAssetsIds.Contains(asset.Id));
 
             decimal totalFiis = 0;
             decimal totalAssets = 0;
@@ -39,28 +48,28 @@ namespace Backend.API.Controller
             long amountAsset = 0;
             decimal currentPrice = 0.00m;
 
-            if(userFiiByAssets.Any())
+            if(userAssetsFiis.Any())
             {
-                foreach(var userFii in userFiis)
+                foreach(var userAssetFii in userAssetsFiis)
                 {
-                    foreach(var userFiiByAsset in userFiiByAssets )
+                    foreach(var assetFiis in filterAssetsFiis)
                     {
-                        if(userFii.Id == userFiiByAsset.Id)
+                        if(userAssetFii.AssetsId == assetFiis.Id)
                         {
-                            amountFiis = userFii.Amount;
-                            var totalEachFii = userFiiByAsset.CurrentPrice * amountFiis;
-                            totalFiis += totalEachFii;
+                            amountFiis = userAssetFii.Amount;
+                            var totalEachFiis = amountFiis * assetFiis.CurrentPrice;
+                            totalFiis += totalEachFiis;
                             break;
                         }
                     }
                 }
                 foreach(var userAsset in userAssets)
                 {
-                    foreach(var allAssetByUserAssets in allAssetsByAssetsIds)
+                    foreach(var assetOfUser in allAssetsOfUser)
                     {
-                        if(userAsset.Id == allAssetByUserAssets.Id)
+                        if(userAsset.AssetsId == assetOfUser.Id)
                         {
-                            currentPrice = allAssetByUserAssets.CurrentPrice;
+                            currentPrice = assetOfUser.CurrentPrice;
                             break;
                         }
                     }
@@ -84,7 +93,7 @@ namespace Backend.API.Controller
             
             var userAsset = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
             var userFiis = userAsset.Where(ua => ua.SourceTypeAssets == SourceTypeAssets.Fiis);
-            var fiiIds = userFiis.Select(s => s.Id);
+            var fiiIds = userFiis.Select(s => s.AssetsId);
             var fiiAssets = assetsService.GetAllByIdsAsync(fiiIds);
             return Ok(new { fiiAssets , userFiis });
         }

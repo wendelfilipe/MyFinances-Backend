@@ -26,14 +26,23 @@ namespace Backend.API.Controller
         [HttpGet("GetPerCentStocksByWalletId/{walletId}")]
         public async Task<ActionResult> GetPerCentStocksByWalletId(int walletId)
         {
+            //filter all assets by type Stocks
             var assets = await assetsService.GetAllAsync();
-            var stocks = assets.Where(a => a.SourceTypeAssets == SourceTypeAssets.Stocks);
+            var assetsStock = assets.Where(a => a.SourceTypeAssets == SourceTypeAssets.Stocks);
+
+            //filter all userAssets by type Stocks of user
             var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
-            var assetIds = userAssets.Select(ua => ua.AssetsId);
-            var userStocks = userAssets.Where(ua => ua.SourceTypeAssets == SourceTypeAssets.Stocks);
-            var userStocksIds = userStocks.Select(us => us.Id);
-            var userStocksByAssets = stocks.Where(stock => userStocksIds.Contains(stock.Id));
-            var allAssetsByAssetsIds = assets.Where(asset => assetIds.Contains(asset.Id));
+            var userAssetsStocks = userAssets.Where(ua => ua.SourceTypeAssets == SourceTypeAssets.Stocks);
+
+            //filter ids 
+            var userStocksAssetIds = userAssetsStocks.Select(ua => ua.AssetsId);
+            var userAssetsIds = userAssets.Select(us => us.AssetsId);
+
+            //filter all assets of user and 
+            var filterAssetsStocks = assetsStock.Where(stock => userStocksAssetIds.Contains(stock.Id));
+            
+            //all Assets of user
+            var allAssetsOfUser = assets.Where(asset => userAssetsIds.Contains(asset.Id));
 
             decimal totalStocks = 0;
             decimal totalAssets = 0;
@@ -42,16 +51,16 @@ namespace Backend.API.Controller
             long amountAsset = 0;
             decimal currentPrice = 0.00m;
 
-            if(userStocksByAssets.Any())
+            if(userAssetsStocks.Any())
             {
-                foreach(var userStock in userStocks)
+                foreach(var userAssetStock in userAssetsStocks)
                 {
-                    foreach(var userStocksByAsset in userStocksByAssets )
+                    foreach(var assetStock in filterAssetsStocks)
                     {
-                        if(userStock.Id == userStocksByAsset.Id)
+                        if(userAssetStock.AssetsId == assetStock.Id)
                         {
-                            amountStock = userStock.Amount;
-                            var totalEachStock = amountStock * userStocksByAsset.CurrentPrice;
+                            amountStock = userAssetStock.Amount;
+                            var totalEachStock = amountStock * assetStock.CurrentPrice;
                             totalStocks += totalEachStock;
                             break;
                         }
@@ -59,11 +68,11 @@ namespace Backend.API.Controller
                 }
                 foreach(var userAsset in userAssets)
                 {
-                    foreach(var allAssetByUserAssets in allAssetsByAssetsIds)
+                    foreach(var assetOfUser in allAssetsOfUser)
                     {
-                        if(userAsset.Id == allAssetByUserAssets.Id)
+                        if(userAsset.AssetsId == assetOfUser.Id)
                         {
-                            currentPrice = allAssetByUserAssets.CurrentPrice;
+                            currentPrice = assetOfUser.CurrentPrice;
                             break;
                         }
                     }
@@ -86,8 +95,8 @@ namespace Backend.API.Controller
         {
             var userAsset = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
             var userAssetsStock = userAsset.Where(ua => ua.SourceTypeAssets == SourceTypeAssets.Stocks);
-            var stockIds = userAssetsStock.Select(s => s.Id);
-            var stockAssets = assetsService.GetAllByIdsAsync(stockIds);
+            var stockAssetsIds = userAssetsStock.Select(s => s.AssetsId);
+            var stockAssets = await assetsService.GetAllByIdsAsync(stockAssetsIds);
             return Ok(new { stockAssets , userAssetsStock });
         }
     }

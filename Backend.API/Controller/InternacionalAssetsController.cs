@@ -22,44 +22,53 @@ namespace Backend.API.Controller
         [HttpGet("GetPerCentInternacionalAssetsByWalletId/{walletId}")]
         public async Task<ActionResult> GetPerCentInternacionalAssetsByWalletId(int walletId)
         {
+            //filter all assets by type InterAssets
             var assets = await assetsService.GetAllAsync();
-            var interAssets = assets.Where(a => a.SourceTypeAssets == SourceTypeAssets.InteralcionalAssets);
+            var assetsInterAssets = assets.Where(a => a.SourceTypeAssets == SourceTypeAssets.InteralcionalAssets);
+
+            //filter all userAssets by type InterAssets of user
             var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
-            var assetIds = userAssets.Select(ua => ua.AssetsId);
             var userInterAssets = userAssets.Where(ua => ua.SourceTypeAssets == SourceTypeAssets.InteralcionalAssets);
-            var interAssetIds = userInterAssets.Select(ui => ui.AssetsId);
-            var userInterAssetByAssets = interAssets.Where(interAsset => interAssetIds.Contains(interAsset.Id));
-            var allAssetsByAssetsIds = assets.Where(asset => assetIds.Contains(asset.Id));
+
+            //filter ids 
+            var userInterAssetsIds = userInterAssets.Select(ua => ua.AssetsId);
+            var userAssetsIds = userAssets.Select(us => us.AssetsId);
+
+            //filter all assets of user and 
+            var filterInterAssets = assetsInterAssets.Where(ia => userInterAssetsIds.Contains(ia.Id));
+            
+            //all Assets of user
+            var allAssetsOfUser = assets.Where(asset => userAssetsIds.Contains(asset.Id));
 
             decimal totalInterAssets = 0;
             decimal totalAssets = 0;
 
-            long amountInterAsset = 0;
+            long amountInterAssets = 0;
             long amountAsset = 0;
             decimal currentPrice = 0.00m;
 
-            if(userInterAssetByAssets.Any())
+            if(userInterAssets.Any())
             {
-                foreach(var userInterAsset in userInterAssets)
+                foreach(var userAssetInterAssets in userInterAssets)
                 {
-                    foreach(var userInterAssetByAsset in userInterAssetByAssets )
+                    foreach(var assetInterAssets in filterInterAssets)
                     {
-                        if(userInterAsset.Id == userInterAssetByAsset.Id)
+                        if(userAssetInterAssets.AssetsId == assetInterAssets.Id)
                         {
-                            amountInterAsset = userInterAsset.Amount;
-                            var totalEachInterAsset = userInterAssetByAsset.CurrentPrice * amountInterAsset;
-                            totalInterAssets += totalEachInterAsset;
+                            amountInterAssets = userAssetInterAssets.Amount;
+                            var totalEachInterAssets = amountInterAssets * assetInterAssets.CurrentPrice;
+                            totalInterAssets += totalEachInterAssets;
                             break;
                         }
                     }
                 }
                 foreach(var userAsset in userAssets)
                 {
-                    foreach(var allAssetByUserAssets in allAssetsByAssetsIds)
+                    foreach(var assetOfUser in allAssetsOfUser)
                     {
-                        if(userAsset.Id == allAssetByUserAssets.Id)
+                        if(userAsset.AssetsId == assetOfUser.Id)
                         {
-                            currentPrice = allAssetByUserAssets.CurrentPrice;
+                            currentPrice = assetOfUser.CurrentPrice;
                             break;
                         }
                     }

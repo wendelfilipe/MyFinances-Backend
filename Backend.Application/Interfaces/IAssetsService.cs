@@ -7,10 +7,10 @@ namespace Backend.Application.Interfaces
     {
         Task<IEnumerable<AssetsDTO>> GetAllAssetsDTOByAssetIdAsync(int assetId);
         Task<IEnumerable<AssetsDTO>> GetStocksByAssetId(int assetId);
-        Task<IEnumerable<AssetsDTO>> GetFiisByAssetId(int assetId);
+        Task<IEnumerable<AssetsDTO>> GetFiisByAssetId(int assetId); 
         Task<IEnumerable<AssetsDTO>> GetFixedByAssetId(int assetId);
         Task<IEnumerable<AssetsDTO>> GetInternacionalAssetsByAssetId(int assetId);
-        Task<IEnumerable<AssetsDTO>> GetAllByIdsAsync(IEnumerable<int> entitysDTO);
+        Task<IEnumerable<AssetsDTO>> GetAllByIdsAsync(IEnumerable<int>? entitysDTO);
         
     }
 }

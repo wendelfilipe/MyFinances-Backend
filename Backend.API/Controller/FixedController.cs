@@ -41,7 +41,7 @@ namespace Backend.API.Controller
                 {
                     foreach(var userAsset in userAssets)
                     {
-                        if(userAsset.Id == assetFixed.Id)
+                        if(userAsset.AssetsId == assetFixed.Id)
                         {
                             amountFixed = userAsset.Amount;
                         }
@@ -53,7 +53,7 @@ namespace Backend.API.Controller
                 {
                     foreach(var userAsset in userAssets)
                     {
-                        if(userAsset.Id == asset.Id)
+                        if(userAsset.AssetsId == asset.Id)
                         {
                             amountAsset = userAsset.Amount;
                         }
@@ -75,9 +75,11 @@ namespace Backend.API.Controller
         [HttpGet("GetAllFixedByWalletIdAsync/{walletId}")]
         public async Task<ActionResult> GetAllFixedByWalletIdAsync(int walletId)
         {
-            var assets = await assetsService.GetAllAsync();
-            var assetFixed = assets.Where(a => a.SourceTypeAssets == SourceTypeAssets.Fixed);
-            return Ok(assetFixed);
+            var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
+            var userAssetsFixed = userAssets.Where(ua => ua.SourceTypeAssets == SourceTypeAssets.Fixed);
+            var assetsIds = userAssetsFixed.Select(ua => ua.AssetsId);
+            var assetsFixed = await assetsService.GetAllByIdsAsync(assetsIds);
+            return Ok( new { assetsFixed, userAssetsFixed });
         }
 
         [HttpPost("PostCreateFixedAsync")]
@@ -122,6 +124,8 @@ namespace Backend.API.Controller
                 await assetsService.UpdateAsync(assetExist);
 
                 userAssetExist.BuyPrice += userAssetsDTO.BuyPrice;
+                userAssetExist.StartDate = userAssetsDTO.StartDate;
+                userAssetExist.EndDate = userAssetsDTO.EndDate;
 
                 await userAssetsService.UpdateAsync(userAssetExist);
             }
@@ -135,6 +139,10 @@ namespace Backend.API.Controller
     
                 await assetsService.CreateAsync(assetsDTO);
 
+                var createdAssets = await assetsService.GetAllAsync();
+                var createdAssetExist = createdAssets.FirstOrDefault(a => a.CodName == assetsDTO.CodName);
+
+                userAssetsDTO.AssetsId = createdAssetExist.Id;
                 userAssetsDTO.Created_at = DateTime.UtcNow;
                 userAssetsDTO.Updated_at = DateTime.UtcNow;
                 userAssetsDTO.Deleted_at = null;

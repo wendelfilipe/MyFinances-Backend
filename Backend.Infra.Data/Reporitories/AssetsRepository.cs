@@ -52,7 +52,7 @@ namespace Backend.Infra.Data.EnititesConfiguration
             return await context.UserAssets.AsNoTracking().Where(ua => ua.Id == assetId).ToListAsync();
         }
 
-        public async Task<IEnumerable<Assets>> GetAllByIdsAsync(IEnumerable<int> entitysDTO)
+        public async Task<IEnumerable<Assets>> GetAllByIdsAsync(IEnumerable<int>? entitysDTO)
         {
             return await context.Assets.AsNoTracking().Where(a => entitysDTO.Contains(a.Id)).ToListAsync();
         }

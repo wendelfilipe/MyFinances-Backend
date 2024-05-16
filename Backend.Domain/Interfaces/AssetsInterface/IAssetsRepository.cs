@@ -22,6 +22,6 @@ namespace Backend.Domain.Interfaces.AssetsInterface
         
         public Task<IEnumerable<UserAssets>> GetUserAssetsByAssetId(int assetId);
 
-        public Task<IEnumerable<Assets>> GetAllByIdsAsync(IEnumerable<int> entitysDTO);
+        public Task<IEnumerable<Assets>> GetAllByIdsAsync(IEnumerable<int>? entitysDTO);
     }
 }
