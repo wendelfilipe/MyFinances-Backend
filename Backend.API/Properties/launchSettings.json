@@ -1,0 +1,18 @@
+﻿{
+  "iisSettings": {
+    "iisExpress": {
+      "applicationUrl": "http://localhost:44388",
+      "sslPort": 44388
+    }
+  },
+  "profiles": {
+    "YourAppName": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://0.0.0.0:5001;" 
+    }
+  }
+}
