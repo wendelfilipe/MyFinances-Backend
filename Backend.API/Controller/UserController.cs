@@ -37,7 +37,7 @@ namespace Backend.API.Controller
             {
                throw new NullReferenceException("Email is invalid");
             }
-            
+
             return userDTO;
             
         }

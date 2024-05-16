@@ -17,17 +17,35 @@ namespace Backend.API.Controller
     {
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly IAssetsService assetsService;
-        public AssetsController(IAssetsService assetsService, IHttpContextAccessor httpContextAccessor)
+        private readonly IUserAssetsService userAssetsService;
+        private readonly Timer timer;
+        public AssetsController(IAssetsService assetsService, IHttpContextAccessor httpContextAccessor, IUserAssetsService userAssetsService)
         {
             this.assetsService = assetsService;
             this.httpContextAccessor = httpContextAccessor;
+            this. userAssetsService = userAssetsService;
+            this.timer = new Timer(RunDailyTask, null, TimeSpan.Zero, TimeSpan.FromHours(24));;
         }
 
-        [HttpGet("GetAllAssetsDTOAsync/{walletId}")]
-        public async Task<IEnumerable<AssetsDTO>> GetAllAssetsDTOAsync(int walletId)
+        private void RunDailyTask(object state)
+        {
+            // Your method to run daily at 3 am
+            
+        }
+
+        public void UpdateAssetsDaily()
+        {
+            
+        }
+
+        
+
+
+        [HttpGet("GetAllAssetsDTOAsync")]
+        public async Task<IEnumerable<AssetsDTO>> GetAllAssetsDTOAsync()
         {
            
-            var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
+            var assets = await assetsService.GetAllAsync();
             if(assets == null )
                 throw new Exception("Do not exist assets");
 
@@ -39,10 +57,20 @@ namespace Backend.API.Controller
         public async Task<ActionResult> GetTotalAssetByWalletIdAsync(int walletId)
         {
             decimal totalAssets = 0;
-            var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
-            foreach(var asset in assets)
+            decimal currentPrice = 0.00m;
+            var assets = await assetsService.GetAllAsync();
+            var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
+            foreach(var userAsset in userAssets)
             {
-                var totalEachAsset = asset.Amount * asset.CurrentPrice;
+                foreach(var asset in assets)
+                {
+                    if(userAsset.AssetsId == asset.Id)
+                    {
+                        currentPrice = asset.CurrentPrice;
+                        break;
+                    }
+                }
+                var totalEachAsset = userAsset.Amount * currentPrice;
                 totalAssets += totalEachAsset;
             }
 
@@ -53,13 +81,25 @@ namespace Backend.API.Controller
         public async Task<ActionResult> GetPatrimonyAsync(int walletId)
         {
             decimal patrimony = 0.00m;
-            var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
+            decimal currentPrice = 0;
+
+            var assets = await assetsService.GetAllAsync();
+            var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
+
             if(assets == null )
                 throw new Exception("Do not exist assets");
 
-            foreach(var asset in assets)
+            foreach(var userAsset in userAssets)
             {
-                var totalEachAsset = Math.Round(asset.Amount * asset.CurrentPrice,2);
+                foreach(var asset in assets)
+                {
+                    if(userAsset.AssetsId == asset.Id)
+                    {
+                        currentPrice = asset.CurrentPrice;
+                        break;
+                    }
+                }
+                var totalEachAsset = Math.Round(userAsset.Amount * currentPrice,2);
                 patrimony += totalEachAsset;
             }
 
@@ -68,44 +108,73 @@ namespace Backend.API.Controller
         }
 
         [HttpPost("PostCreateAssetAsync")]
-        public async Task PostCreateAssetsAsync(AssetsDTO assetsDTO)
+        public async Task PostCreateAssetsAsync(CreateAssetRequestDTO createAssetRequestDTO)
         {
-            var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(assetsDTO.WalletId);
+            UserAssetsDTO? userAssetExist = null;
+
+            AssetsDTO assetsDTO = new()
+            {
+                CodName = createAssetRequestDTO.CodName,
+                CurrentPrice = createAssetRequestDTO.CurrentPrice,
+                SourceCreate = createAssetRequestDTO.SourceCreate,
+                SourceTypeAssets = createAssetRequestDTO.SourceTypeAssets
+            };
+
+            UserAssetsDTO userAssetsDTO = new()
+            {
+                WalletId = createAssetRequestDTO.WalletId,
+                BuyPrice = createAssetRequestDTO.BuyPrice,
+                Amount = createAssetRequestDTO.Amount,
+                PerCentCDI = createAssetRequestDTO.PerCentCDI,
+                AveregePrice = createAssetRequestDTO.AveregePrice,
+                SourceCreate = createAssetRequestDTO.SourceCreate,
+                SourceTypeAssets = createAssetRequestDTO.SourceTypeAssets,
+                StartDate = createAssetRequestDTO.StartDate
+            };
+            var assets = await assetsService.GetAllAsync();
+            var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(userAssetsDTO.WalletId);
             var assetExist = assets.FirstOrDefault(a => a.CodName == assetsDTO.CodName);
-
-            decimal totalAssets = 0;
-                foreach(var asset in assets)
-                {
-                    var totalEachAsset = asset.Amount * asset.CurrentPrice;
-                    totalAssets = totalAssets + totalEachAsset;
-                }
-
-                totalAssets = totalAssets + (assetsDTO.Amount * assetsDTO.CurrentPrice);
-
             if(assetExist != null)
             {
-                var sumAmount = assetExist.Amount + assetsDTO.Amount;
-                var sumAverege = ((assetExist.AveregePrice * assetExist.Amount) + (assetsDTO.BuyPrice * assetsDTO.Amount)); 
-                assetExist.AveregePrice =  sumAverege/sumAmount;
-                assetExist.Amount = sumAmount;
-                assetExist.BuyPrice = assetsDTO.BuyPrice;
-                assetExist.CurrentPrice = assetsDTO.CurrentPrice;
-                assetExist.Updated_at = DateTime.UtcNow;               
-                assetExist.PerCent = Math.Round(((assetExist.CurrentPrice * assetExist.Amount)*100)/totalAssets, 2);
-                
+                userAssetExist = userAssets.FirstOrDefault(ua => ua.AssetsId == assetExist.Id);
+            }
 
+                
+            if(assetExist != null && userAssetExist != null)
+            {
+                assetExist.CurrentPrice = assetsDTO.CurrentPrice;
+                assetExist.Updated_at = DateTime.UtcNow;
+               
                 await assetsService.UpdateAsync(assetExist);
+
+                var sumAmount = userAssetExist.Amount + userAssetsDTO.Amount;
+                var sumAverege = ((userAssetExist.AveregePrice * userAssetExist.Amount) + (userAssetsDTO.BuyPrice * userAssetsDTO.Amount));
+                userAssetExist.AveregePrice =  Math.Round(sumAverege/sumAmount, 2);
+
+                userAssetExist.Amount = sumAmount;
+                userAssetExist.BuyPrice = userAssetsDTO.BuyPrice;
+                
+                await userAssetsService.UpdateAsync(userAssetExist);
             }
             else
             {
                 assetsDTO.Created_at = DateTime.UtcNow;
                 assetsDTO.Updated_at = DateTime.UtcNow;
                 assetsDTO.Deleted_at = null;
-                assetsDTO.AveregePrice = assetsDTO.BuyPrice;
-                assetsDTO.PerCent = Math.Round(((assetsDTO.Amount * assetsDTO.CurrentPrice)*100)/totalAssets, 2);
-                
-              
+
                 await assetsService.CreateAsync(assetsDTO);
+
+                var createdAssets = await assetsService.GetAllAsync();
+                var createdAssetExist = createdAssets.FirstOrDefault(a => a.CodName == assetsDTO.CodName);
+
+                userAssetsDTO.AveregePrice = userAssetsDTO.BuyPrice;
+                userAssetsDTO.AssetsId = createdAssetExist.Id;
+                userAssetsDTO.Deleted_at = null;
+                userAssetsDTO.Updated_at = DateTime.UtcNow;
+                userAssetsDTO.Created_at = DateTime.UtcNow;
+
+                await userAssetsService.CreateAsync(userAssetsDTO);
+            
             }
             
         }

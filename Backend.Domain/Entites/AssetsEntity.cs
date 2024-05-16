@@ -11,18 +11,10 @@ namespace Backend.Domain.Entites
     public abstract class AssetsEntity
     {
         public int Id { get; protected set; }
-        public int WalletId {get; protected set; }
         public string CodName { get; protected set; }
         public decimal CurrentPrice { get; protected set; }
-        public decimal BuyPrice { get; protected  set; }
-        public long Amount { get; protected set; }
-        public decimal PerCent { get; protected set; }
-        public decimal? PerCentCDI { get; protected set; }
         public SourceTypeAssets SourceTypeAssets {get; protected set; }
-        public decimal AveregePrice { get; protected set; } = 0.00m;
         public SourceCreate SourceCreate { get; protected set; }
-        public DateOnly StartDate { get; protected set; }
-        public DateOnly? EndDate { get; protected set; }
         public DateTime? Deleted_at { get; protected set; } = null;
         public DateTime Created_at { get; protected set; }
         public DateTime Updated_at { get; protected set; }
@@ -38,17 +30,14 @@ namespace Backend.Domain.Entites
 
         }
 
-        public void Update( string codName, decimal currentPrice, decimal buyPrice)
+        public void Update( string codName, decimal currentPrice)
         {
             DomainExceptionValidation.When(currentPrice <= 0.0m,
                 "Invalid CurrentPrice, invalid value");
-            DomainExceptionValidation.When(buyPrice <= 0.0m,
-                "Invalid BuyPrice, invalid value");
             ValidateDomain(codName);
             
             CodName = codName;
             CurrentPrice = currentPrice;
-            BuyPrice = buyPrice;
         }
     }
     
