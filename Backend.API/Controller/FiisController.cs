@@ -73,6 +73,11 @@ namespace Backend.API.Controller
                             break;
                         }
                     }
+                    
+                    if (userAsset.SourceTypeAssets == SourceTypeAssets.Fixed)
+                    {
+                        currentPrice = userAsset.AveregePrice;
+                    }
                     var totalEachAsset = userAsset.Amount * currentPrice;
                     totalAssets += totalEachAsset;
                 }
@@ -94,7 +99,7 @@ namespace Backend.API.Controller
             var userAsset = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
             var userFiis = userAsset.Where(ua => ua.SourceTypeAssets == SourceTypeAssets.Fiis);
             var fiiIds = userFiis.Select(s => s.AssetsId);
-            var fiiAssets = assetsService.GetAllByIdsAsync(fiiIds);
+            var fiiAssets = await assetsService.GetAllByIdsAsync(fiiIds);
             return Ok(new { fiiAssets , userFiis });
         }
     }

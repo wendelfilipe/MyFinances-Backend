@@ -70,6 +70,11 @@ namespace Backend.API.Controller
                         break;
                     }
                 }
+                
+                if (userAsset.SourceTypeAssets == SourceTypeAssets.Fixed)
+                {
+                    currentPrice = userAsset.AveregePrice;
+                }
                 var totalEachAsset = userAsset.Amount * currentPrice;
                 totalAssets += totalEachAsset;
             }
@@ -98,6 +103,11 @@ namespace Backend.API.Controller
                         currentPrice = asset.CurrentPrice;
                         break;
                     }
+                }
+                
+                if (userAsset.SourceTypeAssets == SourceTypeAssets.Fixed)
+                {
+                    currentPrice = userAsset.AveregePrice;
                 }
                 var totalEachAsset = Math.Round(userAsset.Amount * currentPrice,2);
                 patrimony += totalEachAsset;
@@ -162,7 +172,10 @@ namespace Backend.API.Controller
                 assetsDTO.Updated_at = DateTime.UtcNow;
                 assetsDTO.Deleted_at = null;
 
-                await assetsService.CreateAsync(assetsDTO);
+                if (assetExist != null)
+                {
+                    await assetsService.CreateAsync(assetsDTO);
+                }
 
                 var createdAssets = await assetsService.GetAllAsync();
                 var createdAssetExist = createdAssets.FirstOrDefault(a => a.CodName == assetsDTO.CodName);

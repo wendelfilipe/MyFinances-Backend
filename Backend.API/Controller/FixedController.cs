@@ -28,37 +28,36 @@ namespace Backend.API.Controller
             var assets = await assetsService.GetAllAsync();
             var assetsFixed = assets.Where(a => a.SourceTypeAssets == SourceTypeAssets.Fixed);
             var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
+            var userAssetsFixed = userAssets.Where(ua => ua.SourceTypeAssets == SourceTypeAssets.Fixed);
 
             decimal totalFixed = 0;
             decimal totalAssetsFixed = 0;
 
-            long amountFixed = 0;
-            long amountAsset = 0;
+            decimal currentPrice = 0.00m;
 
             if(assetsFixed.Any())
             {
-                foreach(var assetFixed in assetsFixed)
+                foreach(var userAssetFixed in userAssetsFixed)
                 {
-                    foreach(var userAsset in userAssets)
-                    {
-                        if(userAsset.AssetsId == assetFixed.Id)
-                        {
-                            amountFixed = userAsset.Amount;
-                        }
-                    }
-                    var totalEachFixed = amountFixed * assetFixed.CurrentPrice;
-                    totalAssetsFixed += totalEachFixed;
+                        var totalEachFixed = userAssetFixed.Amount * userAssetFixed.AveregePrice;
+                        totalAssetsFixed += totalEachFixed;
                 }
-                foreach(var asset in assets)
+
+                foreach (var userAsset in userAssets)
                 {
-                    foreach(var userAsset in userAssets)
+                    foreach (var asset in assets)
                     {
-                        if(userAsset.AssetsId == asset.Id)
+                        if (userAsset.AssetsId == asset.Id)
                         {
-                            amountAsset = userAsset.Amount;
+                            currentPrice = asset.CurrentPrice;
+                            break;
                         }
                     }
-                    var totalEachAsset = amountAsset * asset.CurrentPrice;
+                    if (userAsset.SourceTypeAssets == SourceTypeAssets.Fixed)
+                    {
+                        currentPrice = userAsset.AveregePrice;
+                    }
+                    var totalEachAsset = userAsset.Amount * currentPrice;
                     totalAssets += totalEachAsset;
                 }
 
@@ -119,11 +118,12 @@ namespace Backend.API.Controller
             if(assetExist != null && userAssetExist != null)
             {
                 assetExist.Updated_at = DateTime.UtcNow;
-                assetExist.CurrentPrice += userAssetsDTO.BuyPrice;
+                assetExist.CurrentPrice = 10.50m;
                
                 await assetsService.UpdateAsync(assetExist);
 
                 userAssetExist.BuyPrice += userAssetsDTO.BuyPrice;
+                userAssetExist.AveregePrice = userAssetExist.BuyPrice + userAssetsDTO.BuyPrice;
                 userAssetExist.StartDate = userAssetsDTO.StartDate;
                 userAssetExist.EndDate = userAssetsDTO.EndDate;
 
@@ -136,18 +136,24 @@ namespace Backend.API.Controller
                 assetsDTO.Updated_at = DateTime.UtcNow;
                 assetsDTO.Deleted_at = null;
                 assetsDTO.CurrentPrice = userAssetsDTO.BuyPrice;
-    
-                await assetsService.CreateAsync(assetsDTO);
+
+                if (assetExist == null)
+                {
+                    await assetsService.CreateAsync(assetsDTO);
+                }
+                
 
                 var createdAssets = await assetsService.GetAllAsync();
                 var createdAssetExist = createdAssets.FirstOrDefault(a => a.CodName == assetsDTO.CodName);
 
                 userAssetsDTO.AssetsId = createdAssetExist.Id;
+                userAssetsDTO.AveregePrice = userAssetsDTO.BuyPrice;
                 userAssetsDTO.Created_at = DateTime.UtcNow;
                 userAssetsDTO.Updated_at = DateTime.UtcNow;
                 userAssetsDTO.Deleted_at = null;
-
+                
                 await userAssetsService.CreateAsync(userAssetsDTO);
+                
             }
         }
     }
