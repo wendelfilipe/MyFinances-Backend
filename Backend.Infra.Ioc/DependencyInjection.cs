@@ -17,6 +17,7 @@ using Backend.Domain.Interfaces.UserInterface;
 using Backend.Domain.Interfaces.WalletInterface;
 using Backend.Infra.Data.Context;
 using Backend.Infra.Data.EnititesConfiguration;
+using Backend.Infra.Data.Reporitories;
 using Backend.Infra.Data.Reporitories.EntityRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -38,6 +39,7 @@ namespace Backend.Infra.Ioc
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IWalletRepository, WalletRepository>();
             services.AddScoped<IAssetsRepository, AssetsRepository>();
+            services.AddScoped<IUserAssetsRepository, UserAssetsRepository>();
 
             services.AddScoped<IUserService, UserService>(implementationFactory =>
             {
@@ -59,6 +61,13 @@ namespace Backend.Infra.Ioc
                 var walletRepository = implementationFactory.GetService<IWalletRepository>();
 
                 return new WalletService(walletRepository, mapper, walletRepository);
+            });
+            services.AddScoped<IUserAssetsService, UserAssetsService>(implementationFactory =>
+            {
+                var mapper = implementationFactory.GetService<IMapper>();
+                var userAssetsRepository = implementationFactory.GetService<IUserAssetsRepository>();
+
+                return new UserAssetsService(userAssetsRepository, mapper,  userAssetsRepository);
             });
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
 

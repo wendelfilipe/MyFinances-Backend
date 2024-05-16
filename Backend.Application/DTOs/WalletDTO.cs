@@ -14,6 +14,7 @@ namespace Backend.Application.DTOs
         public int Id { get; set; }
         
         public int UserId { get; set; }
+        public int AssetsId { get; set; }
 
         [Required(ErrorMessage = "The name is required")]
         [MaxLength(100)]

@@ -14,39 +14,76 @@ namespace Backend.API.Controller
     [Route("api/[controller]")]
     public class StocksController : ControllerBase
     {  
-        decimal totalStocks = 0;
-        decimal totalAssets = 0;
 
-        public IAssetsService assetsService;
-        public StocksController(IAssetsService assetsService)
+        private readonly IAssetsService assetsService;
+        private readonly IUserAssetsService userAssetsService;
+        public StocksController(IAssetsService assetsService, IUserAssetsService userAssetsService)
         {
             this.assetsService = assetsService;
+            this.userAssetsService = userAssetsService;
         }
 
         [HttpGet("GetPerCentStocksByWalletId/{walletId}")]
         public async Task<ActionResult> GetPerCentStocksByWalletId(int walletId)
         {
-            var stocks = await assetsService.GetStocksByWalletId(walletId);
-            var assets = await assetsService.GetAllAssetsDTOByWalletIdAsync(walletId);
+            //filter all assets by type Stocks
+            var assets = await assetsService.GetAllAsync();
+            var assetsStock = assets.Where(a => a.SourceTypeAssets == SourceTypeAssets.Stocks);
 
-            if(stocks.Any())
+            //filter all userAssets by type Stocks of user
+            var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
+            var userAssetsStocks = userAssets.Where(ua => ua.SourceTypeAssets == SourceTypeAssets.Stocks);
+
+            //filter ids 
+            var userStocksAssetIds = userAssetsStocks.Select(ua => ua.AssetsId);
+            var userAssetsIds = userAssets.Select(us => us.AssetsId);
+
+            //filter all assets of user and 
+            var filterAssetsStocks = assetsStock.Where(stock => userStocksAssetIds.Contains(stock.Id));
+            
+            //all Assets of user
+            var allAssetsOfUser = assets.Where(asset => userAssetsIds.Contains(asset.Id));
+
+            decimal totalStocks = 0;
+            decimal totalAssets = 0;
+
+            long amountStock = 0;
+            long amountAsset = 0;
+            decimal currentPrice = 0.00m;
+
+            if(userAssetsStocks.Any())
             {
-                foreach(var stock in stocks)
+                foreach(var userAssetStock in userAssetsStocks)
                 {
-                    var totalEachStock = stock.Amount * stock.CurrentPrice;
-                    totalStocks += totalEachStock;
+                    foreach(var assetStock in filterAssetsStocks)
+                    {
+                        if(userAssetStock.AssetsId == assetStock.Id)
+                        {
+                            amountStock = userAssetStock.Amount;
+                            var totalEachStock = amountStock * assetStock.CurrentPrice;
+                            totalStocks += totalEachStock;
+                            break;
+                        }
+                    }
                 }
-                foreach(var asset in assets)
+                foreach(var userAsset in userAssets)
                 {
-                    var totalEachAsset = asset.Amount * asset.CurrentPrice;
+                    foreach(var assetOfUser in allAssetsOfUser)
+                    {
+                        if(userAsset.AssetsId == assetOfUser.Id)
+                        {
+                            currentPrice = assetOfUser.CurrentPrice;
+                            break;
+                        }
+                    }
+                    var totalEachAsset = userAsset.Amount * currentPrice;
                     totalAssets += totalEachAsset;
                 }
-            
 
-                var perCentStock = Math.Round((totalStocks * 100)/ totalAssets, 2);
+                var perCent = Math.Round((totalStocks * 100)/totalAssets, 2);
 
-                return Ok(perCentStock);
-            }
+                return Ok(perCent);
+            }  
             else
             {
                 return Ok("Não possui nehuma Ação");
@@ -56,8 +93,11 @@ namespace Backend.API.Controller
         [HttpGet("GetAllStocksByWalletIdAsync/{walletId}")]
         public async Task<ActionResult> GetAllStocksByWalletIdAsync(int walletId)
         {
-            var stocks = await assetsService.GetStocksByWalletId(walletId);
-            return Ok(stocks);
+            var userAsset = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
+            var userAssetsStock = userAsset.Where(ua => ua.SourceTypeAssets == SourceTypeAssets.Stocks);
+            var stockAssetsIds = userAssetsStock.Select(s => s.AssetsId);
+            var stockAssets = await assetsService.GetAllByIdsAsync(stockAssetsIds);
+            return Ok(new { stockAssets , userAssetsStock });
         }
     }
 }

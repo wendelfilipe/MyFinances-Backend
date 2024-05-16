@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Backend.Infra.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240503174341_Migration_0.0.7")]
-    partial class Migration_007
+    [Migration("20240515183735_Migration_1.0.1")]
+    partial class Migration_101
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,20 +33,6 @@ namespace Backend.Infra.Data.Migrations
                         .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<long>("Amount")
-                        .HasColumnType("bigint")
-                        .HasColumnName("amount");
-
-                    b.Property<decimal>("AveregePrice")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)")
-                        .HasColumnName("average_price");
-
-                    b.Property<decimal>("BuyPrice")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)")
-                        .HasColumnName("buy_price");
 
                     b.Property<string>("CodName")
                         .IsRequired()
@@ -79,18 +65,71 @@ namespace Backend.Infra.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
+                    b.HasKey("Id");
+
+                    b.ToTable("assets", "product");
+                });
+
+            modelBuilder.Entity("Backend.Domain.Entites.UserAssetsEntity.UserAssets", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<long>("Amount")
+                        .HasColumnType("bigint")
+                        .HasColumnName("amount");
+
+                    b.Property<int>("AssetsId")
+                        .HasColumnType("integer")
+                        .HasColumnName("assets_id");
+
+                    b.Property<decimal>("AveregePrice")
+                        .HasColumnType("numeric")
+                        .HasColumnName("average_price");
+
+                    b.Property<decimal>("BuyPrice")
+                        .HasColumnType("numeric")
+                        .HasColumnName("buy_price");
+
+                    b.Property<DateTime>("Created_at")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime?>("Deleted_at")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("EndDate")
+                        .HasColumnType("text");
+
+                    b.Property<decimal?>("PerCentCDI")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("SourceCreate")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SourceTypeAssets")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("StartDate")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Updated_at")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
                     b.Property<int>("WalletId")
                         .HasColumnType("integer")
                         .HasColumnName("wallet_id");
 
-                    b.Property<decimal>("totalPrice")
-                        .HasColumnType("numeric");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("WalletId");
-
-                    b.ToTable("assets", "product");
+                    b.ToTable("user_assets", "product");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entites.UserEntites.User", b =>
@@ -183,17 +222,6 @@ namespace Backend.Infra.Data.Migrations
                     b.ToTable("wallet", "product");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entites.AssetsEntites.Assets", b =>
-                {
-                    b.HasOne("Backend.Domain.Entites.WalletEntites.Wallet", "Wallet")
-                        .WithMany("Assets")
-                        .HasForeignKey("WalletId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Wallet");
-                });
-
             modelBuilder.Entity("Backend.Domain.Entites.WalletEntites.Wallet", b =>
                 {
                     b.HasOne("Backend.Domain.Entites.UserEntites.User", null)
@@ -206,11 +234,6 @@ namespace Backend.Infra.Data.Migrations
             modelBuilder.Entity("Backend.Domain.Entites.UserEntites.User", b =>
                 {
                     b.Navigation("Wallet");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entites.WalletEntites.Wallet", b =>
-                {
-                    b.Navigation("Assets");
                 });
 #pragma warning restore 612, 618
         }

@@ -23,32 +23,41 @@ namespace Backend.Application.Services
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<AssetsDTO>> GetAllAssetsDTOByWalletIdAsync(int walletId)
+        public async Task<IEnumerable<AssetsDTO>> GetAllAssetsDTOByAssetIdAsync(int assetId)
         {
-            var assetsEntity = await assetsRepository.GetAllAssetsByWalletIdAsync(walletId);
+            var assetsEntity = await assetsRepository.GetAllAssetsByAssetIdAsync(assetId);
             return mapper.Map<IEnumerable<AssetsDTO>>(assetsEntity);
         }
-         public async Task<IEnumerable<AssetsDTO>> GetStocksByWalletId(int walletId)
+         public async Task<IEnumerable<AssetsDTO>> GetStocksByAssetId(int assetId)
         {
-            var stocks = await assetsRepository.GetStocksByWalletId(walletId);
+            var stocks = await assetsRepository.GetStocksByAssetId(assetId);
             return mapper.Map<IEnumerable<AssetsDTO>>(stocks);
         }
-        public async Task<IEnumerable<AssetsDTO>> GetFiisByWalletId(int walletId)
+        public async Task<IEnumerable<AssetsDTO>> GetFiisByAssetId(int assetId)
         {
-            var fiis = await assetsRepository.GetFiisByWalletId(walletId);
+            var fiis = await assetsRepository.GetFiisByAssetId(assetId);
             return mapper.Map<IEnumerable<AssetsDTO>>(fiis);
         }
-        public async Task<IEnumerable<AssetsDTO>> GetFixedByWalletId(int walletId)
+        public async Task<IEnumerable<AssetsDTO>> GetFixedByAssetId(int assetId)
         {
-            var assetsFixed = await assetsRepository.GetFixedByWalletId(walletId);
+            var assetsFixed = await assetsRepository.GetFixedByAssetId(assetId);
             return mapper.Map<IEnumerable<AssetsDTO>>(assetsFixed);
         }
-        public async Task<IEnumerable<AssetsDTO>> GetInternacionalAssetsByWalletId(int walletId)
+        public async Task<IEnumerable<AssetsDTO>> GetInternacionalAssetsByAssetId(int assetId)
         {
-            var internacionalAssets = await assetsRepository.GetInternacionalAssetsByWalletId(walletId);
+            var internacionalAssets = await assetsRepository.GetInternacionalAssetsByAssetId(assetId);
             return mapper.Map<IEnumerable<AssetsDTO>>(internacionalAssets);
         }
+        public async Task<IEnumerable<UserAssetsDTO>> GetUserAssetsByAssetId(int assetId)
+        {
+            var userAssets = await assetsRepository.GetUserAssetsByAssetId(assetId);
+            return mapper.Map<IEnumerable<UserAssetsDTO>>(assetId);
+        }
 
-
+        public async Task<IEnumerable<AssetsDTO>> GetAllByIdsAsync(IEnumerable<int>? entitysDTO)
+        {
+            var entitys = await assetsRepository.GetAllByIdsAsync(entitysDTO);
+            return mapper.Map<IEnumerable<AssetsDTO>>(entitys);
+        }
     }
 }
