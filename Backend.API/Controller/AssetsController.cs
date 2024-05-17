@@ -118,7 +118,7 @@ namespace Backend.API.Controller
         }
 
         [HttpPost("PostCreateAssetAsync")]
-        public async Task PostCreateAssetsAsync(CreateAssetRequestDTO createAssetRequestDTO)
+        public async Task<ActionResult> PostCreateAssetsAsync(CreateAssetRequestDTO createAssetRequestDTO)
         {
             UserAssetsDTO? userAssetExist = null;
 
@@ -152,41 +152,61 @@ namespace Backend.API.Controller
                 
             if(assetExist != null && userAssetExist != null)
             {
-                assetExist.CurrentPrice = assetsDTO.CurrentPrice;
-                assetExist.Updated_at = DateTime.UtcNow;
-               
-                await assetsService.UpdateAsync(assetExist);
-
-                var sumAmount = userAssetExist.Amount + userAssetsDTO.Amount;
-                var sumAverege = ((userAssetExist.AveregePrice * userAssetExist.Amount) + (userAssetsDTO.BuyPrice * userAssetsDTO.Amount));
-                userAssetExist.AveregePrice =  Math.Round(sumAverege/sumAmount, 2);
-
-                userAssetExist.Amount = sumAmount;
-                userAssetExist.BuyPrice = userAssetsDTO.BuyPrice;
+                try
+                {
+                    assetExist.CurrentPrice = assetsDTO.CurrentPrice;
+                    assetExist.Updated_at = DateTime.UtcNow;
                 
-                await userAssetsService.UpdateAsync(userAssetExist);
+                    await assetsService.UpdateAsync(assetExist);
+
+                    var sumAmount = userAssetExist.Amount + userAssetsDTO.Amount;
+                    var sumAverege = ((userAssetExist.AveregePrice * userAssetExist.Amount) + (userAssetsDTO.BuyPrice * userAssetsDTO.Amount));
+                    userAssetExist.AveregePrice =  Math.Round(sumAverege/sumAmount, 2);
+
+                    userAssetExist.Amount = sumAmount;
+                    userAssetExist.BuyPrice = userAssetsDTO.BuyPrice;
+                    
+                    await userAssetsService.UpdateAsync(userAssetExist);
+
+                    return Ok("Ativo Atualizado com sucesso");
+                }
+                catch(Exception e)
+                {
+                    return Ok(e.Message);
+                }
+               
             }
             else
             {
-                assetsDTO.Created_at = DateTime.UtcNow;
-                assetsDTO.Updated_at = DateTime.UtcNow;
-                assetsDTO.Deleted_at = null;
-
-                if (assetExist == null)
+                try
                 {
-                    await assetsService.CreateAsync(assetsDTO);
+                    assetsDTO.Created_at = DateTime.UtcNow;
+                    assetsDTO.Updated_at = DateTime.UtcNow;
+                    assetsDTO.Deleted_at = null;
+
+                    if (assetExist == null)
+                    {
+                        await assetsService.CreateAsync(assetsDTO);
+                    }
+
+                    var createdAssets = await assetsService.GetAllAsync();
+                    var createdAssetExist = createdAssets.FirstOrDefault(a => a.CodName == assetsDTO.CodName);
+
+                    userAssetsDTO.AveregePrice = userAssetsDTO.BuyPrice;
+                    userAssetsDTO.AssetsId = createdAssetExist.Id;
+                    userAssetsDTO.Deleted_at = null;
+                    userAssetsDTO.Updated_at = DateTime.UtcNow;
+                    userAssetsDTO.Created_at = DateTime.UtcNow;
+
+                    await userAssetsService.CreateAsync(userAssetsDTO);
+
+                    return Ok("Ativo criado com sucesso");
                 }
-
-                var createdAssets = await assetsService.GetAllAsync();
-                var createdAssetExist = createdAssets.FirstOrDefault(a => a.CodName == assetsDTO.CodName);
-
-                userAssetsDTO.AveregePrice = userAssetsDTO.BuyPrice;
-                userAssetsDTO.AssetsId = createdAssetExist.Id;
-                userAssetsDTO.Deleted_at = null;
-                userAssetsDTO.Updated_at = DateTime.UtcNow;
-                userAssetsDTO.Created_at = DateTime.UtcNow;
-
-                await userAssetsService.CreateAsync(userAssetsDTO);
+                catch(Exception e)
+                {
+                    return Ok(e.Message);
+                }
+                
             
             }
             
