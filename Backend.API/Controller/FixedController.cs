@@ -82,7 +82,7 @@ namespace Backend.API.Controller
         }
 
         [HttpPost("PostCreateFixedAsync")]
-        public async Task PostCreateFixedAsync(CreateAssetRequestDTO createAssetRequestDTO)
+        public async Task<ActionResult> PostCreateFixedAsync(CreateAssetRequestDTO createAssetRequestDTO)
         {
             UserAssetsDTO? userAssetExist = null;
 
@@ -117,43 +117,60 @@ namespace Backend.API.Controller
                 
             if(assetExist != null && userAssetExist != null)
             {
-                assetExist.Updated_at = DateTime.UtcNow;
-                assetExist.CurrentPrice = 10.50m;
-               
-                await assetsService.UpdateAsync(assetExist);
+                try
+                {
+                    assetExist.Updated_at = DateTime.UtcNow;
+                    assetExist.CurrentPrice = 10.50m;
+                
+                    await assetsService.UpdateAsync(assetExist);
 
-                userAssetExist.BuyPrice += userAssetsDTO.BuyPrice;
-                userAssetExist.AveregePrice = userAssetExist.BuyPrice + userAssetsDTO.BuyPrice;
-                userAssetExist.StartDate = userAssetsDTO.StartDate;
-                userAssetExist.EndDate = userAssetsDTO.EndDate;
+                    userAssetExist.BuyPrice += userAssetsDTO.BuyPrice;
+                    userAssetExist.AveregePrice = userAssetExist.BuyPrice + userAssetsDTO.BuyPrice;
+                    userAssetExist.StartDate = userAssetsDTO.StartDate;
+                    userAssetExist.EndDate = userAssetsDTO.EndDate;
 
-                await userAssetsService.UpdateAsync(userAssetExist);
+                    await userAssetsService.UpdateAsync(userAssetExist);
+
+                    return Ok("Ativo Atualizado com sucesso");
+                }
+                catch(Exception e)
+                {
+                    return Ok(e.Message);
+                }
+                
             }
             else
             {
-               
-                assetsDTO.Created_at = DateTime.UtcNow;
-                assetsDTO.Updated_at = DateTime.UtcNow;
-                assetsDTO.Deleted_at = null;
-                assetsDTO.CurrentPrice = userAssetsDTO.BuyPrice;
-
-                if (assetExist == null)
+                try
                 {
-                    await assetsService.CreateAsync(assetsDTO);
+                    assetsDTO.Created_at = DateTime.UtcNow;
+                    assetsDTO.Updated_at = DateTime.UtcNow;
+                    assetsDTO.Deleted_at = null;
+                    assetsDTO.CurrentPrice = userAssetsDTO.BuyPrice;
+
+                    if (assetExist == null)
+                    {
+                        await assetsService.CreateAsync(assetsDTO);
+                    }
+                    
+
+                    var createdAssets = await assetsService.GetAllAsync();
+                    var createdAssetExist = createdAssets.FirstOrDefault(a => a.CodName == assetsDTO.CodName);
+
+                    userAssetsDTO.AssetsId = createdAssetExist.Id;
+                    userAssetsDTO.AveregePrice = userAssetsDTO.BuyPrice;
+                    userAssetsDTO.Created_at = DateTime.UtcNow;
+                    userAssetsDTO.Updated_at = DateTime.UtcNow;
+                    userAssetsDTO.Deleted_at = null;
+                    
+                    await userAssetsService.CreateAsync(userAssetsDTO);
+
+                    return Ok("Ativo criado com sucesso");
                 }
-                
-
-                var createdAssets = await assetsService.GetAllAsync();
-                var createdAssetExist = createdAssets.FirstOrDefault(a => a.CodName == assetsDTO.CodName);
-
-                userAssetsDTO.AssetsId = createdAssetExist.Id;
-                userAssetsDTO.AveregePrice = userAssetsDTO.BuyPrice;
-                userAssetsDTO.Created_at = DateTime.UtcNow;
-                userAssetsDTO.Updated_at = DateTime.UtcNow;
-                userAssetsDTO.Deleted_at = null;
-                
-                await userAssetsService.CreateAsync(userAssetsDTO);
-                
+                catch(Exception e)
+                {
+                    return Ok(e.Message);
+                }
             }
         }
     }

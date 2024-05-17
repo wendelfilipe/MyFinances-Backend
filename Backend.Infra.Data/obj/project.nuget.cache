@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "53OytTvex9XwrA3QmFa6MVpoG0Ka1BcsGG6jRvy/KOSKBL5WQNannTH/Yx+HquFgJ+I9L8Y3UxffRofZp02nFg==",
+  "dgSpecHash": "R8B7uuHAO3o=",
   "success": true,
   "projectFilePath": "/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.Infra.Data/Backend.Infra.Data.csproj",
   "expectedPackageFiles": [
@@ -51,7 +51,7 @@
       "code": "NU1903",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'Npgsql' 8.0.2 has a known high severity vulnerability, https://github.com/advisories/GHSA-x9vc-6hfv-hg8c",
+      "message": "O pacote 'Npgsql' 8.0.2 tem uma alta vulnerabilidade de gravidade conhecida, https://github.com/advisories/GHSA-x9vc-6hfv-hg8c",
       "libraryId": "Npgsql",
       "targetGraphs": [
         "net8.0"

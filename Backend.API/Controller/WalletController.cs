@@ -48,20 +48,28 @@ namespace Backend.API.Controller
         }
 
         [HttpPost("PostWalletDTOAsync")]
-        public async Task PostWalletDTOAsync(WalletDTO walletDTO)
+        public async Task<ActionResult> PostWalletDTOAsync(WalletDTO walletDTO)
         {
-            walletDTO.Created_at = DateTime.UtcNow;
-            walletDTO.Updated_at = DateTime.UtcNow;
-            if(walletDTO != null)
+            try
             {
-               
-                await walletService.CreateAsync(walletDTO);
-            }
-            else
-            {
-                throw new Exception("Wallet invalid");
-            }
+                walletDTO.Created_at = DateTime.UtcNow;
+                walletDTO.Updated_at = DateTime.UtcNow;
+                if(walletDTO != null)
+                {
+                
+                    await walletService.CreateAsync(walletDTO);
+                }
+                else
+                {
+                    throw new Exception("Wallet invalid");
+                }
 
+                return Ok("Carteira criada com sucesso");
+            }
+            catch(Exception e)
+            {
+                return Ok(e.Message);
+            }
         }
     
 

@@ -57,17 +57,28 @@ namespace Backend.API.Controller
         }
 
         [HttpPost("PostCreateUserByWebAsync")]
-        public async Task PostCreateUserByWebAsync(UserDTO userDTO)
+        public async Task<ActionResult> PostCreateUserByWebAsync(UserDTO userDTO)
         {
-            var user = await userService.GetUserDTOByEmailAsync(userDTO.Email);
-            if(user != null)
-                throw new Exception("Email ja exite");
-                
-            userDTO.Created_at = DateTime.UtcNow;
-            userDTO.Updated_at = DateTime.UtcNow;
-            userDTO.Deleted_at = null;
+            try 
+            {
+                var user = await userService.GetUserDTOByEmailAsync(userDTO.Email);
+                if(user != null)
+                    throw new Exception("Email ja exite");
+                    
+                userDTO.Created_at = DateTime.UtcNow;
+                userDTO.Updated_at = DateTime.UtcNow;
+                userDTO.Deleted_at = null;
 
-            await userService.CreateAsync(userDTO);
+                await userService.CreateAsync(userDTO);
+
+                return Ok("Usuario criado com sucesso");
+            }
+            catch (Exception e)
+            {
+                return Ok(e.Message);
+            }
+
+            
         }
     }
 }
