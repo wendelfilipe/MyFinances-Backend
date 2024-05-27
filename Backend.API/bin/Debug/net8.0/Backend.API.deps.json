@@ -13,7 +13,8 @@
           "Microsoft.AspNetCore.OpenApi": "8.0.4",
           "Microsoft.CodeAnalysis.Analyzers": "3.3.4",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.2",
-          "Swashbuckle.AspNetCore": "6.4.0"
+          "Swashbuckle.AspNetCore": "6.4.0",
+          "Newtonsoft.Json": "13.0.0.0"
         },
         "runtime": {
           "Backend.API.dll": {}
@@ -615,6 +616,14 @@
         "runtime": {
           "Backend.Infra.Ioc.dll": {}
         }
+      },
+      "Newtonsoft.Json/13.0.0.0": {
+        "runtime": {
+          "Newtonsoft.Json.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.1.25517"
+          }
+        }
       }
     }
   },
@@ -998,6 +1007,11 @@
     },
     "Backend.Infra.Ioc/1.0.0": {
       "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Newtonsoft.Json/13.0.0.0": {
+      "type": "reference",
       "serviceable": false,
       "sha512": ""
     }

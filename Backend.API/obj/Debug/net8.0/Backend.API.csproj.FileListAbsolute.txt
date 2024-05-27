@@ -114,3 +114,5 @@
 /home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.API/obj/Debug/net8.0/Backend.API.pdb
 /home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.API/obj/Debug/net8.0/Backend.API.genruntimeconfig.cache
 /home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.API/obj/Debug/net8.0/ref/Backend.API.dll
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.API/bin/Debug/net8.0/Newtonsoft.Json.dll
+/home/wendel/Documentos/Projetos/MyFinances/Backend/Backend.API/bin/Debug/net8.0/Newtonsoft.Json.xml
