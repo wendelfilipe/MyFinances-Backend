@@ -20,28 +20,21 @@ namespace Backend.API.Controller
         private static readonly HttpClient http = new HttpClient();
         private readonly IAssetsService assetsService;
         private readonly IUserAssetsService userAssetsService;
-        private readonly Timer timer;
         public AssetsController(IAssetsService assetsService, IHttpContextAccessor httpContextAccessor, IUserAssetsService userAssetsService)
         {
             this.assetsService = assetsService;
             this.httpContextAccessor = httpContextAccessor;
             this.userAssetsService = userAssetsService;
-            this.timer = new Timer(RunDailyTask, null, TimeSpan.Zero, TimeSpan.FromHours(24));;
         }
 
-        private void RunDailyTask(object state)
-        {
-            UpdateAssets();
-            
-        }
-
-        public async void UpdateAssets()
+        [HttpGet("UpdateAssetsAsync")]
+        public async Task UpdateAssetsAsync()
         {
             var assets = await assetsService.GetAllAsync();
             foreach (var asset in assets)
             {
                 var dateYesterday = DateTime.UtcNow.AddHours(-24);
-                if (asset.Updated_at < dateYesterday)
+                if (asset.Updated_at < dateYesterday && asset.CodName != "Selic")
                 {
                     try
                     {
@@ -53,6 +46,8 @@ namespace Backend.API.Controller
 
                         JObject jsonResponse = JObject.Parse(responseBory);
                         var regularMarketOpenResult = jsonResponse["results"];
+                        if(regularMarketOpenResult[0] == null)
+                            continue;
                         var regularMarketOpen = regularMarketOpenResult[0]["regularMarketOpen"].ToString();
                         
                         asset.CurrentPrice = decimal.Parse(regularMarketOpen);
