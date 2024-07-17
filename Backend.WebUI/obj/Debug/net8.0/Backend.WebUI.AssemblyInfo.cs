@@ -13,9 +13,15 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Backend.WebUI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
+<<<<<<< Updated upstream:Backend.WebUI/obj/Debug/net8.0/Backend.WebUI.AssemblyInfo.cs
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+de8a59a9d7a0ded9e3f4450bc54fb49b566be43d")]
 [assembly: System.Reflection.AssemblyProductAttribute("Backend.WebUI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Backend.WebUI")]
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fd381682ef156e158b9b76c674b800110b15480d")]
+[assembly: System.Reflection.AssemblyProductAttribute("Backend.API")]
+[assembly: System.Reflection.AssemblyTitleAttribute("Backend.API")]
+>>>>>>> Stashed changes:Backend.API/obj/Debug/net8.0/Backend.API.AssemblyInfo.cs
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // Gerado pela classe WriteCodeFragment do MSBuild.
