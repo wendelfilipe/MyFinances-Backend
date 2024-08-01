@@ -8,6 +8,7 @@ using Backend.Application.Interfaces;
 using Backend.Domain.Entites.Enums;
 using Backend.Domain.Interfaces.AssetsInterface;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace Backend.API.Controller
 {
@@ -16,31 +17,53 @@ namespace Backend.API.Controller
     public class AssetsController : ControllerBase
     {
         private readonly IHttpContextAccessor httpContextAccessor;
+        private static readonly HttpClient http = new HttpClient();
         private readonly IAssetsService assetsService;
         private readonly IUserAssetsService userAssetsService;
-        private readonly Timer timer;
         public AssetsController(IAssetsService assetsService, IHttpContextAccessor httpContextAccessor, IUserAssetsService userAssetsService)
         {
             this.assetsService = assetsService;
             this.httpContextAccessor = httpContextAccessor;
-            this. userAssetsService = userAssetsService;
-            this.timer = new Timer(RunDailyTask, null, TimeSpan.Zero, TimeSpan.FromHours(24));;
+            this.userAssetsService = userAssetsService;
         }
 
-        private void RunDailyTask(object state)
+        [HttpGet("UpdateAssetsAsync")]
+        public async Task UpdateAssetsAsync()
         {
-            // Your method to run daily at 3 am
-            
-        }
+            var assets = await assetsService.GetAllAsync();
+            foreach (var asset in assets)
+            {
+                var dateYesterday = DateTime.UtcNow.AddHours(-24);
+                if (asset.Updated_at < dateYesterday && asset.CodName != "Selic")
+                {
+                    try
+                    {
+                        HttpResponseMessage response =
+                            await http.GetAsync(
+                                $"https://brapi.dev/api/quote/{asset.CodName}?token=tSC4Zp6TZfoC6u7qeDGtdh");
+                        response.EnsureSuccessStatusCode();
+                        string responseBory = await response.Content.ReadAsStringAsync();
 
-        public void UpdateAssetsDaily()
-        {
-            
-        }
+                        JObject jsonResponse = JObject.Parse(responseBory);
+                        var regularMarketOpenResult = jsonResponse["results"];
+                        if(regularMarketOpenResult[0] == null)
+                            continue;
+                        var regularMarketOpen = regularMarketOpenResult[0]["regularMarketOpen"].ToString();
+                        
+                        asset.CurrentPrice = decimal.Parse(regularMarketOpen);
+                        asset.Updated_at = DateTime.UtcNow;
 
+                        await assetsService.UpdateAsync(asset);
+
+                    }
+                    catch(HttpRequestException e)
+                    {
+                        Console.WriteLine($"Request error: {e.Message}");
+                    }
+                }
+            }
+        }
         
-
-
         [HttpGet("GetAllAssetsDTOAsync")]
         public async Task<IEnumerable<AssetsDTO>> GetAllAssetsDTOAsync()
         {
