@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Backend.Application.Wallets.Queries
 {
-    public class GetAllWalletsDTOByUserIdQuery : IRequest<Wallet>
+    public class GetAllWalletsDTOByUserIdQuery : IRequest<IEnumerable<Wallet>>
     {
         public int UserId { get; set; }
         public GetAllWalletsDTOByUserIdQuery(int userId)  

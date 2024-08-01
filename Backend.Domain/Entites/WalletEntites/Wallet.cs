@@ -19,6 +19,13 @@ namespace Backend.Domain.Entites.WalletEntites
         {
             ValidateDomain(name);
             UserId = userId;
+            Name = name;
+        }
+
+        public void Update(string name)
+        {
+            ValidateDomain(name);
+            Name = name;
         }
 
         private void ValidateDomain(string name)
