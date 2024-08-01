@@ -6,16 +6,19 @@ using Backend.Domain.Entites.AssetsEntites;
 using Backend.Domain.Entites.UserAssetsEntity;
 using Backend.Domain.Entites.UserEntites;
 using Backend.Domain.Entites.WalletEntites;
+using Backend.Infra.Data.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Infra.Data.Context
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public AppDbContext (DbContextOptions<AppDbContext> options) : base(options)
         {
             
         }
+<<<<<<< HEAD
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.EnableSensitiveDataLogging();
@@ -23,6 +26,9 @@ namespace Backend.Infra.Data.Context
         }
 
         public DbSet<User> Users { get; set; }
+=======
+        public DbSet<User> User{ get; set; }
+>>>>>>> feature
         public DbSet<Wallet> Wallets  { get; set; }
         public DbSet<Assets> Assets { get; set; }
 
