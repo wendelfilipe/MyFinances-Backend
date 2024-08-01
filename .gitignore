@@ -1,0 +1,7 @@
+/Backend.Domain/obj/
+/Backend.Application/obj/
+/Backend.Infra.Data/obj/
+/Backend.Infra.Ioc/obj/
+/Backend.API/obj/
+/Backend.Domain.Tests/obj/
+/Backend.WebUI/obj/
