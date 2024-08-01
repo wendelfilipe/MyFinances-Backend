@@ -20,7 +20,7 @@ namespace Backend.Infra.Data.EnititesConfiguration
 
         public async Task<User> GetByEmailAsync(string email)
         {
-            return await context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            return await context.User.FirstOrDefaultAsync(u => u.Email == email);
         }
     }
 }

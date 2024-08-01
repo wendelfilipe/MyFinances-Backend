@@ -15,10 +15,17 @@ namespace Backend.Domain.Entites.WalletEntites
         public string Name { get; private set; }
 
         public ICollection<Assets> Assets { get; private set; }
-
-        public Wallet(string name)
+        public Wallet(string name, int userId)
         {
             ValidateDomain(name);
+            UserId = userId;
+            Name = name;
+        }
+
+        public void Update(string name)
+        {
+            ValidateDomain(name);
+            Name = name;
         }
 
         private void ValidateDomain(string name)
