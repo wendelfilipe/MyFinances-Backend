@@ -78,6 +78,7 @@ namespace Backend.Infra.Ioc
             var myHandlers = AppDomain.CurrentDomain.Load("Backend.Application");
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(myHandlers));
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
+            services.AddAutoMapper(typeof(DTOToCommandMapping));
 
             return services;
         }
