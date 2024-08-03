@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Backend.Domain.Entites;
+using Backend.Domain.Entites.AssetsEntites;
 using Backend.Domain.Entites.Enums;
 using MediatR;
 
-namespace Backend.Application.Assets.Commands
+namespace Backend.Application.Asset.Commands
 {
-    public class AssetsEntityCommand : IRequest<AssetsEntity>
+    public class AssetsCommand : IRequest<Assets>
     {
         public string CodName { get; set; }
         public decimal CurrentPrice { get; set; }

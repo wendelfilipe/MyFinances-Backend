@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.Application.Asset.Commands;
 
-namespace Backend.Application.Assets.Commands
+namespace Backend.Application.Asset.Commands
 {
-    public class AssetsEntityUpdateCommand : AssetsEntityCommand
+    public class AssetsUpdateCommand : AssetsCommand
     {
         public int Id { get; set; }
         

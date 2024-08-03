@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.Application.Asset.Commands;
 
-namespace Backend.Application.Assets.Commands
+namespace Backend.Application.Asset.Commands
 {
-    public class AssetsEntityRemoveCommand : AssetsEntityCommand
+    public class AssetsRemoveCommand : AssetsCommand
     {
         public int Id { get; set; }
-        public AssetsEntityRemoveCommand(int id)
+        public AssetsRemoveCommand(int id)
         {
             Id = id;
         }
