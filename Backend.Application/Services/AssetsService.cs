@@ -10,54 +10,73 @@ using Backend.Domain.Entites.AssetsEntites;
 using Backend.Domain.Entites.Enums;
 using Backend.Domain.Interfaces;
 using Backend.Domain.Interfaces.AssetsInterface;
+using MediatR;
 
 namespace Backend.Application.Services
 {
-    public class AssetsService : EntityService<Assets, AssetsDTO>, IAssetsService
+    public class AssetsService : IAssetsService
     {
-        private readonly IAssetsRepository assetsRepository;
-        private readonly IMapper mapper;
-        public AssetsService(IEntityRepository<Assets> entityRepository, IMapper mapper, IAssetsRepository assetsRepository) : base(entityRepository, mapper)
+        private IMapper mapper;
+        private IMediator mediator;
+        public AssetsService(IMapper mapper, IMediator mediator)
         {
-            this.assetsRepository = assetsRepository;
             this.mapper = mapper;
+            this.mediator = mediator;
         }
 
-        public async Task<IEnumerable<AssetsDTO>> GetAllAssetsDTOByAssetIdAsync(int assetId)
+        public Task CreateAsync(AssetsDTO entityDTO)
         {
-            var assetsEntity = await assetsRepository.GetAllAssetsByAssetIdAsync(assetId);
-            return mapper.Map<IEnumerable<AssetsDTO>>(assetsEntity);
-        }
-         public async Task<IEnumerable<AssetsDTO>> GetStocksByAssetId(int assetId)
-        {
-            var stocks = await assetsRepository.GetStocksByAssetId(assetId);
-            return mapper.Map<IEnumerable<AssetsDTO>>(stocks);
-        }
-        public async Task<IEnumerable<AssetsDTO>> GetFiisByAssetId(int assetId)
-        {
-            var fiis = await assetsRepository.GetFiisByAssetId(assetId);
-            return mapper.Map<IEnumerable<AssetsDTO>>(fiis);
-        }
-        public async Task<IEnumerable<AssetsDTO>> GetFixedByAssetId(int assetId)
-        {
-            var assetsFixed = await assetsRepository.GetFixedByAssetId(assetId);
-            return mapper.Map<IEnumerable<AssetsDTO>>(assetsFixed);
-        }
-        public async Task<IEnumerable<AssetsDTO>> GetInternacionalAssetsByAssetId(int assetId)
-        {
-            var internacionalAssets = await assetsRepository.GetInternacionalAssetsByAssetId(assetId);
-            return mapper.Map<IEnumerable<AssetsDTO>>(internacionalAssets);
-        }
-        public async Task<IEnumerable<UserAssetsDTO>> GetUserAssetsByAssetId(int assetId)
-        {
-            var userAssets = await assetsRepository.GetUserAssetsByAssetId(assetId);
-            return mapper.Map<IEnumerable<UserAssetsDTO>>(assetId);
+            
         }
 
-        public async Task<IEnumerable<AssetsDTO>> GetAllByIdsAsync(IEnumerable<int>? entitysDTO)
+        public Task DeleteAsync(AssetsDTO entityDTO)
         {
-            var entitys = await assetsRepository.GetAllByIdsAsync(entitysDTO);
-            return mapper.Map<IEnumerable<AssetsDTO>>(entitys);
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<AssetsDTO>> GetAllAssetsDTOByAssetIdAsync(int assetId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<AssetsDTO>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<AssetsDTO>> GetAllByIdsAsync(IEnumerable<int>? entitysDTO)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<AssetsDTO> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<AssetsDTO>> GetFiisByAssetId(int assetId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<AssetsDTO>> GetFixedByAssetId(int assetId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<AssetsDTO>> GetInternacionalAssetsByAssetId(int assetId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<AssetsDTO>> GetStocksByAssetId(int assetId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateAsync(AssetsDTO entityDTO)
+        {
+            throw new NotImplementedException();
         }
     }
 }
