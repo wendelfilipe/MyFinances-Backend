@@ -219,8 +219,6 @@ namespace Backend.Infra.Data.Migrations
                     b.ToTable("wallet", "product");
                 });
 
-<<<<<<< HEAD
-=======
             modelBuilder.Entity("Backend.Infra.Data.Identity.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -428,7 +426,6 @@ namespace Backend.Infra.Data.Migrations
                     b.Navigation("Wallet");
                 });
 
->>>>>>> feature
             modelBuilder.Entity("Backend.Domain.Entites.WalletEntites.Wallet", b =>
                 {
                     b.HasOne("Backend.Domain.Entites.UserEntites.User", null)

@@ -18,11 +18,8 @@ using Backend.Domain.Interfaces.UserInterface;
 using Backend.Domain.Interfaces.WalletInterface;
 using Backend.Infra.Data.Context;
 using Backend.Infra.Data.EnititesConfiguration;
-<<<<<<< HEAD
-using Backend.Infra.Data.Reporitories;
-=======
 using Backend.Infra.Data.Identity;
->>>>>>> feature
+using Backend.Infra.Data.Reporitories;
 using Backend.Infra.Data.Reporitories.EntityRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -77,23 +74,11 @@ namespace Backend.Infra.Ioc
             //     var mapper = implementationFactory.GetService<IMapper>();
             //     var walletRepository = implementationFactory.GetService<IWalletRepository>();
 
-<<<<<<< HEAD
-                return new WalletService(walletRepository, mapper, walletRepository);
-            });
-            services.AddScoped<IUserAssetsService, UserAssetsService>(implementationFactory =>
-            {
-                var mapper = implementationFactory.GetService<IMapper>();
-                var userAssetsRepository = implementationFactory.GetService<IUserAssetsRepository>();
-
-                return new UserAssetsService(userAssetsRepository, mapper,  userAssetsRepository);
-            });
-=======
             //     return new WalletService(walletRepository, mapper, walletRepository);
             // });
             
             var myHandlers = AppDomain.CurrentDomain.Load("Backend.Application");
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(myHandlers));
->>>>>>> feature
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
             services.AddAutoMapper(typeof(DTOToCommandMapping));
 
