@@ -53,7 +53,7 @@ namespace Backend.API.Controller
                         asset.CurrentPrice = decimal.Parse(regularMarketOpen);
                         asset.Updated_at = DateTime.UtcNow;
 
-                        await assetsService.UpdateAsync(asset);
+                        await assetsService.UpdateAssetAsync(asset);
 
                     }
                     catch(HttpRequestException e)
@@ -180,7 +180,7 @@ namespace Backend.API.Controller
                     assetExist.CurrentPrice = assetsDTO.CurrentPrice;
                     assetExist.Updated_at = DateTime.UtcNow;
                 
-                    await assetsService.UpdateAsync(assetExist);
+                    await assetsService.UpdateAssetAsync(assetExist);
 
                     var sumAmount = userAssetExist.Amount + userAssetsDTO.Amount;
                     var sumAverege = ((userAssetExist.AveregePrice * userAssetExist.Amount) + (userAssetsDTO.BuyPrice * userAssetsDTO.Amount));
@@ -189,7 +189,7 @@ namespace Backend.API.Controller
                     userAssetExist.Amount = sumAmount;
                     userAssetExist.BuyPrice = userAssetsDTO.BuyPrice;
                     
-                    await userAssetsService.UpdateAsync(userAssetExist);
+                    await userAssetsService.UpdateAssetAsync(userAssetExist);
 
                     return Ok("Ativo Atualizado com sucesso");
                 }
