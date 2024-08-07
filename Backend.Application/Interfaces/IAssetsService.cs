@@ -3,14 +3,18 @@ using Backend.Domain.Entites.Enums;
 
 namespace Backend.Application.Interfaces
 {
-    public interface IAssetsService : IEntityService<AssetsDTO>
+    public interface IAssetsService
     {
+        Task CreateAssetAsync(AssetsDTO assetsDTO);
+        Task UpdateAssetAsync(AssetsDTO assetsDTO);
+        Task<AssetsDTO> GetAssetByIdAsync(int id);
+        Task<IEnumerable<AssetsDTO>> GetAllAssetsAsync();
         Task<IEnumerable<AssetsDTO>> GetAllAssetsDTOByAssetIdAsync(int assetId);
-        Task<IEnumerable<AssetsDTO>> GetStocksByAssetId(int assetId);
-        Task<IEnumerable<AssetsDTO>> GetFiisByAssetId(int assetId); 
-        Task<IEnumerable<AssetsDTO>> GetFixedByAssetId(int assetId);
-        Task<IEnumerable<AssetsDTO>> GetInternacionalAssetsByAssetId(int assetId);
-        Task<IEnumerable<AssetsDTO>> GetAllByIdsAsync(IEnumerable<int>? entitysDTO);
+        Task<IEnumerable<AssetsDTO>> GetStocksByAssetIdAsync(int assetId);
+        Task<IEnumerable<AssetsDTO>> GetFiisByAssetIdAsync(int assetId); 
+        Task<IEnumerable<AssetsDTO>> GetFixedByAssetIdAsync(int assetId);
+        Task<IEnumerable<AssetsDTO>> GetInternacionalAssetsByAssetIdAsync(int assetId);
+        Task<IEnumerable<AssetsDTO>> GetAllByIdsAsync(IEnumerable<int>? assetsDTO);
         
     }
 }
