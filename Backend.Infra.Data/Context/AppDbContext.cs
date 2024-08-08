@@ -18,7 +18,6 @@ namespace Backend.Infra.Data.Context
         {
             
         }
-        public DbSet<User> User{ get; set; }
         public DbSet<Wallet> Wallets  { get; set; }
         public DbSet<Assets> Assets { get; set; }
 

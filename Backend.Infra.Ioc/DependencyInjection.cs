@@ -7,7 +7,6 @@ using Backend.Application.DTOs;
 using Backend.Application.Interfaces;
 using Backend.Application.Mapping;
 using Backend.Application.Services;
-using Backend.Application.Services.EntityServices;
 using Backend.Domain.Account;
 using Backend.Domain.Entites.AssetsEntites;
 using Backend.Domain.Entites.UserEntites;
@@ -45,13 +44,10 @@ namespace Backend.Infra.Ioc
 
             services.AddScoped<IAuthenticate, AuthenticateService>();
 
-
-            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IWalletRepository, WalletRepository>();
             services.AddScoped<IAssetsRepository, AssetsRepository>();
             services.AddScoped<IUserAssetsRepository, UserAssetsRepository>();
 
-            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAssetsService, AssetsService>();
             services.AddScoped<IWalletService, WalletService>();
 

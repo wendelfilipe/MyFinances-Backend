@@ -7,7 +7,6 @@ using Backend.Application.Asset.Commands;
 using Backend.Application.Asset.Queries;
 using Backend.Application.DTOs;
 using Backend.Application.Interfaces;
-using Backend.Application.Services.EntityServices;
 using Backend.Domain.Entites.AssetsEntites;
 using Backend.Domain.Entites.Enums;
 using Backend.Domain.Interfaces;

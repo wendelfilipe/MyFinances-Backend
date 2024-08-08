@@ -11,6 +11,7 @@ namespace Backend.Application.Interfaces
         Task<IEnumerable<UserAssetsDTO>> GetAllUserAssetsByWalletId(int walletId);
         Task CreateUserAssetsAsync(UserAssetsDTO userAssetsDTO);
         Task UpdateUserAssetsAsync(UserAssetsDTO userAssetsDTO);
+        Task DeleteUserAssetAsync(int id);
 
     }
 }

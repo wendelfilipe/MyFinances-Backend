@@ -30,7 +30,7 @@ namespace Backend.API.Controller
         [HttpGet("UpdateAssetsAsync")]
         public async Task UpdateAssetsAsync()
         {
-            var assets = await assetsService.GetAllAsync();
+            var assets = await assetsService.GetAllAssetsAsync();
             foreach (var asset in assets)
             {
                 var dateYesterday = DateTime.UtcNow.AddHours(-24);
@@ -68,7 +68,7 @@ namespace Backend.API.Controller
         public async Task<IEnumerable<AssetsDTO>> GetAllAssetsDTOAsync()
         {
            
-            var assets = await assetsService.GetAllAsync();
+            var assets = await assetsService.GetAllAssetsAsync();
             if(assets == null )
                 throw new Exception("Do not exist assets");
 
@@ -81,7 +81,7 @@ namespace Backend.API.Controller
         {
             decimal totalAssets = 0;
             decimal currentPrice = 0.00m;
-            var assets = await assetsService.GetAllAsync();
+            var assets = await assetsService.GetAllAssetsAsync();
             var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
             foreach(var userAsset in userAssets)
             {
@@ -111,7 +111,7 @@ namespace Backend.API.Controller
             decimal patrimony = 0.00m;
             decimal currentPrice = 0;
 
-            var assets = await assetsService.GetAllAsync();
+            var assets = await assetsService.GetAllAssetsAsync();
             var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
 
             if(assets == null )
@@ -164,7 +164,7 @@ namespace Backend.API.Controller
                 SourceTypeAssets = createAssetRequestDTO.SourceTypeAssets,
                 StartDate = createAssetRequestDTO.StartDate
             };
-            var assets = await assetsService.GetAllAsync();
+            var assets = await assetsService.GetAllAssetsAsync();
             var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(userAssetsDTO.WalletId);
             var assetExist = assets.FirstOrDefault(a => a.CodName == assetsDTO.CodName);
             if(assetExist != null)
@@ -189,7 +189,7 @@ namespace Backend.API.Controller
                     userAssetExist.Amount = sumAmount;
                     userAssetExist.BuyPrice = userAssetsDTO.BuyPrice;
                     
-                    await userAssetsService.UpdateAssetAsync(userAssetExist);
+                    await userAssetsService.UpdateUserAssetsAsync(userAssetExist);
 
                     return Ok("Ativo Atualizado com sucesso");
                 }
@@ -209,10 +209,10 @@ namespace Backend.API.Controller
 
                     if (assetExist == null)
                     {
-                        await assetsService.CreateAsync(assetsDTO);
+                        await assetsService.CreateAssetAsync(assetsDTO);
                     }
 
-                    var createdAssets = await assetsService.GetAllAsync();
+                    var createdAssets = await assetsService.GetAllAssetsAsync();
                     var createdAssetExist = createdAssets.FirstOrDefault(a => a.CodName == assetsDTO.CodName);
 
                     userAssetsDTO.AveregePrice = userAssetsDTO.BuyPrice;
@@ -221,7 +221,7 @@ namespace Backend.API.Controller
                     userAssetsDTO.Updated_at = DateTime.UtcNow;
                     userAssetsDTO.Created_at = DateTime.UtcNow;
 
-                    await userAssetsService.CreateAsync(userAssetsDTO);
+                    await userAssetsService.CreateUserAssetsAsync(userAssetsDTO);
 
                     return Ok("Ativo criado com sucesso");
                 }

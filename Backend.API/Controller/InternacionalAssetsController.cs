@@ -23,7 +23,7 @@ namespace Backend.API.Controller
         public async Task<ActionResult> GetPerCentInternacionalAssetsByWalletId(int walletId)
         {
             //filter all assets by type InterAssets
-            var assets = await assetsService.GetAllAsync();
+            var assets = await assetsService.GetAllAssetsAsync();
             var assetsInterAssets = assets.Where(a => a.SourceTypeAssets == SourceTypeAssets.InteralcionalAssets);
 
             //filter all userAssets by type InterAssets of user

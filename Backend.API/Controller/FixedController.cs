@@ -25,7 +25,7 @@ namespace Backend.API.Controller
         [HttpGet("GetPerCentFixedsByWalletId/{walletId}")]
         public async Task<ActionResult> GetPerCentFixedsByWalletId(int walletId)
         {
-            var assets = await assetsService.GetAllAsync();
+            var assets = await assetsService.GetAllAssetsAsync();
             var assetsFixed = assets.Where(a => a.SourceTypeAssets == SourceTypeAssets.Fixed);
             var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(walletId);
             var userAssetsFixed = userAssets.Where(ua => ua.SourceTypeAssets == SourceTypeAssets.Fixed);
@@ -107,7 +107,7 @@ namespace Backend.API.Controller
                 EndDate = createAssetRequestDTO.EndDate
             };
             
-            var assets = await assetsService.GetAllAsync();
+            var assets = await assetsService.GetAllAssetsAsync();
             var assetExist = assets.FirstOrDefault(a => a.CodName == assetsDTO.CodName);
             var userAssets = await userAssetsService.GetAllUserAssetsByWalletId(userAssetsDTO.WalletId);
             if(assetExist != null)
@@ -122,14 +122,14 @@ namespace Backend.API.Controller
                     assetExist.Updated_at = DateTime.UtcNow;
                     assetExist.CurrentPrice = 10.50m;
                 
-                    await assetsService.UpdateAsync(assetExist);
+                    await assetsService.UpdateAssetAsync(assetExist);
 
                     userAssetExist.BuyPrice += userAssetsDTO.BuyPrice;
                     userAssetExist.AveregePrice = userAssetExist.BuyPrice + userAssetsDTO.BuyPrice;
                     userAssetExist.StartDate = userAssetsDTO.StartDate;
                     userAssetExist.EndDate = userAssetsDTO.EndDate;
 
-                    await userAssetsService.UpdateAsync(userAssetExist);
+                    await userAssetsService.UpdateUserAssetsAsync(userAssetExist);
 
                     return Ok("Ativo Atualizado com sucesso");
                 }
@@ -150,11 +150,11 @@ namespace Backend.API.Controller
 
                     if (assetExist == null)
                     {
-                        await assetsService.CreateAsync(assetsDTO);
+                        await assetsService.CreateAssetAsync(assetsDTO);
                     }
                     
 
-                    var createdAssets = await assetsService.GetAllAsync();
+                    var createdAssets = await assetsService.GetAllAssetsAsync();
                     var createdAssetExist = createdAssets.FirstOrDefault(a => a.CodName == assetsDTO.CodName);
 
                     userAssetsDTO.AssetsId = createdAssetExist.Id;
@@ -163,7 +163,7 @@ namespace Backend.API.Controller
                     userAssetsDTO.Updated_at = DateTime.UtcNow;
                     userAssetsDTO.Deleted_at = null;
                     
-                    await userAssetsService.CreateAsync(userAssetsDTO);
+                    await userAssetsService.CreateUserAssetsAsync(userAssetsDTO);
 
                     return Ok("Ativo criado com sucesso");
                 }

@@ -30,17 +30,17 @@ namespace Backend.Infra.Data.Identity
 
         public async Task<bool> RegisterUser(string email, string password)
         {
-            var aplpicationUser = new ApplicationUser
+            var aplicationUser = new ApplicationUser
             {
                 UserName = email,
                 Email = email
             };
 
-            var result = await userManager.CreateAsync(aplpicationUser, password);
+            var result = await userManager.CreateAsync(aplicationUser, password);
 
             if(result.Succeeded)
             {
-                await signInManager.SignInAsync(aplpicationUser, isPersistent: false);
+                await signInManager.SignInAsync(aplicationUser, isPersistent: false);
             }
             return result.Succeeded;
         }

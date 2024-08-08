@@ -27,7 +27,7 @@ namespace Backend.API.Controller
         public async Task<ActionResult> GetPerCentStocksByWalletId(int walletId)
         {
             //filter all assets by type Stocks
-            var assets = await assetsService.GetAllAsync();
+            var assets = await assetsService.GetAllAssetsAsync();
             var assetsStock = assets.Where(a => a.SourceTypeAssets == SourceTypeAssets.Stocks);
 
             //filter all userAssets by type Stocks of user
