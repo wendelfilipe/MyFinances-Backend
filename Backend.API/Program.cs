@@ -1,4 +1,5 @@
 using System.Net;
+using Backend.Domain.Account;
 using Backend.Domain.Interfaces.AssetsInterface;
 using Backend.Domain.Interfaces.UserInterface;
 using Backend.Domain.Interfaces.WalletInterface;
@@ -18,6 +19,8 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 
 DependencyInjection.AddInfrastruture(builder.Services, builder.Configuration);
+
+DependencyInjectionJWT.AddInfrastructureJWT(builder.Services, builder.Configuration);
 
 builder.Services.AddCors(options => 
 {
@@ -44,9 +47,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-app.UseCors("AllowSpecificOrigin");
-
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors("AllowSpecificOrigin");
 
 app.MapControllers();
 
