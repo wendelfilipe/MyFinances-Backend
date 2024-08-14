@@ -27,7 +27,6 @@ namespace Backend.API.Controller
 
         [HttpPost("CreateUser")]
         [ApiExplorerSettings(IgnoreApi = true)]
-        [Authorize]
         public async Task<ActionResult> CreateUser(RegisterModel registerModel)
         {
             var result = await authenticate.RegisterUser(registerModel.Email, registerModel.Password);
@@ -38,7 +37,7 @@ namespace Backend.API.Controller
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Invalid Login attempt");
+                ModelState.AddModelError(string.Empty, "Invalid create attempt");
                 return BadRequest(ModelState);
             }
         }

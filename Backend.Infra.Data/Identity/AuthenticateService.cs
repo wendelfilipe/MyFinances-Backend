@@ -37,11 +37,7 @@ namespace Backend.Infra.Data.Identity
             };
 
             var result = await userManager.CreateAsync(aplicationUser, password);
-
-            if(result.Succeeded)
-            {
-                await signInManager.SignInAsync(aplicationUser, isPersistent: false);
-            }
+            
             return result.Succeeded;
         }
     }
