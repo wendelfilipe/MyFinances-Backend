@@ -7,6 +7,7 @@ using Backend.Application.DTOs;
 using Backend.Application.Interfaces;
 using Backend.Domain.Entites.Enums;
 using Backend.Domain.Interfaces.AssetsInterface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 
@@ -14,6 +15,7 @@ namespace Backend.API.Controller
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class AssetsController : ControllerBase
     {
         private readonly IHttpContextAccessor httpContextAccessor;

@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Backend.API.model;
+using Backend.Application.Interfaces;
 using Backend.Domain.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,12 @@ namespace Backend.API.Controller
     {
         private readonly IAuthenticate authenticate;
         private readonly IConfiguration configuration;
-        public TokenController(IAuthenticate authenticate, IConfiguration configuration)
+        private readonly IUserIdentityService userIdentityService;
+        public TokenController(
+            IAuthenticate authenticate, 
+            IConfiguration configuration,
+            IUserIdentityService userIdentityService
+        )
         {
             this.authenticate = authenticate ?? throw new ArgumentException(nameof(authenticate));
             this.configuration = configuration;
@@ -42,6 +48,13 @@ namespace Backend.API.Controller
             }
         }
 
+        [HttpGet("GetUserId")]
+        public async Task<IActionResult> GetUserId()
+        {
+            var userId = userIdentityService.GetUserId(User);
+            return Ok(userId);
+        }
+
         [AllowAnonymous]
         [HttpPost("LoginUser")]
         public async Task<ActionResult<UserToken>> Login([FromBody] LoginModel loginModel)
@@ -55,7 +68,7 @@ namespace Backend.API.Controller
             else
             {
                 ModelState.AddModelError(string.Empty, "Invalid Login attempt.");
-                return BadRequest(ModelState);
+                return Ok(ModelState);
             }
         }
 

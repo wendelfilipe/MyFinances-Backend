@@ -9,12 +9,14 @@ using Backend.Application.Interfaces;
 using Backend.Domain.Entites.Enums;
 using Backend.Domain.Entites.UserEntites;
 using Backend.Domain.Entites.WalletEntites;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.API.Controller
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class WalletController : ControllerBase
     {
         private readonly IWalletService walletService;

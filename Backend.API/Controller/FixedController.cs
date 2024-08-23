@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using Backend.Application.DTOs;
 using Backend.Application.Interfaces;
 using Backend.Domain.Entites.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.API.Controller
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class FixedController : ControllerBase
     {
         decimal totalFixed;
