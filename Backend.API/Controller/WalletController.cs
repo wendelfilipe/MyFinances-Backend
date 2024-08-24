@@ -32,13 +32,13 @@ namespace Backend.API.Controller
         }
 
         [HttpGet("GetAllWalletDTOByUserIDAsync/{userId}")]
-        public async Task<IEnumerable<WalletDTO>> GetAllWalletDTOByUserIDAsync(int userId)
+        public async Task<IEnumerable<WalletDTO>> GetAllWalletDTOByUserIDAsync(string userId)
         {
             var httpContext = httpContextAccessor.HttpContext;           
             if(httpContext.Request.Cookies.ContainsKey("UserIdCookie"))
             {
                 var userIdJson = httpContext.Request.Cookies["UserIdCookie"];
-                userId = JsonSerializer.Deserialize<int>(userIdJson);
+                userId = JsonSerializer.Deserialize<string>(userIdJson);
 
                 return await walletService.GetAllWalletDTOByUserId(userId);
             }

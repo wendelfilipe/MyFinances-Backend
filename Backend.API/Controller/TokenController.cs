@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 using Backend.API.model;
 using Backend.Application.Interfaces;
 using Backend.Domain.Account;
+using Backend.Infra.Data.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -16,23 +18,29 @@ namespace Backend.API.Controller
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class TokenController : ControllerBase
     {
         private readonly IAuthenticate authenticate;
         private readonly IConfiguration configuration;
         private readonly IUserIdentityService userIdentityService;
+        private readonly UserManager<ApplicationUser> userManager;
         public TokenController(
             IAuthenticate authenticate, 
             IConfiguration configuration,
-            IUserIdentityService userIdentityService
+            IUserIdentityService userIdentityService,
+            UserManager<ApplicationUser> userManager
         )
         {
             this.authenticate = authenticate ?? throw new ArgumentException(nameof(authenticate));
             this.configuration = configuration;
+            this.userIdentityService = userIdentityService;
+            this.userManager = userManager;
         }
 
         [HttpPost("CreateUser")]
         [ApiExplorerSettings(IgnoreApi = true)]
+        [AllowAnonymous]
         public async Task<ActionResult> CreateUser(RegisterModel registerModel)
         {
             var result = await authenticate.RegisterUser(registerModel.Email, registerModel.Password);
@@ -49,9 +57,9 @@ namespace Backend.API.Controller
         }
 
         [HttpGet("GetUserId")]
-        public async Task<IActionResult> GetUserId()
+        public async Task<ActionResult> GetUserId()
         {
-            var userId = userIdentityService.GetUserId(User);
+            var userId = await userIdentityService.GetUserId(User);
             return Ok(userId);
         }
 
@@ -63,7 +71,16 @@ namespace Backend.API.Controller
 
             if(result)
             {
-                return GenerateToken(loginModel);
+                var user = await userManager.FindByEmailAsync((loginModel.Email));
+                if (user != null)
+                {
+                    return GenerateToken(user);
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "User not found.");
+                    return Ok(ModelState);
+                }
             }
             else
             {
@@ -72,12 +89,13 @@ namespace Backend.API.Controller
             }
         }
 
-        private UserToken GenerateToken(LoginModel loginModel)
+        private UserToken GenerateToken(ApplicationUser user)
         {
             var claims = new[]
             {
-                new Claim("email", loginModel.Email),
-                new Claim("valorDaChave", ""),
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim("email", user.Email),
+                new Claim("valorDaChave", "dfjgdjaksdbjdafu5895wpweofmsdnfgk45"),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 

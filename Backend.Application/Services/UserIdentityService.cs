@@ -18,9 +18,9 @@ namespace Backend.Application.Services
             this.userIdentityRepository = userIdentityRepository;
         }
        
-        public Task<string> GetUserId(ClaimsPrincipal user)
+        public async Task<string> GetUserId(ClaimsPrincipal user)
         {
-            return userIdentityRepository.GetUserIdAsync(user);
+            return await userIdentityRepository.GetUserIdAsync(user);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Backend.Infra.Data.EnititesConfiguration
             this.context = context;
         }
 
-        public async Task<IEnumerable<Wallet>> GetAllWalletsByUserId(int userId)
+        public async Task<IEnumerable<Wallet>> GetAllWalletsByUserId(string userId)
         {
             return await context.Wallets.Where(w => w.UserId == userId).ToListAsync();
         }

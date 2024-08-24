@@ -62,7 +62,12 @@ namespace Backend.Infra.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
+                    b.Property<int?>("WalletId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("WalletId");
 
                     b.ToTable("assets", "product");
                 });
@@ -129,54 +134,6 @@ namespace Backend.Infra.Data.Migrations
                     b.ToTable("user_assets", "product");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entites.UserEntites.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Created_at")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<DateTime?>("Deleted_at")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("email");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("character varying(60)")
-                        .HasColumnName("name");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("password");
-
-                    b.Property<int>("SourceCreate")
-                        .HasColumnType("integer")
-                        .HasColumnName("source_create");
-
-                    b.Property<DateTime>("Updated_at")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("updated_at");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("user", "security");
-                });
-
             modelBuilder.Entity("Backend.Domain.Entites.WalletEntites.Wallet", b =>
                 {
                     b.Property<int>("Id")
@@ -208,13 +165,12 @@ namespace Backend.Infra.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer")
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("wallet", "product");
                 });
@@ -417,22 +373,9 @@ namespace Backend.Infra.Data.Migrations
 
             modelBuilder.Entity("Backend.Domain.Entites.AssetsEntites.Assets", b =>
                 {
-                    b.HasOne("Backend.Domain.Entites.WalletEntites.Wallet", "Wallet")
+                    b.HasOne("Backend.Domain.Entites.WalletEntites.Wallet", null)
                         .WithMany("Assets")
-                        .HasForeignKey("WalletId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Wallet");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entites.WalletEntites.Wallet", b =>
-                {
-                    b.HasOne("Backend.Domain.Entites.UserEntites.User", null)
-                        .WithMany("Wallet")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WalletId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -486,9 +429,9 @@ namespace Backend.Infra.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entites.UserEntites.User", b =>
+            modelBuilder.Entity("Backend.Domain.Entites.WalletEntites.Wallet", b =>
                 {
-                    b.Navigation("Wallet");
+                    b.Navigation("Assets");
                 });
 #pragma warning restore 612, 618
         }

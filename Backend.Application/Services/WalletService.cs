@@ -31,7 +31,7 @@ namespace Backend.Application.Services
             await mediator.Send(walletRemoveCommand);
         }
 
-        public async Task<IEnumerable<WalletDTO>> GetAllWalletDTOByUserId(int userId)
+        public async Task<IEnumerable<WalletDTO>> GetAllWalletDTOByUserId(string userId)
         {
             var getAllWalletDTOByUserId = new GetAllWalletsDTOByUserIdQuery(userId);
             if(getAllWalletDTOByUserId == null)

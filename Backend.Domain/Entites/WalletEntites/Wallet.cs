@@ -11,11 +11,11 @@ namespace Backend.Domain.Entites.WalletEntites
 {
     public sealed class Wallet : Entity
     {
-        public int UserId { get; private set; }
+        public string UserId { get; private set; }
         public string Name { get; private set; }
 
         public ICollection<Assets> Assets { get; private set; }
-        public Wallet(string name, int userId)
+        public Wallet(string name, string userId)
         {
             ValidateDomain(name);
             UserId = userId;

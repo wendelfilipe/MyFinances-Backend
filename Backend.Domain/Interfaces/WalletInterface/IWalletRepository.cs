@@ -8,6 +8,6 @@ namespace Backend.Domain.Interfaces.WalletInterface
 {
     public interface IWalletRepository : IEntityRepository<Wallet>
     {
-        public Task<IEnumerable<Wallet>> GetAllWalletsByUserId(int userId);
+        public Task<IEnumerable<Wallet>> GetAllWalletsByUserId(string userId);
     }
 }

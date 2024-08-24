@@ -13,7 +13,7 @@ namespace Backend.Domain.Tests
         [Fact]
         public void CreateWallet_WithValideWallet_ResultObjectValidState()
         {
-           Action action = () => new Wallet( "x", 1 );
+           Action action = () => new Wallet( "x", "asjhdaks" );
            action
                 .Should()
                 .NotThrow<DomainExceptionValidation>();
@@ -21,7 +21,7 @@ namespace Backend.Domain.Tests
         [Fact]
         public void CreateWallet_InvalidWalletName_DomainExceptionValidation()
         { 
-            Action action = () => new Wallet( "", 0 );
+            Action action = () => new Wallet( "", "dslfklk" );
             action
                 .Should()
                 .Throw<DomainExceptionValidation>()
@@ -30,7 +30,7 @@ namespace Backend.Domain.Tests
         [Fact]
         public void CreateWallet_NullWalletName_DomainExceptionValidation()
         {
-            Action action = () => new Wallet( null, 1 );
+            Action action = () => new Wallet( null, "sdlfkhsd" );
             action
                 .Should()
                 .Throw<DomainExceptionValidation>()

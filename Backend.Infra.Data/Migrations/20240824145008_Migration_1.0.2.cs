@@ -7,11 +7,14 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Backend.Infra.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddIdentityTables : Migration
+    public partial class Migration_102 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "product");
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -49,6 +52,51 @@ namespace Backend.Infra.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "user_assets",
+                schema: "product",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    wallet_id = table.Column<int>(type: "integer", nullable: false),
+                    assets_id = table.Column<int>(type: "integer", nullable: false),
+                    PerCentCDI = table.Column<decimal>(type: "numeric", nullable: true),
+                    amount = table.Column<long>(type: "bigint", nullable: false),
+                    buy_price = table.Column<decimal>(type: "numeric", nullable: false),
+                    average_price = table.Column<decimal>(type: "numeric", nullable: false),
+                    SourceTypeAssets = table.Column<int>(type: "integer", nullable: false),
+                    StartDate = table.Column<string>(type: "text", nullable: false),
+                    EndDate = table.Column<string>(type: "text", nullable: true),
+                    SourceCreate = table.Column<int>(type: "integer", nullable: false),
+                    deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_user_assets", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "wallet",
+                schema: "product",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    user_id = table.Column<string>(type: "text", nullable: false),
+                    name = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: false),
+                    source_create = table.Column<int>(type: "integer", nullable: false),
+                    deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_wallet", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -157,6 +205,33 @@ namespace Backend.Infra.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "assets",
+                schema: "product",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    WalletId = table.Column<int>(type: "integer", nullable: true),
+                    cod_name = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
+                    currentprice = table.Column<decimal>(name: "current-price", type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
+                    source_type_assets = table.Column<int>(type: "integer", nullable: false),
+                    source_create = table.Column<int>(type: "integer", nullable: false),
+                    deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_assets", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_assets_wallet_WalletId",
+                        column: x => x.WalletId,
+                        principalSchema: "product",
+                        principalTable: "wallet",
+                        principalColumn: "id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -193,6 +268,12 @@ namespace Backend.Infra.Data.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_assets_WalletId",
+                schema: "product",
+                table: "assets",
+                column: "WalletId");
         }
 
         /// <inheritdoc />
@@ -214,10 +295,22 @@ namespace Backend.Infra.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "assets",
+                schema: "product");
+
+            migrationBuilder.DropTable(
+                name: "user_assets",
+                schema: "product");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "wallet",
+                schema: "product");
         }
     }
 }

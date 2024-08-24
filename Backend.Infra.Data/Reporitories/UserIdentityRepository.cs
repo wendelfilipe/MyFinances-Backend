@@ -18,11 +18,25 @@ namespace Backend.Infra.Data.Reporitories
         }
         public async Task<string> GetUserIdAsync(ClaimsPrincipal user)
         {
-            var userIdentity = await userManager.GetUserAsync(user);
-            if(userIdentity == null)
-                throw new Exception("Not found, erro when was looking for user identity");
+            try
+            {
+                var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
+                if (userIdClaim == null)
+                    throw new Exception("UserIdClaim not found");
+                
+                return userIdClaim.Value;
+                
+                // var userIdentity = await userManager.GetUserAsync(user);
+                // if (userIdentity == null)
+                //     throw new Exception("UserIdClaim not found");
+                //
+                // return userIdentity.Id;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
 
-            return userIdentity.Id;
         }
     }
 }

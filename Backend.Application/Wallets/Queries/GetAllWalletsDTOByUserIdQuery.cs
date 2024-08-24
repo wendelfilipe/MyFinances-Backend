@@ -9,8 +9,8 @@ namespace Backend.Application.Wallets.Queries
 {
     public class GetAllWalletsDTOByUserIdQuery : IRequest<IEnumerable<Wallet>>
     {
-        public int UserId { get; set; }
-        public GetAllWalletsDTOByUserIdQuery(int userId)  
+        public string UserId { get; set; }
+        public GetAllWalletsDTOByUserIdQuery(string userId)  
         {
             UserId = userId;
         }
