@@ -96,10 +96,7 @@
       "System.Runtime.CompilerServices.Unsafe/6.0.0": {},
       "Backend.Domain/1.0.0": {
         "runtime": {
-          "Backend.Domain.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Backend.Domain.dll": {}
         }
       },
       "Newtonsoft.Json/13.0.0.0": {

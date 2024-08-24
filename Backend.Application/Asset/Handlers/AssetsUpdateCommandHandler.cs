@@ -22,7 +22,7 @@ namespace Backend.Application.Asset.Handlers
             if(asset == null)
                 throw new Exception("Erro when was being updated");
 
-            asset.Update(request.Id, request.CodName, request.CurrentPrice);
+            asset.Update(request.Id, request.CodName, request.CurrentPrice, request.SourceTypeAssets, request.SourceCreate, request.Deleted_at, request.Created_at, request.Updated_at);
 
             return await assetsRepository.UpdateAsync(asset);
         }

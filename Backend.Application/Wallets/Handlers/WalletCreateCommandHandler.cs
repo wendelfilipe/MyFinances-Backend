@@ -21,7 +21,7 @@ namespace Backend.Application.Wallets.Handlers
             CancellationToken cancellationToken
         )
         {
-            var wallet = new Wallet(request.Name, request.UserId);
+            var wallet = new Wallet(request.Name, request.UserId, request.SourceCreate, request.Deleted_at, request.Created_at, request.Updated_at);
 
             if(wallet == null)
             {

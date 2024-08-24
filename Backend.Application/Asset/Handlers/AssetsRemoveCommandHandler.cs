@@ -18,7 +18,7 @@ namespace Backend.Application.Asset.Handlers
         }
         public async Task<Assets> Handle(AssetsRemoveCommand request, CancellationToken cancellationToken)
         {
-            var asset = new Assets(request.Id, request.CodName, request.CurrentPrice);
+            var asset = new Assets(request.Id, request.CodName, request.CurrentPrice, request.SourceTypeAssets, request.SourceCreate, request.Deleted_at, request.Created_at, request.Updated_at);
             if(asset == null)
                 throw new Exception("Erro when assest was being deleted ");
 

@@ -1084,18 +1084,12 @@
           "MediatR": "12.2.0"
         },
         "runtime": {
-          "Backend.Application.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Backend.Application.dll": {}
         }
       },
       "Backend.Domain/1.0.0": {
         "runtime": {
-          "Backend.Domain.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Backend.Domain.dll": {}
         }
       },
       "Backend.Infra.Data/1.0.0": {
@@ -1110,10 +1104,7 @@
           "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.2"
         },
         "runtime": {
-          "Backend.Infra.Data.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Backend.Infra.Data.dll": {}
         }
       },
       "Backend.Infra.Ioc/1.0.0": {
@@ -1127,10 +1118,7 @@
           "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.7"
         },
         "runtime": {
-          "Backend.Infra.Ioc.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Backend.Infra.Ioc.dll": {}
         }
       },
       "Newtonsoft.Json/13.0.0.0": {

@@ -923,10 +923,7 @@
       "System.Threading.Channels/6.0.0": {},
       "Backend.Domain/1.0.0": {
         "runtime": {
-          "Backend.Domain.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Backend.Domain.dll": {}
         }
       }
     }

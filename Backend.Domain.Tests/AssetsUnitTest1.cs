@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Backend.Domain.Entites.AssetsEntites;
+using Backend.Domain.Entites.Enums;
 using Backend.Domain.Validation;
 using FluentAssertions;
 
@@ -13,7 +14,7 @@ namespace Backend.Domain.Tests
         [Fact(DisplayName = "Create Assets with valid value")]
         public void CreateAssets_WithValidAssets_ResultObjectValidState()
         {
-            Action action = ()=> new Assets("PETR4", 41.23m);
+            Action action = ()=> new Assets("PETR4", 41.23m, SourceTypeAssets.Fiis, SourceCreate.App, null, DateTime.Now, DateTime.Now );
             action
                 .Should()
                 .NotThrow<DomainExceptionValidation>();
@@ -21,7 +22,7 @@ namespace Backend.Domain.Tests
         [Fact]
         public void CreateAssets_ShortAssetsCodName_DomainExceptionValidation()
         {
-            Action action = () => new Assets( "PETR", 41.23m);
+            Action action = () => new Assets( "PETR", 41.23m, SourceTypeAssets.Fiis, SourceCreate.App, null, DateTime.Now, DateTime.Now);
             action
                 .Should()
                 .Throw<DomainExceptionValidation>()
@@ -30,7 +31,7 @@ namespace Backend.Domain.Tests
         [Fact]
         public void CreateAssets_EmptyAssetsCodName_DomainExceptionValidation()
         {
-            Action action = () => new Assets("", 41.23m);
+            Action action = () => new Assets("", 41.23m, SourceTypeAssets.Fiis, SourceCreate.App, null, DateTime.Now, DateTime.Now);
             action
                 .Should()
                 .Throw<DomainExceptionValidation>()
@@ -39,7 +40,7 @@ namespace Backend.Domain.Tests
         [Fact]
          public void CreateAssets_NullAssetsCodName_DomainExceptionValidation()
         {
-            Action action = () => new Assets( null, 41.23m );
+            Action action = () => new Assets( null, 41.23m, SourceTypeAssets.Fiis, SourceCreate.App, null, DateTime.Now, DateTime.Now );
             action
                 .Should()
                 .Throw<DomainExceptionValidation>()
@@ -48,7 +49,7 @@ namespace Backend.Domain.Tests
         [Fact]
         public void CreateAssets_NegativeCurrentPrice_DomainExceptionValidation()
         {
-            Action action = () => new Assets("PETR4", -41.23m);
+            Action action = () => new Assets("PETR4", -41.23m, SourceTypeAssets.Fiis, SourceCreate.App, null, DateTime.Now, DateTime.Now);
             action
                 .Should()
                 .Throw<DomainExceptionValidation>()

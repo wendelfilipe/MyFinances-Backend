@@ -22,7 +22,7 @@ namespace Backend.Application.Wallets.Handlers
             if(wallet == null)
                 throw new Exception("wallet not found, when tried update");
 
-            wallet.Update(request.Name);
+            wallet.Update(request.Id, request.Name, request.SourceCreate, request.Deleted_at, request.Created_at, request.Updated_at);
 
             return await walletRepository.UpdateAsync(wallet);
         }

@@ -16,18 +16,15 @@ namespace Backend.API.Controller
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
     public class WalletController : ControllerBase
     {
         private readonly IWalletService walletService;
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly IMapper mapper;
-        private readonly IUserService userService;
-        public WalletController(IWalletService walletService, IHttpContextAccessor httpContextAccessor, IUserService userService, IMapper mapper)
+        public WalletController(IWalletService walletService, IHttpContextAccessor httpContextAccessor, IMapper mapper)
         {
             this.walletService = walletService;
             this.httpContextAccessor = httpContextAccessor;
-            this.userService = userService;
             this.mapper = mapper;
         }
 
@@ -48,7 +45,7 @@ namespace Backend.API.Controller
             }
             
         }
-
+        [AllowAnonymous]
         [HttpPost("PostWalletDTOAsync")]
         public async Task<ActionResult> PostWalletDTOAsync(WalletDTO walletDTO)
         {

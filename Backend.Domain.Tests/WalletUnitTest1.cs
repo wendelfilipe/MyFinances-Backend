@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.Domain.Entites.Enums;
 using Backend.Domain.Entites.WalletEntites;
 using Backend.Domain.Validation;
 using FluentAssertions;
@@ -13,7 +14,7 @@ namespace Backend.Domain.Tests
         [Fact]
         public void CreateWallet_WithValideWallet_ResultObjectValidState()
         {
-           Action action = () => new Wallet( "x", "asjhdaks" );
+           Action action = () => new Wallet( "x", "asjhdaks", SourceCreate.App, null, DateTime.Now, DateTime.Now );
            action
                 .Should()
                 .NotThrow<DomainExceptionValidation>();
@@ -21,7 +22,7 @@ namespace Backend.Domain.Tests
         [Fact]
         public void CreateWallet_InvalidWalletName_DomainExceptionValidation()
         { 
-            Action action = () => new Wallet( "", "dslfklk" );
+            Action action = () => new Wallet( "", "dslfklk", SourceCreate.App, null, DateTime.Now, DateTime.Now );
             action
                 .Should()
                 .Throw<DomainExceptionValidation>()
@@ -30,7 +31,7 @@ namespace Backend.Domain.Tests
         [Fact]
         public void CreateWallet_NullWalletName_DomainExceptionValidation()
         {
-            Action action = () => new Wallet( null, "sdlfkhsd" );
+            Action action = () => new Wallet( null, "sdlfkhsd", SourceCreate.App, null, DateTime.Now, DateTime.Now );
             action
                 .Should()
                 .Throw<DomainExceptionValidation>()
