@@ -52,6 +52,7 @@ namespace Backend.Infra.Ioc
             services.AddScoped<IAssetsService, AssetsService>();
             services.AddScoped<IWalletService, WalletService>();
             services.AddScoped<IUserIdentityService, UserIdentityService>();
+            services.AddScoped<IUserAssetsService, UserAssetsService>();
 
             // services.AddScoped<IUserService, UserService>(implementationFactory =>
             // {

@@ -7,6 +7,7 @@ using Backend.Application.Asset.Queries;
 using Backend.Application.DTOs;
 using Backend.Application.Interfaces;
 using Backend.Application.UserAsset.Command;
+using Backend.Application.UserAsset.Queries;
 using Backend.Domain.Entites.UserAssetsEntity;
 using Backend.Domain.Interfaces;
 using Backend.Domain.Interfaces.UserInterface;
@@ -44,7 +45,7 @@ namespace Backend.Application.Services
 
         public async Task<IEnumerable<UserAssetsDTO>> GetAllUserAssetsByWalletId(int walletId)
         {
-            var getAllUserAssetsByWalletId = new GetAllAssetsDTOByAssetIdQuery(walletId);
+            var getAllUserAssetsByWalletId = new GetAllUserAssetsByWalletIdQuery(walletId);
             if(getAllUserAssetsByWalletId ==  null)
                 throw new Exception("UserAsset not found, erro when being got UserAsset by wallet id on service");
 
