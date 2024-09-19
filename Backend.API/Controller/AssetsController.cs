@@ -15,6 +15,7 @@ namespace Backend.API.Controller
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class AssetsController : ControllerBase
     {
         private readonly IHttpContextAccessor httpContextAccessor;
