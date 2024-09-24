@@ -1,0 +1,9 @@
+{
+    "name": "MyFinances-Backend",
+    "version": "1.0.0",
+    "description": "My Finances Backend API",
+    "scripts": {
+      "start": "node server.js"
+    },
+    "dependencies": {}
+  }
