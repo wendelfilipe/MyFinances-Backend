@@ -12,6 +12,7 @@ namespace Backend.API.Controller
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class FiisController : ControllerBase
     {   
         private readonly IAssetsService assetsService;

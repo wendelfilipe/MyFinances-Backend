@@ -16,6 +16,7 @@ namespace Backend.API.Controller
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class WalletController : ControllerBase
     {
         private readonly IWalletService walletService;
